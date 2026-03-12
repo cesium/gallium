@@ -50,7 +50,8 @@ defmodule GalliumWeb do
 
   def live_view do
     quote do
-      use Phoenix.LiveView
+      use Phoenix.LiveView,
+        layout: {GalliumWeb.Layouts, :root}
 
       unquote(html_helpers())
     end
@@ -88,8 +89,8 @@ defmodule GalliumWeb do
       import GalliumWeb.CoreComponents
 
       # Common modules used in templates
-      alias Phoenix.LiveView.JS
       alias GalliumWeb.Layouts
+      alias Phoenix.LiveView.JS
 
       # Routes generation with the ~p sigil
       unquote(verified_routes())
