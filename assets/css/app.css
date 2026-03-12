@@ -103,3 +103,61 @@
 [data-phx-session], [data-phx-teleported-src] { display: contents }
 
 /* This file is for your main application CSS */
+
+@font-face {
+  font-family: 'Amarante';
+  src: url('/fonts/Amarante/Amarante-Regular.ttf') format('truetype');
+  font-weight: 400;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Cormorant Garamond';
+  src: url('/fonts/Cormorant/CormorantGaramond-VariableFont_wght.ttf') format('truetype');
+  font-weight: 100 900;
+  font-display: swap;
+}
+
+@theme {
+  --font-amarante: "Amarante", serif;
+  --font-cormorant: "Cormorant Garamond", serif;
+
+  --color-light-muted: #EEEEE5;
+  --color-beige: #F5F3E8;
+
+  --color-blue: #467486;
+  --color-blue-50: #eef4f6;
+  --color-blue-100: #dee9ed;
+  --color-blue-200: #bcd3dc;
+  --color-blue-300: #9bbdca;
+  --color-blue-400: #79a7b9;
+  --color-blue-500: #5891a7;
+  --color-blue-700: #355764;
+  --color-blue-800: #233a43;
+  --color-blue-900: #121d21;
+  --color-blue-950: #0c1417;
+
+  --color-bronze: #a86824;
+  --color-bronze-50: #fbf3ea;
+  --color-bronze-100: #f6e6d5;
+  --color-bronze-200: #edcdab;
+  --color-bronze-300: #e4b481;
+  --color-bronze-400: #db9b57;
+  --color-bronze-500: #d2822d;
+  --color-bronze-700: #7e4e1b;
+  --color-bronze-800: #543412;
+  --color-bronze-900: #2a1a09;
+  --color-bronze-950: #1d1206;
+
+  --color-olive: #7b8a42;
+  --color-olive-50: #f5f7ee;
+  --color-olive-100: #ebeedd;
+  --color-olive-200: #d7deba;
+  --color-olive-300: #c3cd98;
+  --color-olive-400: #aebd75;
+  --color-olive-500: #9aac53;
+  --color-olive-700: #5d6732;
+  --color-olive-800: #3e4521;
+  --color-olive-900: #1f2211;
+  --color-olive-950: #16180c;
+}
