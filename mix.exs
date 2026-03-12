@@ -42,6 +42,7 @@ defmodule Gallium.MixProject do
     [
       {:phoenix, "~> 1.8.4"},
       {:phoenix_ecto, "~> 4.5"},
+      {:credo, "~> 1.7.12", only: [:dev, :test], runtime: false},
       {:ecto_sql, "~> 3.13"},
       {:postgrex, ">= 0.0.0"},
       {:phoenix_html, "~> 4.1"},
@@ -88,7 +89,8 @@ defmodule Gallium.MixProject do
         "esbuild gallium --minify",
         "phx.digest"
       ],
-      precommit: ["compile --warnings-as-errors", "deps.unlock --unused", "format", "test"]
+      precommit: ["compile --warnings-as-errors", "deps.unlock --unused", "format", "test"],
+      lint: ["credo --all --strict"]
     ]
   end
 end
