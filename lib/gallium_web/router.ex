@@ -17,7 +17,7 @@ defmodule GalliumWeb.Router do
   scope "/", GalliumWeb do
     pipe_through :browser
 
-    get "/", PageController, :home
+    live "/", LandingLive.Index, :index
   end
 
   # Other scopes may use custom stacks.
