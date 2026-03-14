@@ -27,7 +27,7 @@ defmodule GalliumWeb.Components.Ticket do
               {item}
             </p>
           <% end %>
-          </div>
+        </div>
       </div>
       <div class="grid grid-rows gap-5 pr-8">
         <div class="flex flex-col items-end justify-end mt-10">
