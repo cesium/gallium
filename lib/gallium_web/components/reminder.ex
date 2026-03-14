@@ -9,11 +9,11 @@ defmodule GalliumWeb.Components.Reminder do
     ~H"""
     <div class="flex flex-col gap-3 items-center justify-center rounded-lg border border-olive/10 bg-olive-200/30 w-[1216px] h-[138px]">
       <h2 class="text-olive/80 font-amarante uppercase text-2xl tracking-wide">
-        <%= @title %>
+        {@title}
       </h2>
       <%= if @description do %>
         <p class="text-olive-700 font-cormorant text-md uppercase tracking-wide">
-          <%= @description %>
+          {@description}
         </p>
       <% end %>
     </div>
