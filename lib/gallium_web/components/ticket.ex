@@ -1,15 +1,16 @@
 defmodule GalliumWeb.Components.Ticket do
   @moduledoc """
-  womp womp
+  The Ticket component is a reusable UI component used to display information about a ticket.
+  It shows a title, a list of advantages, the price per person, and a button to select the ticket.
   """
 
   use Phoenix.Component
   import GalliumWeb.CoreComponents
 
-  attr :title, :string, doc: "Ticket title"
-  attr :sub_title, :string, doc: "Ticket sub-title"
-  attr :advantages_list, :list, doc: "List of advantages"
-  attr :price, :string, doc: "Price of the ticket"
+  attr(:title, :string, doc: "Ticket title")
+  attr(:sub_title, :string, doc: "Ticket sub-title")
+  attr(:advantages_list, :list, doc: "List of advantages")
+  attr(:price, :string, doc: "Price of the ticket")
 
   def ticket(assigns) do
     ~H"""
@@ -42,5 +43,4 @@ defmodule GalliumWeb.Components.Ticket do
     </div>
     """
   end
-
 end
