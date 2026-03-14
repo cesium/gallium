@@ -13,7 +13,7 @@ defmodule GalliumWeb.Components.Ticket do
 
   def ticket(assigns) do
     ~H"""
-    <div class="bg-white flex justify-between items-start w-[1000px]">
+    <div class="bg-white flex justify-between items-start">
       <div class="pl-8 grid grid-rows gap-5">
         <div class="">
           <h1 class="text-golden text-3xl font-amarante mt-8">{@title}</h1>
@@ -23,9 +23,9 @@ defmodule GalliumWeb.Components.Ticket do
           <%= for item <- @advantagesList do %>
             <p class="text-black">
               <.icon name="hero-check" class="w-5 h-5 text-green" />
-              <%= item %>
+              {item}
             </p>
-          <%end%>
+          <% end %>
           </div>
       </div>
       <div class="grid grid-rows gap-5 pr-8">
@@ -34,7 +34,9 @@ defmodule GalliumWeb.Components.Ticket do
           <p class="text-black text-l font-cormorant">POR PESSOA</p>
         </div>
         <div>
-          <button class="bg-golden text-white text-xl font-cormorant px-11 py-2 rounded-md">Selecionar</button>
+          <button class="bg-golden text-white text-xl font-cormorant px-11 py-2 rounded-md">
+            Selecionar
+          </button>
         </div>
       </div>
     </div>
