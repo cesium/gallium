@@ -18,7 +18,7 @@ defmodule GalliumWeb.Components.Ticket do
       <div class="pl-8 grid grid-rows gap-5">
         <div class="">
           <h1 class="text-golden text-3xl font-amarante mt-8">{@title}</h1>
-          <p class="text-black text-xl font-cormorant">Preço exclusivo para sócios</p>
+          <p class="text-black text-xl font-cormorant">{@sub_title}</p>
         </div>
         <div class="text-xl font-cormorant grid grid-cols-2 gap-x-20 gap-y-1 w-fit mb-8">
           <%= for item <- @advantagesList do %>
