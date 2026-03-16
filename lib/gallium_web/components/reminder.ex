@@ -1,5 +1,7 @@
 defmodule GalliumWeb.Components.Reminder do
-  @moduledoc false
+  @moduledoc """
+  Reminder Component.
+  """
   use Phoenix.Component
 
   attr :title, :string, required: true, doc: "The title of the reminder"
