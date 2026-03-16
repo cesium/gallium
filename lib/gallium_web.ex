@@ -87,7 +87,6 @@ defmodule GalliumWeb do
       import Phoenix.HTML
       # Core UI components
       import GalliumWeb.CoreComponents
-      import GalliumWeb.HeroBanner
 
       # Common modules used in templates
       alias GalliumWeb.Layouts
