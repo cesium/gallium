@@ -6,8 +6,16 @@ defmodule GalliumWeb.Components.PrimaryButton do
   import GalliumWeb.CoreComponents
 
   attr :text, :string, doc: "Button text"
-  attr :color, :atom, values: [:olive, :blue, :bronze, :light_muted], default: :olive, doc: "Background color"
-  attr :text_color, :atom, values: [:auto, :olive, :blue, :bronze], default: :auto, doc: "Text color"
+
+  attr :color, :atom,
+    values: [:olive, :blue, :bronze, :light_muted],
+    default: :olive,
+    doc: "Background color"
+
+  attr :text_color, :atom,
+    values: [:auto, :olive, :blue, :bronze],
+    default: :auto,
+    doc: "Text color"
 
   @color_classes %{
     olive: "bg-olive text-light-muted hover:bg-olive-700",
