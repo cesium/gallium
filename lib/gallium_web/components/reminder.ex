@@ -6,10 +6,11 @@ defmodule GalliumWeb.Components.Reminder do
 
   attr :title, :string, required: true, doc: "The title of the reminder"
   attr :description, :string, default: nil, doc: "The description of the reminder"
+  attr :class, :any, default: nil, doc: "The reminder class to use over defaults"
 
   def reminder(assigns) do
     ~H"""
-    <div class="flex flex-col p-10 sm:px-0 gap-3 items-center justify-center text-center rounded-lg border border-olive/10 bg-olive-200/30 w-full h-fit">
+    <div class={"flex flex-col p-10 sm:px-0 gap-3 items-center justify-center text-center rounded-lg border border-olive/10 bg-olive-200/30 w-full h-fit #{@class}"}>
       <h2 class="text-olive/80 font-amarante uppercase text-2xl tracking-wide">
         {@title}
       </h2>
