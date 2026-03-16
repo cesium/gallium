@@ -14,7 +14,7 @@ defmodule GalliumWeb.Components.Reminder do
         {@title}
       </h2>
       <%= if @description do %>
-        <p class="text-olive-700 font-cormorant text-md uppercase tracking-wide">
+        <p class="text-gray-600 font-cormorant text-md uppercase tracking-wide">
           {@description}
         </p>
       <% end %>
