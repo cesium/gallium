@@ -1,4 +1,7 @@
 defmodule GalliumWeb.MenuSection do
+  @moduledoc """
+  This module holds the menu for the Jantar de Gala.
+  """
   use Phoenix.Component
 
   attr :title, :string, default: "MENU"
