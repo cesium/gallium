@@ -3,6 +3,7 @@ defmodule GalliumWeb.Components.PrimaryButton do
   Button Component.
   """
   use Phoenix.Component
+  import GalliumWeb.CoreComponents
 
   attr :text, :string, doc: "Button text"
   attr :bgcolor, :string, doc: "Background color"
@@ -10,8 +11,7 @@ defmodule GalliumWeb.Components.PrimaryButton do
   attr :icon, :string, default: nil, doc: "Icon to be displayed"
 
   attr :iconpos, :atom,
-    values: [:left, :right, :none],
-    default: :none,
+    values: [:left, :right],
     doc: "Position where the icon will be displayed (left, right)"
 
   attr :link, :string, default: nil, doc: "Link URL"
@@ -35,7 +35,8 @@ defmodule GalliumWeb.Components.PrimaryButton do
     ~H"""
     <button
       class={[
-        "flex w-full h-full items-center justify-center gap-2 rounded-md cursor-pointer",
+        "flex w-full h-full items-center justify-center gap-2 px-4 py-2 rounded-md
+         cursor-pointer hover:scale-95 transition-all duration-300",
         @bgcolor,
         @textcolor,
         @rest[:class]
@@ -43,11 +44,11 @@ defmodule GalliumWeb.Components.PrimaryButton do
       {@rest}
     >
       <%= if @icon && @iconpos == :left do %>
-        <span class={@icon} />
+        <.icon name={@icon} />
       <% end %>
       <p>{@text}</p>
       <%= if @icon && @iconpos == :right do %>
-        <span class={@icon} />
+        <.icon name={@icon} />
       <% end %>
     </button>
     """
