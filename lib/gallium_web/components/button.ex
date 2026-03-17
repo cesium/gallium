@@ -1,4 +1,4 @@
-defmodule GalliumWeb.Components.PrimaryButton do
+defmodule GalliumWeb.Components.Button do
   @moduledoc """
   Button Component.
   """
