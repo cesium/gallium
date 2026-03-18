@@ -4,7 +4,6 @@ defmodule GalliumWeb.Components.TicketSection do
   """
 
   use Phoenix.Component
-  import GalliumWeb.CoreComponents
   import GalliumWeb.Components.Ticket
 
   def ticket_section(assigns) do

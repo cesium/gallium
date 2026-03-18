@@ -15,16 +15,16 @@ defmodule GalliumWeb.Components.Ticket do
 
   def ticket(assigns) do
     ~H"""
-    <div class="bg-white flex justify-between items-start">
+    <div class="bg-white border border-gray-300 rounded-2xl shadow-sm flex justify-between items-start">
       <div class="pl-8 grid grid-rows gap-5">
         <div>
           <h1 class="text-golden text-3xl font-amarante mt-8">{@title}</h1>
-          <p class="text-black text-xl font-cormorant">{@subtitle}</p>
+          <p class="text-gray-500 text-xl font-cormorant">{@subtitle}</p>
         </div>
         <div class="text-xl font-cormorant grid grid-cols-2 gap-x-20 gap-y-1 w-fit mb-8">
           <%= for item <- @advantages_list do %>
-            <p class="text-black">
-              <.icon name="hero-check" class="w-5 h-5 text-green" />
+            <p class="text-gray-500">
+              <.icon name="hero-check" class="w-5 h-5 text-olive-700" />
               {item}
             </p>
           <% end %>
@@ -33,7 +33,7 @@ defmodule GalliumWeb.Components.Ticket do
       <div class="grid grid-rows gap-5 pr-8">
         <div class="flex flex-col items-end justify-end mt-10">
           <p class="text-golden text-3xl font-amarante">{@price}€</p>
-          <p class="text-black text-l font-cormorant">POR PESSOA</p>
+          <p class="text-gray-500 text-l font-cormorant">POR PESSOA</p>
         </div>
         <.primary_button text="Selecionar" class="bg-golden! text-xl font-cormorant px-8 py-2" />
       </div>
