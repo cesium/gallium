@@ -6,22 +6,23 @@ defmodule GalliumWeb.Components.Ticket do
 
   use Phoenix.Component
   import GalliumWeb.CoreComponents
+  import GalliumWeb.Components.Button
 
-  attr(:title, :string, doc: "Ticket title")
-  attr(:sub_title, :string, doc: "Ticket sub-title")
-  attr(:advantages_list, :list, doc: "List of advantages")
-  attr(:price, :string, doc: "Price of the ticket")
+  attr :title, :string, doc: "Ticket title"
+  attr :subtitle, :string, doc: "Ticket sub-title"
+  attr :advantages_list, :list, doc: "List of advantages"
+  attr :price, :string, doc: "Price of the ticket"
 
   def ticket(assigns) do
     ~H"""
     <div class="bg-white flex justify-between items-start">
       <div class="pl-8 grid grid-rows gap-5">
-        <div class="">
+        <div>
           <h1 class="text-golden text-3xl font-amarante mt-8">{@title}</h1>
-          <p class="text-black text-xl font-cormorant">{@sub_title}</p>
+          <p class="text-black text-xl font-cormorant">{@subtitle}</p>
         </div>
         <div class="text-xl font-cormorant grid grid-cols-2 gap-x-20 gap-y-1 w-fit mb-8">
-          <%= for item <- @advantagesList do %>
+          <%= for item <- @advantages_list do %>
             <p class="text-black">
               <.icon name="hero-check" class="w-5 h-5 text-green" />
               {item}
@@ -34,11 +35,7 @@ defmodule GalliumWeb.Components.Ticket do
           <p class="text-golden text-3xl font-amarante">{@price}€</p>
           <p class="text-black text-l font-cormorant">POR PESSOA</p>
         </div>
-        <div>
-          <button class="bg-golden text-white text-xl font-cormorant px-11 py-2 rounded-md">
-            Selecionar
-          </button>
-        </div>
+          <.primary_button text="Selecionar" class="bg-golden! text-xl font-cormorant px-8 py-2"/>
       </div>
     </div>
     """
