@@ -1,8 +1,9 @@
-defmodule GalliumWeb.Card do
+defmodule GalliumWeb.Components.Card do
   @moduledoc """
   A card component with a title, description, and an icon.
   """
-  use GalliumWeb, :html
+  use Phoenix.Component
+  import GalliumWeb.CoreComponents
 
   attr :title, :string, default: ""
   attr :description, :string, default: ""
