@@ -23,7 +23,7 @@ defmodule GalliumWeb.Components.TicketSection do
 
       <div class="w-full max-w-5xl flex flex-col gap-8">
         <.ticket
-          title="SOCIO CESIUM"
+          title="SÓCIO CESIUM"
           subtitle="Preço exclusivo para sócios"
           price="25"
           advantages_list={[
@@ -35,7 +35,7 @@ defmodule GalliumWeb.Components.TicketSection do
         />
 
         <.ticket
-          title="NAO SOCIO"
+          title="NÃO SÓCIO"
           subtitle="Aberto a todos os estudantes"
           price="30"
           advantages_list={[
