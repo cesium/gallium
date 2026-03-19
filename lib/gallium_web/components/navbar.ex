@@ -13,14 +13,13 @@ defmodule GalliumWeb.Components.Navbar do
     ~H"""
     <header class={"w-full h-fit bg-beige text-blue-800/80 px-3 py-3 #{@class}"}>
       <div class="max-w-7xl mx-auto flex items-center justify-between tracking-widest">
-
         <div>
-        <.link href={"/"}>
-          <p class="font-amarante text-blue-500 text-2xl uppercase cursor-pointer">
-            galium
-          </p>
-        </.link>
-      </div>
+          <.link href="/">
+            <p class="font-amarante text-blue-500 text-2xl uppercase cursor-pointer">
+              galium
+            </p>
+          </.link>
+        </div>
 
         <nav class="md:flex gap-10 uppercase font-cormorant font-bold text-xs">
           <.link href="" class="hover:text-blue-500 transition-colors">evento</.link>
@@ -32,11 +31,10 @@ defmodule GalliumWeb.Components.Navbar do
             text="comprar bilhetes"
             link={@ticket_url}
             color={:blue}
-            text_color={:beige}
-            class="bg-blue-500 px-6 py-1 font-amarante font-bold uppercase"
+            text_color={:auto}
+            class="bg-blue-500 text-beige! px-6 py-1 font-amarante font-bold uppercase"
           />
         </div>
-
       </div>
     </header>
     """
