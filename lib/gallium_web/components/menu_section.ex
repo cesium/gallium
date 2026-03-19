@@ -14,7 +14,7 @@ defmodule GalliumWeb.MenuSection do
     ~H"""
     <div class="relative w-full h-auto p-6 bg-beige bg-[url(/frames/frame4.svg)] bg-contain bg-no-repeat bg-center">
       <div class="relative flex flex-col items-center gap-8 p-12">
-        <h1 class="text-5xl  text-blue-500 font-amarante py-2">{@title}</h1>
+        <h1 class="text-5xl  text-blue-500 font-cormorant py-2">{@title}</h1>
         <div class="">
           <%= for {section, i} <- Enum.with_index(@section) do %>
             <div class="flex flex-col items-center text-center p-4 gap-2">
