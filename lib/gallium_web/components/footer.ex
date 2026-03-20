@@ -6,6 +6,7 @@ defmodule GalliumWeb.Components.Footer do
 
   attr :place_name, :string, default: "", doc: "Event place name"
   attr :date, :string, default: "", doc: "Event date"
+  attr :landing_pages, :list, default: [], doc: "List of landing pages for the footer navigation"
   attr :class, :any, default: nil, doc: "The footer class to use over defaults"
 
   def footer(assigns) do
@@ -13,7 +14,7 @@ defmodule GalliumWeb.Components.Footer do
     <footer class={"w-full bg-beige text-blue-800/80 px-6 py-16 #{@class}"}>
       <div class="max-w-7xl mx-auto flex flex-col">
         <div class="flex flex-col md:flex-row justify-between items-center md:items-baseline mb-12 gap-8">
-          <div class="flex-1 text-center md:text-left">
+          <div class="flex-1 text-center md:text-left min-w-max">
             <p class="font-amarante text-blue-500 text-3xl tracking-widest uppercase">
               galium
             </p>
@@ -22,12 +23,15 @@ defmodule GalliumWeb.Components.Footer do
             </p>
           </div>
 
-          <nav class="flex gap-10 uppercase font-cormorant text-xs tracking-widest">
-            <.link href="" class="hover:text-blue-500 transition-colors">evento</.link>
-            <.link href="" class="hover:text-blue-500 transition-colors">bilhetes</.link>
+          <nav class="flex flex-wrap gap-10 uppercase font-cormorant text-xs tracking-widest">
+            <%= for page <- @landing_pages do %>
+              <.link navigate={page.url} class="hover:text-blue-500 transition-colors">
+                {page.name}
+              </.link>
+            <% end %>
           </nav>
 
-          <div class="flex-1 text-center md:text-right">
+          <div class="flex-1 text-center md:text-right min-w-max">
             <p class="font-cormorant text-xs tracking-widest uppercase">
               {@place_name}
               <span :if={@place_name != "" and @date != ""}>-</span>
