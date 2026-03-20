@@ -16,7 +16,7 @@ defmodule GalliumWeb.Components.Footer do
         <div class="flex flex-col md:flex-row justify-between items-center md:items-baseline mb-12 gap-8">
           <div class="flex-1 text-center md:text-left min-w-max">
             <p class="font-amarante text-blue-500 text-3xl tracking-widest uppercase">
-              galium
+              jantar de gala
             </p>
             <p class="font-cormorant text-xs text-blue-800/60 tracking-[0.2em] mt-2 uppercase">
               jantar de gala 2026
@@ -53,7 +53,7 @@ defmodule GalliumWeb.Components.Footer do
         </div>
 
         <p class="text-center font-cormorant text-sm">
-          © 2026 Galium. Todos os direitos reservados.
+          © 2026 Jantar de Gala. Todos os direitos reservados.
         </p>
       </div>
     </footer>
