@@ -29,7 +29,9 @@ defmodule GalliumWeb.Components.Footer do
 
           <div class="flex-1 text-center md:text-right">
             <p class="font-cormorant text-xs tracking-widest uppercase">
-              {@place_name} — {@date}
+              {@place_name}
+              <span :if={@place_name != "" and @date != ""}>-</span>
+              {@date}
             </p>
 
             <p class="text-olive text-xs mt-1 font-cormorant tracking-widest">
