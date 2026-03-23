@@ -8,7 +8,7 @@ defmodule Gallium.Repo.Migrations.CreatePayments do
       add :status, :string, default: "pending", null: false
       add :order_id, :string, null: false
       add :mbway_phone, :string, null: false
-      add :attendee_id, references(:attendees, on_delete: :nothing, type: :binary_id), null: flase
+      add :attendee_id, references(:attendees, on_delete: :nothing, type: :binary_id), null: false
 
       timestamps(type: :utc_datetime)
     end
