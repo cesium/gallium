@@ -1,0 +1,119 @@
+<div class="flex flex-col items-center max-w-lg mx-auto my-8 px-4">
+  <div class="bg-olive-200 text-olive-700 rounded-full p-5 mb-4 shadow-sm">
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      fill="none"
+      viewBox="0 0 24 24"
+      stroke-width="2"
+      stroke="currentColor"
+      class="size-10"
+    >
+      <path
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        d="M9 12.75 11.25 15 15 9.75M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"
+      />
+    </svg>
+  </div>
+
+  <h1 class="text-5xl font-amarante text-olive mb-4 uppercase">Comprado</h1>
+
+  <p class="font-cormorant text-gray-600 text-center mb-8">
+    O teu bilhete foi comprado com sucesso. Estamos ansiosos<br class="hidden sm:block" />
+    por celebrar contigo na Quinta da Aldeia no dia 30 de Maio.
+  </p>
+
+  <div class="w-full border-2 border-olive-200 p-8 bg-white rounded-box relative mb-8">
+    <h2 class="font-amarante text-olive uppercase text-xl mb-6">Detalhes da Compra</h2>
+
+    <div class="mb-5 flex flex-row gap-3 justify-between">
+      <div>
+        <p class="text-gray-600 text-xs font-cormorant uppercase mb-1">Participante</p>
+        <p class="text-gray-800 font-cormorant text-lg leading-none mb-1">
+          {@form_data.data.full_name}
+        </p>
+        <p class="text-gray-600 font-cormorant text-sm">
+          {@form_data.data.email}
+        </p>
+      </div>
+
+      <%= if @has_accompany? and @form_data.data.accompany do %>
+        <div>
+          <p class="text-gray-600 text-xs font-cormorant uppercase mb-1">Acompanhante</p>
+          <p class="text-gray-800 font-cormorant text-lg leading-none mb-1">
+            {@form_data.data.accompany.full_name}
+          </p>
+          <p class="text-gray-600 font-cormorant text-sm">
+            {@form_data.data.accompany.email}
+          </p>
+        </div>
+      <% end %>
+    </div>
+
+    <hr class="w-full border-t border-gray-300 my-4" />
+
+    <div class="mb-5">
+      <p class="text-gray-600 text-xs font-cormorant uppercase mb-2">Evento</p>
+      <div class="flex items-center gap-2 font-cormorant mb-2">
+        <span>30 de Maio, 2026</span>
+      </div>
+      <div class="flex items-center gap-2 font-cormorant">
+        <span>Quinta da Aldeia, Guimarães</span>
+      </div>
+    </div>
+
+    <hr class="w-full border-t border-gray-300 my-4" />
+
+    <div class="mb-5">
+      <p class="text-gray-600 text-xs font-cormorant uppercase mb-2">Bilhetes</p>
+      <div class="flex justify-between font-cormorant text-base">
+        <span>
+          {if @has_accompany?, do: "2", else: "1"}
+          {if @form_data.data.is_cesium_member, do: " x Bilhete Sócio", else: " x Bilhete Normal"}
+        </span>
+        <span class="font-bold">{@price_per_ticket} € / por bilhete</span>
+      </div>
+    </div>
+
+    <hr class="w-full border-t border-gray-300 my-4" />
+
+    <div class="flex justify-between items-end mt-2">
+      <div>
+        <p class="text-gray-600 text-xs font-cormorant uppercase mb-1">Total Pago</p>
+        <p class="font-cormorant text-xs">
+          {if @has_accompany?, do: "2 bilhetes", else: "1 bilhete"}
+        </p>
+      </div>
+      <span class="font-amarante text-olive text-3xl">
+        {@amount_to_pay} €
+      </span>
+    </div>
+  </div>
+
+  <div class="flex flex-col sm:flex-row gap-4 w-full sm:justify-center">
+    <div>
+      <.primary_button
+        type="button"
+        text="Descarregar Bilhete"
+        color={:light_muted}
+        icon="hero-arrow-down-tray"
+        class="font-cormorant border border-blue-700!"
+        iconpos={:right}
+      />
+    </div>
+    <div>
+      <.primary_button
+        phx-click="go_home"
+        text="Voltar ao Início"
+        color={:blue}
+        icon="hero-home"
+        class="font-cormorant"
+        iconpos={:right}
+      />
+    </div>
+  </div>
+
+  <p class="font-cormorant text-gray-500 text-xs sm:text-sm mt-6 text-center">
+    Um email de confirmação foi enviado para {@form_data.data.email}
+  </p>
+</div>
