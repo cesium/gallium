@@ -6,7 +6,7 @@ defmodule Gallium.Ticketing do
   import Ecto.Query, warn: false
   alias Gallium.Repo
 
-  alias Gallium.Ticketing.{Accompany, Payment, Attendee}
+  alias Gallium.Ticketing.{Accompany, Attendee, Payment}
 
   @doc """
   Returns the list of accompanies.
@@ -294,16 +294,15 @@ defmodule Gallium.Ticketing do
     Attendee.changeset(attendee, attrs)
   end
 
-  def process_ticket_purchase(form_data, amount_to_pay, has_accompany?) do
-    attendee_changeset =
-      Attendee.changeset(%Attendee{}, %{
-        full_name: form_data.full_name,
-        email: form_data.email,
-        phone_number: form_data.phone_number,
-        student_number: form_data.student_number,
-        nif: form_data.nif,
-        is_cesium_member: form_data.is_cesium_member
-      })
+  def process_ticket_purchase(form_data, amount_to_pay, has_accompany?)do
+    attendee_changeset = Attendee.changeset(%Attendee{}, %{
+      full_name: form_data.full_name,
+      email: form_data.email,
+      phone_number: form_data.phone_number,
+      student_number: form_data.student_number,
+      nif: form_data.nif,
+      is_cesium_member: form_data.is_cesium_member
+    })
 
     Ecto.Multi.new()
     |> Ecto.Multi.insert(:attendee, attendee_changeset)
@@ -315,7 +314,6 @@ defmodule Gallium.Ticketing do
           email: form_data.accompany.email,
           phone_number: form_data.accompany.phone_number
         }
-
         repo.insert(Accompany.changeset(%Accompany{}, accompany_attrs))
       else
         {:ok, nil}
@@ -329,9 +327,9 @@ defmodule Gallium.Ticketing do
         mbway_phone: form_data.mbway_number,
         order_id: "MOCK_" <> Ecto.UUID.generate()
       }
-
       repo.insert(Payment.changeset(%Payment{}, payment_attrs))
     end)
     |> Repo.transaction()
   end
+
 end

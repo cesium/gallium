@@ -1,6 +1,6 @@
 defmodule GalliumWeb.Components.Stepper do
   @moduledoc """
-  Stepper Component.
+  Stepper Component. mix credo --all --strict
   """
   use Phoenix.Component
 

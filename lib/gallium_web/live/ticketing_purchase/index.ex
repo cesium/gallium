@@ -4,8 +4,8 @@ defmodule GalliumWeb.TicketingPurchaseLive.Index do
   import GalliumWeb.Components.Stepper
   import GalliumWeb.Components.Button
 
-  alias Gallium.Ticketing.CheckoutForm
   alias Gallium.Ticketing
+  alias Gallium.Ticketing.CheckoutForm
 
   embed_templates "steps/*"
 
