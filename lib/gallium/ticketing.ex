@@ -102,8 +102,6 @@ defmodule Gallium.Ticketing do
     Accompany.changeset(accompany, attrs)
   end
 
-  alias Gallium.Ticketing.Payment
-
   @doc """
   Returns the list of payments.
 
@@ -197,8 +195,6 @@ defmodule Gallium.Ticketing do
   def change_payment(%Payment{} = payment, attrs \\ %{}) do
     Payment.changeset(payment, attrs)
   end
-
-  alias Gallium.Ticketing.Attendee
 
   @doc """
   Returns the list of attendees.
@@ -294,42 +290,42 @@ defmodule Gallium.Ticketing do
     Attendee.changeset(attendee, attrs)
   end
 
-  def process_ticket_purchase(form_data, amount_to_pay, has_accompany?)do
-    attendee_changeset = Attendee.changeset(%Attendee{}, %{
-      full_name: form_data.full_name,
-      email: form_data.email,
-      phone_number: form_data.phone_number,
-      student_number: form_data.student_number,
-      nif: form_data.nif,
-      is_cesium_member: form_data.is_cesium_member
-    })
-
+  def process_ticket_purchase(form_data, amount_to_pay, has_accompany?) do
     Ecto.Multi.new()
-    |> Ecto.Multi.insert(:attendee, attendee_changeset)
+    |> Ecto.Multi.insert(:attendee, Attendee.changeset(%Attendee{}, Map.from_struct(form_data)))
     |> Ecto.Multi.run(:accompany, fn repo, %{attendee: attendee} ->
-      if has_accompany? do
-        accompany_attrs = %{
-          attendee_id: attendee.id,
-          full_name: form_data.accompany.full_name,
-          email: form_data.accompany.email,
-          phone_number: form_data.accompany.phone_number
-        }
-        repo.insert(Accompany.changeset(%Accompany{}, accompany_attrs))
-      else
-        {:ok, nil}
-      end
+      insert_accompany(repo, attendee, form_data, has_accompany?)
     end)
     |> Ecto.Multi.run(:payment, fn repo, %{attendee: attendee} ->
-      payment_attrs = %{
-        attendee_id: attendee.id,
-        amount: amount_to_pay,
-        status: "paid",
-        mbway_phone: form_data.mbway_number,
-        order_id: "MOCK_" <> Ecto.UUID.generate()
-      }
-      repo.insert(Payment.changeset(%Payment{}, payment_attrs))
+      insert_payment(repo, attendee, form_data, amount_to_pay)
     end)
     |> Repo.transaction()
   end
 
+  defp insert_accompany(repo, attendee, %{accompany: accompany}, true)
+       when not is_nil(accompany) do
+    accompany_attrs = %{
+      attendee_id: attendee.id,
+      full_name: accompany.full_name,
+      email: accompany.email,
+      phone_number: accompany.phone_number
+    }
+
+    repo.insert(Accompany.changeset(%Accompany{}, accompany_attrs))
+  end
+
+  defp insert_accompany(_repo, _attendee, _form_data, true), do: {:error, :missing_accompany}
+  defp insert_accompany(_repo, _attendee, _form_data, false), do: {:ok, nil}
+
+  defp insert_payment(repo, attendee, form_data, amount_to_pay) do
+    payment_attrs = %{
+      attendee_id: attendee.id,
+      amount: amount_to_pay,
+      status: "paid",
+      mbway_phone: form_data.mbway_number,
+      order_id: "MOCK_" <> Ecto.UUID.generate()
+    }
+
+    repo.insert(Payment.changeset(%Payment{}, payment_attrs))
+  end
 end

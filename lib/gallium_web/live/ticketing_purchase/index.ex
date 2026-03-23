@@ -35,7 +35,18 @@ defmodule GalliumWeb.TicketingPurchaseLive.Index do
 
   @impl true
   def handle_event("previous_step", _params, socket) do
-    {:noreply, update(socket, :current_step, &(&1 - 1))}
+    {:noreply, update(socket, :current_step, &max(&1 - 1, 1))}
+  end
+
+  @impl true
+  def handle_event("to_tickets", _params, socket) do
+    # change to the page where the users selects the ticket when created
+    {:noreply, push_navigate(socket, to: ~p"/")}
+  end
+
+  @impl true
+  def handle_event("to_home", _params, socket) do
+    {:noreply, push_navigate(socket, to: ~p"/")}
   end
 
   def handle_event("toggle_accompany", _, socket) do
@@ -102,7 +113,6 @@ defmodule GalliumWeb.TicketingPurchaseLive.Index do
            ) do
         {:ok, _bd_result} ->
           # Success
-          IO.puts("✅ SUCESSO! GRAVOU NA BD!")
           new_changeset = CheckoutForm.changeset_fase3(final_data, %{})
 
           {:noreply,
@@ -117,7 +127,6 @@ defmodule GalliumWeb.TicketingPurchaseLive.Index do
            put_flash(socket, :error, "Ocorreu um erro ao guardar o bilhete. Tenta novamente.")}
       end
     else
-      IO.puts("✅Erro na validacao \n\n\n\n")
       changeset_com_erros = Map.put(changeset, :action, :validate)
       {:noreply, assign(socket, :form_data, to_form(changeset_com_erros))}
     end

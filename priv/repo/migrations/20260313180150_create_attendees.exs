@@ -9,7 +9,7 @@ defmodule Gallium.Repo.Migrations.CreateAttendees do
       add :phone_number, :string, null: false
       add :student_number, :string
       add :nif, :string
-      add :is_cesium_member, :boolean, null: false
+      add :is_cesium_member, :boolean, null: false, default: false
 
       timestamps(type: :utc_datetime)
     end
