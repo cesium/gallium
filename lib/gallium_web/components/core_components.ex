@@ -182,6 +182,8 @@ defmodule GalliumWeb.CoreComponents do
     include: ~w(accept autocomplete capture cols disabled form list max maxlength min minlength
                 multiple pattern placeholder readonly required rows size step)
 
+  slot :icon, doc: "the icon that appears in the beginning of input"
+
   def input(%{field: %Phoenix.HTML.FormField{} = field} = assigns) do
     errors = if Phoenix.Component.used_input?(field), do: field.errors, else: []
 
@@ -257,16 +259,26 @@ defmodule GalliumWeb.CoreComponents do
     ~H"""
     <div class="fieldset mb-2">
       <label for={@id}>
-        <span :if={@label} class="label mb-1">{@label}</span>
-        <textarea
-          id={@id}
-          name={@name}
-          class={[
-            @class || "w-full textarea",
-            @errors != [] && (@error_class || "textarea-error")
-          ]}
-          {@rest}
-        >{Phoenix.HTML.Form.normalize_value("textarea", @value)}</textarea>
+        <span :if={@label} class="block text-sm font-cormorant font-bold text-gray-700 uppercase">
+          {@label}
+        </span>
+        <div class="relative w-full">
+          <div
+            :if={@icon != []}
+            class="absolute z-10 inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-gray-600"
+          >
+            {render_slot(@icon)}
+          </div>
+          <textarea
+            id={@id}
+            name={@name}
+            class={[
+              @class || "w-full textarea",
+              @errors != [] && (@error_class || "textarea-error")
+            ]}
+            {@rest}
+          >{Phoenix.HTML.Form.normalize_value("textarea", @value)}</textarea>
+        </div>
       </label>
       <.error :for={msg <- @errors}>{msg}</.error>
     </div>
@@ -277,19 +289,34 @@ defmodule GalliumWeb.CoreComponents do
   def input(assigns) do
     ~H"""
     <div class="fieldset mb-2">
-      <label for={@id}>
-        <span :if={@label} class="label mb-1">{@label}</span>
-        <input
-          type={@type}
-          name={@name}
-          id={@id}
-          value={Phoenix.HTML.Form.normalize_value(@type, @value)}
-          class={[
-            @class || "w-full input",
-            @errors != [] && (@error_class || "input-error")
-          ]}
-          {@rest}
-        />
+      <label for={@id} class="relative block">
+        <span :if={@label} class="block text-sm font-cormorant font-bold text-gray-700 uppercase mb-1">
+          {@label}
+        </span>
+
+        <div class="relative w-full">
+          <div
+            :if={@icon != []}
+            class="absolute z-10 inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-gray-600"
+          >
+            {render_slot(@icon)}
+          </div>
+
+          <input
+            type={@type}
+            name={@name}
+            id={@id}
+            value={Phoenix.HTML.Form.normalize_value(@type, @value)}
+            class={[
+              if(@icon != [], do: "pl-10", else: "pl-2"),
+              @class ||
+                "focus:outline-none w-full input rounded-field border font-cormorant py-2 pr-2 placeholder:text-gray-400",
+              if(@errors != [], do: "border-red-500", else: "border-gray-400"),
+              @errors != [] && (@error_class || "input-error")
+            ]}
+            {@rest}
+          />
+        </div>
       </label>
       <.error :for={msg <- @errors}>{msg}</.error>
     </div>
@@ -299,7 +326,7 @@ defmodule GalliumWeb.CoreComponents do
   # Helper used by inputs to generate form errors
   defp error(assigns) do
     ~H"""
-    <p class="mt-1.5 flex gap-2 items-center text-sm text-error">
+    <p class="mt-1.5 flex gap-2 items-center text-sm text-error font-cormorant">
       <.icon name="hero-exclamation-circle" class="size-5" />
       {render_slot(@inner_block)}
     </p>

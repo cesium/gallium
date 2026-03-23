@@ -1,0 +1,33 @@
+<div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
+  <%= if @current_step <= 4 do %>
+    <.stepper
+      current_step={@current_step}
+      step_names={["Dados Pessoais", "Confirmar Bilhetes", "Pagamento", "Confirmação"]}
+    />
+  <% end %>
+  <%= case @current_step do %>
+    <% 1 -> %>
+      <.step1 form_data={@form_data} has_accompany?={@has_accompany?} />
+    <% 2 -> %>
+      <.step2
+        form_data={@form_data}
+        has_accompany?={@has_accompany?}
+        amount_to_pay={@amount_to_pay}
+        price_per_ticket={@price_per_ticket}
+      />
+    <% 3 -> %>
+      <.step3
+        form_data={@form_data}
+        has_accompany?={@has_accompany?}
+        amount_to_pay={@amount_to_pay}
+        price_per_ticket={@price_per_ticket}
+      />
+    <% 4 -> %>
+      <.step4
+        form_data={@form_data}
+        has_accompany?={@has_accompany?}
+        amount_to_pay={@amount_to_pay}
+        price_per_ticket={@price_per_ticket}
+      />
+  <% end %>
+</div>
