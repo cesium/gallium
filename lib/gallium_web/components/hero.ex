@@ -4,7 +4,7 @@ defmodule GalliumWeb.Components.Hero do
   """
   use GalliumWeb, :html
 
-  import GalliumWeb.Components.Button
+  import GalliumWeb.Components.{Button, Frame}
 
   attr :date_info, :string,
     default: "",
@@ -15,7 +15,13 @@ defmodule GalliumWeb.Components.Hero do
 
   def hero(assigns) do
     ~H"""
-    <section class="bg-blue-500 w-full h-fit flex flex-col items-center justify-center px-4 py-20 {@class}">
+    <section class={[
+      "bg-blue-500 w-full h-fit flex flex-col items-center justify-center py-24",
+      @class
+    ]}>
+      <div class="w-full flex justify-center mb-12">
+        <.frame style={:style1} mode={:bottom} color={:light_muted} />
+      </div>
       <div class="text-center flex flex-col items-center">
         <h1 class="text-beige font-amarante text-9xl uppercase mb-9">
           jantar<br /> de gala
@@ -32,6 +38,9 @@ defmodule GalliumWeb.Components.Hero do
             class="px-8 py-3 font-amarante uppercase tracking-[0.2em]"
           />
         </div>
+      </div>
+      <div class="w-full flex justify-center mt-4">
+        <.frame style={:style1} mode={:top} color={:light_muted} />
       </div>
     </section>
     """
