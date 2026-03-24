@@ -5,6 +5,7 @@ defmodule GalliumWeb.Components.ProgramSection do
   use Phoenix.Component
 
   attr :class, :string, default: nil
+
   attr :schedule_items, :list,
     default: [
       %{
