@@ -1,8 +1,7 @@
 defmodule GalliumWeb.TicketingPurchaseLive.Index do
   use Phoenix.Component
   use GalliumWeb, :live_view
-  import GalliumWeb.Components.Stepper
-  import GalliumWeb.Components.Button
+  import GalliumWeb.Components.{Button, Footer, Stepper}
 
   alias Gallium.Ticketing
   alias Gallium.Ticketing.CheckoutForm
@@ -15,7 +14,10 @@ defmodule GalliumWeb.TicketingPurchaseLive.Index do
     is_cesium_member? = Map.get(params, "tipo", "nao_socio") == "socio"
 
     initial_changeset =
-      CheckoutForm.changeset_fase1(%CheckoutForm{is_cesium_member: is_cesium_member?}, %{})
+      CheckoutForm.changeset_personal_data(
+        %CheckoutForm{is_cesium_member: is_cesium_member?},
+        %{}
+      )
 
     price_per_ticket = if is_cesium_member?, do: 25, else: 30
 
@@ -53,55 +55,71 @@ defmodule GalliumWeb.TicketingPurchaseLive.Index do
     has_accompany? = !socket.assigns.has_accompany?
     params = socket.assigns.form_data.params || %{}
 
-    changeset = CheckoutForm.changeset_fase1(socket.assigns.form_data.data, params)
+    changeset = CheckoutForm.changeset_personal_data(socket.assigns.form_data.data, params)
+    is_member = Ecto.Changeset.get_field(changeset, :is_cesium_member)
+    price_per_ticket = if is_member, do: 25, else: 30
 
     {:noreply,
      socket
      |> assign(:has_accompany?, has_accompany?)
+     |> assign(:price_per_ticket, price_per_ticket)
      |> assign(:form_data, to_form(changeset))}
   end
 
   def handle_event("save_draft_form_info_step1", %{"checkout_form" => form_params}, socket) do
-    changeset = CheckoutForm.changeset_fase1(socket.assigns.form_data.data, form_params)
+    changeset = CheckoutForm.changeset_personal_data(socket.assigns.form_data.data, form_params)
     changeset_with_error_info = Map.put(changeset, :action, :validate)
 
-    {:noreply, assign(socket, :form_data, to_form(changeset_with_error_info))}
+    is_member = Ecto.Changeset.get_field(changeset, :is_cesium_member)
+    price_per_ticket = if is_member, do: 25, else: 30
+
+    {:noreply,
+     socket
+     |> assign(:price_per_ticket, price_per_ticket)
+     |> assign(:form_data, to_form(changeset_with_error_info))}
   end
 
   def handle_event("save_step1", %{"checkout_form" => form_data}, socket) do
-    changeset = CheckoutForm.changeset_fase1(socket.assigns.form_data.data, form_data)
+    changeset = CheckoutForm.changeset_personal_data(socket.assigns.form_data.data, form_data)
+    is_member = Ecto.Changeset.get_field(changeset, :is_cesium_member)
+    price_per_ticket = if is_member, do: 25, else: 30
 
     if changeset.valid? do
       amount_to_pay =
         if socket.assigns.has_accompany? do
-          socket.assigns.price_per_ticket * 2
+          price_per_ticket * 2
         else
-          socket.assigns.price_per_ticket
+          price_per_ticket
         end
 
       new_data = Ecto.Changeset.apply_changes(changeset)
-      new_changeset = CheckoutForm.changeset_fase1(new_data, %{})
+      new_changeset = CheckoutForm.changeset_personal_data(new_data, %{})
 
       {:noreply,
        socket
+       |> assign(:price_per_ticket, price_per_ticket)
        |> assign(:form_data, to_form(new_changeset))
        |> assign(:amount_to_pay, amount_to_pay)
        |> update(:current_step, &(&1 + 1))}
     else
       changeset_com_erros = Map.put(changeset, :action, :validate)
-      {:noreply, assign(socket, :form_data, to_form(changeset_com_erros))}
+
+      {:noreply,
+       socket
+       |> assign(:price_per_ticket, price_per_ticket)
+       |> assign(:form_data, to_form(changeset_com_erros))}
     end
   end
 
   def handle_event("save_draft_form_info_step3", %{"checkout_form" => form_params}, socket) do
-    changeset = CheckoutForm.changeset_fase3(socket.assigns.form_data.data, form_params)
+    changeset = CheckoutForm.changeset_payment(socket.assigns.form_data.data, form_params)
     changeset_with_error_info = Map.put(changeset, :action, :validate)
 
     {:noreply, assign(socket, :form_data, to_form(changeset_with_error_info))}
   end
 
   def handle_event("save_step3", %{"checkout_form" => form_data}, socket) do
-    changeset = CheckoutForm.changeset_fase3(socket.assigns.form_data.data, form_data)
+    changeset = CheckoutForm.changeset_payment(socket.assigns.form_data.data, form_data)
 
     if changeset.valid? do
       final_data = Ecto.Changeset.apply_changes(changeset)
@@ -113,7 +131,7 @@ defmodule GalliumWeb.TicketingPurchaseLive.Index do
            ) do
         {:ok, _bd_result} ->
           # Success
-          new_changeset = CheckoutForm.changeset_fase3(final_data, %{})
+          new_changeset = CheckoutForm.changeset_payment(final_data, %{})
 
           {:noreply,
            socket

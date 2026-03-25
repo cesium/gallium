@@ -259,7 +259,10 @@ defmodule GalliumWeb.CoreComponents do
     ~H"""
     <div class="fieldset mb-2">
       <label for={@id}>
-        <span :if={@label} class="block text-sm font-cormorant font-bold text-gray-700 uppercase">
+        <span
+          :if={@label}
+          class="block text-sm font-cormorant tracking-[0.15em] text-gray-800 uppercase mb-1"
+        >
           {@label}
         </span>
         <div class="relative w-full">
@@ -297,7 +300,7 @@ defmodule GalliumWeb.CoreComponents do
         <div class="relative w-full">
           <div
             :if={@icon != []}
-            class="absolute z-10 inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-gray-600"
+            class="absolute z-10 inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-gray-500"
           >
             {render_slot(@icon)}
           </div>
@@ -310,8 +313,8 @@ defmodule GalliumWeb.CoreComponents do
             class={[
               if(@icon != [], do: "pl-10", else: "pl-2"),
               @class ||
-                "focus:outline-none w-full input rounded-field border font-cormorant py-2 pr-2 placeholder:text-gray-400",
-              if(@errors != [], do: "border-red-500", else: "border-gray-400"),
+                "focus:outline-none focus:ring-0 w-full rounded-field border font-cormorant py-2 pr-2 placeholder:text-gray-400 text-gray-800 bg-white transition-colors duration-200",
+              if(@errors != [], do: "border-red-500", else: "border-gray-300"),
               @errors != [] && (@error_class || "input-error")
             ]}
             {@rest}

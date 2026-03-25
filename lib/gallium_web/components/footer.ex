@@ -11,7 +11,7 @@ defmodule GalliumWeb.Components.Footer do
 
   def footer(assigns) do
     ~H"""
-    <footer class={"w-full bg-beige text-blue-800/80 px-6 py-16 #{@class}"}>
+    <footer class={"w-full border-t border-olive-800/20 bg-beige text-blue-800/80 px-6 py-16 #{@class}"}>
       <div class="max-w-7xl mx-auto flex flex-col">
         <div class="flex flex-col md:flex-row justify-between items-center md:items-baseline mb-12 gap-8">
           <div class="flex-1 text-center md:text-left min-w-max">
