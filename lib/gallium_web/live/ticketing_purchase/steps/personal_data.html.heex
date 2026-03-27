@@ -1,0 +1,161 @@
+<div class="border border-blue-500 p-8 bg-white rounded-box relative my-4">
+  <.form
+    for={@form_data}
+    phx-change="save_draft_form_info_step1"
+    phx-submit="save_step1"
+    class="flex flex-col gap-4"
+  >
+    <%= if @has_accompany? do %>
+      <div>
+        <div class="flex flex-row justify-between gap-2">
+          <h2 class="text-4xl font-amarante text-blue-500 mb-3 uppercase ">
+            Dados <span class="hidden md:inline">Acompanhante</span>
+          </h2>
+          <div>
+            <.primary_button
+              type="button"
+              phx-click="toggle_accompany"
+              text="Remover Acompanhante"
+              color={:blue}
+              class="font-cormorant w-fit! h-auto! py-1.5! px-4! text-sm tracking-tight"
+            />
+          </div>
+        </div>
+        <p class="font-cormorant text-gray-600 my-2">
+          Por favor preenche os dados do teu acompanhante
+        </p>
+      </div>
+
+      <.inputs_for :let={accompany_form} field={@form_data[:accompany]}>
+        <.input
+          field={accompany_form[:full_name]}
+          type="text"
+          label="Nome Completo *"
+          placeholder="Insere o nome"
+        >
+          <:icon>
+            <.icon name="hero-user" class="size-5" />
+          </:icon>
+        </.input>
+
+        <.input
+          field={accompany_form[:email]}
+          type="email"
+          label="Email *"
+          placeholder="email.acompanhante@uminho.pt"
+        >
+          <:icon>
+            <.icon name="hero-envelope" class="size-5" />
+          </:icon>
+        </.input>
+
+        <.input
+          field={accompany_form[:phone_number]}
+          type="tel"
+          label="Número de telefone *"
+          placeholder="+351912345678"
+        >
+          <:icon>
+            <.icon name="hero-phone" class="size-5" />
+          </:icon>
+        </.input>
+      </.inputs_for>
+
+      <hr class="border-gray-300 my-4" />
+    <% end %>
+
+    <div>
+      <div class="flex flex-row justify-between gap-2">
+        <h2 class="text-4xl font-amarante text-blue-500 mb-3 uppercase">Dados Pessoais</h2>
+        <%= if !@has_accompany? do %>
+          <div>
+            <.primary_button
+              type="button"
+              phx-click="toggle_accompany"
+              text="Adicionar Acompanhante"
+              color={:blue}
+              class="font-cormorant !w-fit! h-auto! py-1.5! px-4! text-sm tracking-tight"
+            />
+          </div>
+        <% end %>
+      </div>
+      <p class="font-cormorant text-gray-600 my-2">
+        Por favor preenche os teus dados para completar a compra
+      </p>
+    </div>
+
+    <.input
+      field={@form_data[:full_name]}
+      type="text"
+      label="Nome Completo *"
+      placeholder="Insere o teu nome completo"
+    >
+      <:icon>
+        <.icon name="hero-user" class="size-5" />
+      </:icon>
+    </.input>
+
+    <.input
+      field={@form_data[:email]}
+      type="email"
+      label="Email da Universidade *"
+      placeholder="numeroaluno@uminho.pt"
+    >
+      <:icon>
+        <.icon name="hero-envelope" class="size-5" />
+      </:icon>
+    </.input>
+
+    <.input
+      field={@form_data[:student_number]}
+      type="text"
+      label="Número de Aluno *"
+      placeholder="ex: A12345"
+    >
+      <:icon>
+        <.icon name="hero-hashtag" class="size-5" />
+      </:icon>
+    </.input>
+
+    <.input
+      field={@form_data[:phone_number]}
+      type="tel"
+      label="Telefone *"
+      placeholder="+351912345678"
+    >
+      <:icon>
+        <.icon name="hero-phone" class="size-5" />
+      </:icon>
+    </.input>
+
+    <.input field={@form_data[:nif]} type="text" label="NIF (opcional)" placeholder="299999999">
+      <:icon>
+        <.icon name="hero-hashtag" class="size-5" />
+      </:icon>
+    </.input>
+
+    <div class="flex flex-row justify-between mt-4">
+      <div>
+        <.primary_button
+          type="button"
+          phx-click="to_tickets"
+          text="Voltar"
+          color={:light_muted}
+          icon="hero-arrow-left"
+          iconpos={:left}
+          class="font-amarante"
+        />
+      </div>
+      <div>
+        <.primary_button
+          type="submit"
+          text="Seguinte"
+          color={:blue}
+          icon="hero-arrow-right"
+          iconpos={:right}
+          class="font-cormorant"
+        />
+      </div>
+    </div>
+  </.form>
+</div>
