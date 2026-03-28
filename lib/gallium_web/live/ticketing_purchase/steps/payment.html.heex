@@ -1,0 +1,74 @@
+<div class="border border-blue-500 p-8 bg-white rounded-box relative my-4">
+  <div>
+    <h2 class="text-4xl font-amarante text-blue-500 mb-3 uppercase">Pagamento</h2>
+    <p class="font-cormorant text-gray-600 my-2">
+      Insere o teu número de telemóvel para pagar via MB WAY
+    </p>
+  </div>
+
+  <div>
+    <.form
+      for={@form_data}
+      phx-change="save_draft_form_info_step3"
+      phx-submit="save_step3"
+      class="flex flex-col gap-3 my-8"
+    >
+      <div>
+        <.input
+          type="tel"
+          label="Número de Telefone *"
+          field={@form_data[:mbway_number]}
+          placeholder="Ex: 912 345 678"
+          class="rounded-field w-full border border-gray-400 py-2 pr-2 pl-10 font-cormorant placeholder:text-gray-400"
+        >
+          <:icon>
+            <.icon name="hero-phone" class="size-6 text-gray-400" />
+          </:icon>
+        </.input>
+      </div>
+
+      <div class="relative flex flex-row items-center p-4 sm:p-6 bg-blue-50 rounded-box">
+        <div class="shrink-0 text-gray-500 mr-3 absolute left-4">
+          <.icon name="hero-lock-closed" class="size-5 sm:size-6" />
+        </div>
+
+        <div class="w-full text-left pl-8 md:pl-6">
+          <p class="font-cormorant text-sm sm:text-base text-gray-500">
+            Irás receber uma notificação na tua app MB WAY para confirmar o pagamento.
+          </p>
+        </div>
+      </div>
+
+      <hr class="w-full border-t border-gray-300 my-4" />
+
+      <div class="flex flex-row justify-between mb-2">
+        <p class="font-cormorant text-sm">Total a pagar</p>
+        <span class="font-cormorant text-3xl font-bold">{@amount_to_pay}€</span>
+      </div>
+
+      <div class="flex flex-row justify-between mt-4">
+        <div>
+          <.primary_button
+            type="button"
+            phx-click="previous_step"
+            text="Voltar"
+            color={:light_muted}
+            icon="hero-arrow-left"
+            iconpos={:left}
+            class="font-amarante"
+          />
+        </div>
+        <div>
+          <.primary_button
+            type="submit"
+            text="Pagar"
+            color={:blue}
+            icon="hero-arrow-right"
+            iconpos={:right}
+            class="font-cormorant"
+          />
+        </div>
+      </div>
+    </.form>
+  </div>
+</div>
