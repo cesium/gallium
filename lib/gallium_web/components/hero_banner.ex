@@ -8,8 +8,8 @@ defmodule GalliumWeb.HeroBanner do
 
   def hero_banner(assigns) do
     ~H"""
-    <div class="bg-olive w-full px-8 sm:px-0">
-      <div class="relative w-full font-serif h-auto bg-contain bg-no-repeat bg-center">
+    <div class="bg-olive bg-[url('/frames/frame2.svg')] bg-contain bg-no-repeat bg-center w-full px-8 sm:px-0 ">
+      <div class=" relative w-full font-serif h-auto ">
         <div class=" flex flex-col items-center justify-center text-center py-3">
           <div class="flex flex-col gap-3 p-12">
             <p class="flex items-center justify-center text-white font-bold text-md tracking-[.25em] opacity-50">
@@ -31,7 +31,7 @@ defmodule GalliumWeb.HeroBanner do
           >
             COMPRAR BILHETES
           </.link>
-          <span class="text-olive-50 text-2xl pt-8">✳</span>
+          <span class="text-olive-50 text-2xl pt-5 ">✳</span>
         </div>
       </div>
     </div>
