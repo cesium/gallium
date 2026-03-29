@@ -65,6 +65,15 @@ defmodule GalliumWeb do
     end
   end
 
+  def app_view do
+    quote do
+      use Phoenix.LiveView,
+        layout: {GalliumWeb.Layouts, :app}
+
+      unquote(html_helpers())
+    end
+  end
+
   def component do
     quote do
       use Phoenix.Component
