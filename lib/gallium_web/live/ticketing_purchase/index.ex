@@ -1,7 +1,7 @@
 defmodule GalliumWeb.TicketingPurchaseLive.Index do
   use Phoenix.Component
   use GalliumWeb, :live_view
-  import GalliumWeb.Components.{Button, Footer, Stepper}
+  import GalliumWeb.Components.{Button, Stepper}
 
   alias Gallium.Ticketing
   alias Gallium.Ticketing.CheckoutForm

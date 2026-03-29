@@ -17,9 +17,10 @@ defmodule GalliumWeb.Router do
   scope "/", GalliumWeb do
     pipe_through :browser
 
-    live "/", LandingLive.Index, :index
-
-    live "/bilhetes/comprar", TicketingPurchaseLive.Index, :index
+    live_session :default, layout: {GalliumWeb.Layouts, :app} do
+      live "/", LandingLive.Index, :index
+      live "/bilhetes/comprar", TicketingPurchaseLive.Index, :index
+    end
   end
 
   # Other scopes may use custom stacks.
