@@ -18,7 +18,6 @@ defmodule GalliumWeb.Router do
     pipe_through :browser
 
     live "/", LandingLive.Index, :index
-
     live "/bilhetes/comprar", TicketingPurchaseLive.Index, :index
   end
 

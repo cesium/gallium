@@ -1,5 +1,5 @@
 defmodule GalliumWeb.LandingLive.Index do
-  use GalliumWeb, :live_view
+  use GalliumWeb, :app_view
 
   @impl true
   def mount(_params, _session, socket) do
