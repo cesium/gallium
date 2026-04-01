@@ -1,15 +1,15 @@
-defmodule GalliumWeb.HeroBanner do
+defmodule GalliumWeb.Components.HeroBanner do
   @moduledoc """
   This module holds the Gala Dinner Hero Banner
   """
   use Phoenix.Component
-  import GalliumWeb.Components.Frame
+  import GalliumWeb.Components.{Button, Frame}
 
   attr :title, :string, default: "MENU"
 
   def hero_banner(assigns) do
     ~H"""
-    <div class="bg-olive w-full px-8 sm:px-0 flex flex-col items-center py-12">
+    <div class="bg-olive h-dvh w-full px-8 sm:px-0 flex flex-col items-center py-12">
       <div class="w-full flex justify-center scale-75 md:scale-100">
         <.frame style={:style2} mode={:bottom} color={:light_muted} />
       </div>
@@ -29,12 +29,13 @@ defmodule GalliumWeb.HeroBanner do
             </p>
           </div>
 
-          <.link
-            href="/"
-            class="border border-white text-olive bg-white px-8 py-2.5 text-sm tracking-[0.2em] font-serif no-underline transition-all duration-200 hover:bg-olive hover:text-olive-50"
-          >
-            COMPRAR BILHETES
-          </.link>
+          <.primary_button
+            text="COMPRAR BILHETES"
+            link="/bilhetes/comprar"
+            color={:light_muted}
+            text_color={:olive}
+            class="px-12 py-4 font-glacial uppercase tracking-[0.22em] text-sm rounded-md shadow-sm hover:scale-100"
+          />
           <span class="text-olive-50 text-2xl pt-5 ">✳</span>
         </div>
       </div>
