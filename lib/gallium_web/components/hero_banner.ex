@@ -1,0 +1,48 @@
+defmodule GalliumWeb.Components.HeroBanner do
+  @moduledoc """
+  This module holds the Gala Dinner Hero Banner
+  """
+  use Phoenix.Component
+  import GalliumWeb.Components.{Button, Frame}
+
+  attr :title, :string, default: "MENU"
+
+  def hero_banner(assigns) do
+    ~H"""
+    <div class="bg-olive h-dvh w-full px-8 sm:px-0 flex flex-col items-center py-12">
+      <div class="w-full flex justify-center scale-75 md:scale-100">
+        <.frame style={:style2} mode={:bottom} color={:light_muted} />
+      </div>
+      <div class=" relative w-full font-serif h-auto py-8">
+        <div class=" flex flex-col items-center justify-center text-center py-3">
+          <div class="flex flex-col gap-3 p-12">
+            <p class="flex items-center justify-center text-white font-bold text-md tracking-[.25em] opacity-50">
+              •••••••••
+            </p>
+            <h1 class="text-olive-50 font-amarante leading-tight tracking-wide text-6xl m-0">
+              JANTAR<br />DE GALA
+            </h1>
+            <p class="text-olive-50 font-glacial text-xs tracking-[0.2em]">
+              <span class="block sm:inline">PROGRAMA</span>
+              <span class="block sm:inline">–</span>
+              <span class="block sm:inline">VER MAIS</span>
+            </p>
+          </div>
+
+          <.primary_button
+            text="COMPRAR BILHETES"
+            link="/bilhetes/comprar"
+            color={:light_muted}
+            text_color={:olive}
+            class="px-12 py-4 font-glacial uppercase tracking-[0.22em] text-sm rounded-md shadow-sm hover:scale-100"
+          />
+          <span class="text-olive-50 text-2xl pt-5 ">✳</span>
+        </div>
+      </div>
+      <div class="w-full flex justify-center scale-75 md:scale-100">
+        <.frame style={:style2} mode={:top} color={:light_muted} />
+      </div>
+    </div>
+    """
+  end
+end
