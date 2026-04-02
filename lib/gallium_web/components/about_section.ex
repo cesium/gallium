@@ -23,7 +23,11 @@ defmodule GalliumWeb.Components.AboutSection do
 
       <div class="max-w-3xl mx-auto">
         <h2 class="text-olive font-amarante text-4xl sm:text-5xl md:text-6xl uppercase leading-tight mb-8 tracking-wide">
-          {raw(String.replace(@title, "\n", "<br/>"))}
+          {raw(
+            @title
+            |> String.replace("\\n", "\n")
+            |> String.replace("\n", "<br/>")
+          )}
         </h2>
 
         <h4 class="text-bronze-950/60 font-cormorant text-lg md:text-2xl font-medium mx-auto leading-relaxed">
