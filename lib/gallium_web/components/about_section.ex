@@ -9,7 +9,7 @@ defmodule GalliumWeb.Components.AboutSection do
   attr :title, :string, required: true
   attr :description, :string, required: true
 
-  slot :inner_block, required: true
+  slot :inner_block, required: false
 
   def about_section(assigns) do
     ~H"""
