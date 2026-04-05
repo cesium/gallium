@@ -290,9 +290,14 @@ defmodule Gallium.Ticketing do
     Attendee.changeset(attendee, attrs)
   end
 
-  def process_ticket_purchase(form_data, amount_to_pay, has_accompany?) do
+  def process_ticket_purchase(form_data, amount_to_pay, has_accompany?, user_id) do
+    data =
+      form_data
+      |> Map.from_struct()
+      |> Map.put(:user_id, user_id)
+
     Ecto.Multi.new()
-    |> Ecto.Multi.insert(:attendee, Attendee.changeset(%Attendee{}, Map.from_struct(form_data)))
+    |> Ecto.Multi.insert(:attendee, Attendee.changeset(%Attendee{}, data))
     |> Ecto.Multi.run(:accompany, fn repo, %{attendee: attendee} ->
       insert_accompany(repo, attendee, form_data, has_accompany?)
     end)

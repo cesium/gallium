@@ -1,35 +1,65 @@
-<div class="bg-beige min-h-screen flex flex-col">
-  <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 flex-grow w-full py-8">
-    <%= if @current_step <= 4 do %>
-      <.stepper
-        current_step={@current_step}
-        step_names={["Dados Pessoais", "Confirmar Bilhetes", "Pagamento", "Confirmação"]}
-      />
-    <% end %>
-    <%= case @current_step do %>
-      <% 1 -> %>
-        <.personal_data form_data={@form_data} has_accompany?={@has_accompany?} />
-      <% 2 -> %>
-        <.buy_tickets
-          form_data={@form_data}
-          has_accompany?={@has_accompany?}
-          amount_to_pay={@amount_to_pay}
-          price_per_ticket={@price_per_ticket}
+<div class="bg-beige flex flex-col">
+  <%= if !@user_info do %>
+    <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 grow w-full py-8">
+      <%= if @current_step < 4 do %>
+        <.stepper
+          current_step={@current_step}
+          step_names={["Dados Pessoais", "Confirmar Bilhetes", "Pagamento", "Confirmação"]}
         />
-      <% 3 -> %>
-        <.payment
-          form_data={@form_data}
-          has_accompany?={@has_accompany?}
-          amount_to_pay={@amount_to_pay}
-          price_per_ticket={@price_per_ticket}
-        />
-      <% 4 -> %>
-        <.confirmation
-          form_data={@form_data}
-          has_accompany?={@has_accompany?}
-          amount_to_pay={@amount_to_pay}
-          price_per_ticket={@price_per_ticket}
-        />
-    <% end %>
-  </div>
+      <% end %>
+      <%= case @current_step do %>
+        <% 1 -> %>
+          <.personal_data form_data={@form_data} has_accompany?={@has_accompany?} />
+        <% 2 -> %>
+          <.buy_tickets
+            form_data={@form_data}
+            has_accompany?={@has_accompany?}
+            amount_to_pay={@amount_to_pay}
+            price_per_ticket={@price_per_ticket}
+          />
+        <% 3 -> %>
+          <.payment
+            form_data={@form_data}
+            has_accompany?={@has_accompany?}
+            amount_to_pay={@amount_to_pay}
+            price_per_ticket={@price_per_ticket}
+          />
+        <% 4 -> %>
+          <.confirmation
+            form_data={@form_data}
+            has_accompany?={@has_accompany?}
+            amount_to_pay={@amount_to_pay}
+            price_per_ticket={@price_per_ticket}
+            current_scope={@current_scope}
+          />
+      <% end %>
+    </div>
+  <% else %>
+    <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 grow w-full py-8 flex flex-col items-center justify-center">
+      <div class="bg-white rounded-lg p-8 text-center w-full">
+        <.icon name="hero-exclamation-triangle" class="mb-4 size-9" />
+        <h2 class="text-2xl font-bold text-blue mb-2 font-amarante uppercase">
+          Já não podes comprar
+        </h2>
+        <p class="text-gray-600 mb-8 text-xl font-cormorant">
+          As vendas estão encerradas ou já possuis um bilhete associado à tua conta.
+        </p>
+
+        <div class="flex flex-col sm:flex-row justify-center gap-4">
+          <.primary_button
+            text="Voltar à Página Inicial"
+            link={~p"/"}
+            class="font-cormorant"
+            color={:blue}
+          />
+          <.primary_button
+            text="Ver o meu Perfil"
+            link={~p"/user/profile"}
+            class="font-cormorant"
+            color={:blue}
+          />
+        </div>
+      </div>
+    </div>
+  <% end %>
 </div>

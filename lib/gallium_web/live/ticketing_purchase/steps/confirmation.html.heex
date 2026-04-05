@@ -20,7 +20,7 @@
           {@form_data.data.full_name}
         </p>
         <p class="text-gray-600 font-cormorant text-sm">
-          {@form_data.data.email}
+          {@current_scope.user.email}
         </p>
       </div>
 
@@ -92,6 +92,6 @@
   </div>
 
   <p class="font-cormorant text-gray-500 text-xs sm:text-sm mt-6 text-center">
-    Um email de confirmação foi enviado para {@form_data.data.email}
+    Um email de confirmação foi enviado para {@current_scope.user.email}
   </p>
 </div>

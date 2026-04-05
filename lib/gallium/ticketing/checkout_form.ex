@@ -5,7 +5,6 @@ defmodule Gallium.Ticketing.CheckoutForm do
   @primary_key false
   embedded_schema do
     field :full_name, :string
-    field :email, :string
     field :student_number, :string
     field :phone_number, :string
     field :nif, :string
@@ -21,12 +20,11 @@ defmodule Gallium.Ticketing.CheckoutForm do
 
   def changeset_personal_data(schema, attrs \\ %{}) do
     schema
-    |> cast(attrs, [:full_name, :email, :student_number, :phone_number, :nif, :is_cesium_member])
-    |> validate_required([:full_name, :email, :student_number, :phone_number, :is_cesium_member],
+    |> cast(attrs, [:full_name, :student_number, :phone_number, :nif, :is_cesium_member])
+    |> validate_required([:full_name, :student_number, :phone_number, :is_cesium_member],
       message: "Este campo é obrigatório"
     )
     |> validate_length(:full_name, min: 3, message: "O nome tem de ter pelo menos 3 letras")
-    |> validate_format(:email, ~r/^[^\s]+@[^\s]+\.[^\s]+$/, message: "Formato de email inválido")
     |> validate_format(:phone_number, ~r/^\+?\d{9,15}$/, message: "Número de telefone inválido")
     |> validate_format(:student_number, ~r/^(A|PG|a|pg)\d+$/,
       message: "Formato inválido (ex: A12345)"

@@ -32,7 +32,10 @@ defmodule GalliumWeb.Components.Button do
     doc: "Position where the icon will be displayed (left, right)"
 
   attr :link, :string, default: nil, doc: "Link URL"
-  attr :rest, :global, doc: "Additional attributes for the button"
+
+  attr :rest, :global,
+    include: ~w(name value type form),
+    doc: "Additional attributes for the button"
 
   def primary_button(%{link: nil} = assigns) do
     ~H"""
