@@ -30,7 +30,6 @@ defmodule GalliumWeb.UserLive.ConfirmationTest do
 
       {:ok, _lv, html} = live(conn, ~p"/users/log-in/#{token}")
 
-      # Changed to match your Portuguese UI
       refute html =~ "Confirmar e ficar logado"
       assert html =~ "Mantém-me logado neste dispositivo"
     end

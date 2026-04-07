@@ -58,8 +58,8 @@ defmodule GalliumWeb.Components.Navbar do
 
           <div class="hidden lg:flex flex-row gap-4">
             <.primary_button
-              text="comprar bilhetes"
-              link={@ticket_url}
+              text="Comprar Bilhetes"
+              link="/bilhetes"
               color={:blue}
               text_color={:auto}
               class="bg-blue-500 text-beige px-4 md:px-6 py-1 font-amarante font-bold uppercase text-xs"
@@ -132,8 +132,8 @@ defmodule GalliumWeb.Components.Navbar do
 
             <div class="mt-4">
               <.primary_button
-                text="comprar bilhetes"
-                link={@ticket_url}
+                text="ComprarBbilhetes"
+                link="/bilhetes"
                 color={:blue}
                 text_color={:auto}
                 class="bg-blue-500 text-beige px-8 py-2 font-amarante font-bold uppercase text-lg"

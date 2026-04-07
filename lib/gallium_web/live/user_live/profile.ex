@@ -3,6 +3,7 @@ defmodule GalliumWeb.UserLive.Profile do
 
   alias Gallium.Accounts
   import GalliumWeb.Components.Button
+  import GalliumWeb.Layouts
 
   @impl true
   def mount(_params, _session, socket) do
@@ -13,19 +14,14 @@ defmodule GalliumWeb.UserLive.Profile do
         {:ok, assign(socket, :user_info, user_info)}
 
       {:error, _} ->
-        socket =
-          socket
-          |> put_flash(:error, "Could not find user info.")
-          |> assign(:user_info, nil)
-
-        {:ok, socket}
+        {:ok, assign(socket, :user_info, nil)}
     end
   end
 
   @impl true
   def render(assigns) do
     ~H"""
-    <Layouts.app flash={@flash} current_scope={@current_scope}>
+    <.app flash={@flash} current_scope={@current_scope}>
       <div class="max-w-3xl mx-auto py-12 px-4">
         <div class="text-center mb-10">
           <h1 class="text-5xl font-amarante text-olive uppercase mb-4">O Meu Perfil</h1>
@@ -116,7 +112,7 @@ defmodule GalliumWeb.UserLive.Profile do
           </div>
         <% end %>
       </div>
-    </Layouts.app>
+    </.app>
     """
   end
 end

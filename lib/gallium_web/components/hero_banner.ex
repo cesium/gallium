@@ -30,8 +30,8 @@ defmodule GalliumWeb.Components.HeroBanner do
           </div>
 
           <.primary_button
-            text="COMPRAR BILHETES"
-            link="/bilhetes/comprar"
+            text="Comprar Bilhetes"
+            link="/bilhetes"
             color={:light_muted}
             text_color={:olive}
             class="px-12 py-4 font-glacial uppercase tracking-[0.22em] text-sm rounded-md shadow-sm hover:scale-100"

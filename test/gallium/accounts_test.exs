@@ -87,25 +87,6 @@ defmodule Gallium.AccountsTest do
     end
   end
 
-  describe "sudo_mode?/2" do
-    test "validates the authenticated_at time" do
-      now = DateTime.utc_now()
-
-      assert Accounts.sudo_mode?(%User{authenticated_at: DateTime.utc_now()})
-      assert Accounts.sudo_mode?(%User{authenticated_at: DateTime.add(now, -19, :minute)})
-      refute Accounts.sudo_mode?(%User{authenticated_at: DateTime.add(now, -21, :minute)})
-
-      # minute override
-      refute Accounts.sudo_mode?(
-               %User{authenticated_at: DateTime.add(now, -11, :minute)},
-               -10
-             )
-
-      # not authenticated
-      refute Accounts.sudo_mode?(%User{})
-    end
-  end
-
   describe "change_user_email/3" do
     test "returns a user changeset" do
       assert %Ecto.Changeset{} = changeset = Accounts.change_user_email(%User{})

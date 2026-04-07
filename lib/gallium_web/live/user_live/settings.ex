@@ -2,7 +2,7 @@ defmodule GalliumWeb.UserLive.Settings do
   use GalliumWeb, :live_view
   import GalliumWeb.Components.Button
   # Change this to :require_authenticated if you want to remove the Sudo Mode popup!
-  on_mount {GalliumWeb.UserAuth, :require_sudo_mode}
+  on_mount {GalliumWeb.UserAuth, :require_authenticated}
 
   alias Gallium.Accounts
 
@@ -154,7 +154,6 @@ defmodule GalliumWeb.UserLive.Settings do
   def handle_event("update_email", params, socket) do
     %{"user" => user_params} = params
     user = socket.assigns.current_scope.user
-    true = Accounts.sudo_mode?(user)
 
     case Accounts.change_user_email(user, user_params) do
       %{valid?: true} = changeset ->
@@ -187,7 +186,6 @@ defmodule GalliumWeb.UserLive.Settings do
   def handle_event("update_password", params, socket) do
     %{"user" => user_params} = params
     user = socket.assigns.current_scope.user
-    true = Accounts.sudo_mode?(user)
 
     case Accounts.change_user_password(user, user_params) do
       %{valid?: true} = changeset ->

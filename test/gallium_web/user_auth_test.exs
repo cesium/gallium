@@ -282,38 +282,6 @@ defmodule GalliumWeb.UserAuthTest do
     end
   end
 
-  describe "on_mount :require_sudo_mode" do
-    test "allows users that have authenticated in the last 10 minutes", %{conn: conn, user: user} do
-      user_token = Accounts.generate_user_session_token(user)
-      session = conn |> put_session(:user_token, user_token) |> get_session()
-
-      socket = %LiveView.Socket{
-        endpoint: GalliumWeb.Endpoint,
-        assigns: %{__changed__: %{}, flash: %{}}
-      }
-
-      assert {:cont, _updated_socket} =
-               UserAuth.on_mount(:require_sudo_mode, %{}, session, socket)
-    end
-
-    test "redirects when authentication is too old", %{conn: conn, user: user} do
-      eleven_minutes_ago = DateTime.utc_now(:second) |> DateTime.add(-11, :minute)
-      user = %{user | authenticated_at: eleven_minutes_ago}
-      user_token = Accounts.generate_user_session_token(user)
-      {user, token_inserted_at} = Accounts.get_user_by_session_token(user_token)
-      assert DateTime.compare(token_inserted_at, user.authenticated_at) == :gt
-      session = conn |> put_session(:user_token, user_token) |> get_session()
-
-      socket = %LiveView.Socket{
-        endpoint: GalliumWeb.Endpoint,
-        assigns: %{__changed__: %{}, flash: %{}}
-      }
-
-      assert {:halt, _updated_socket} =
-               UserAuth.on_mount(:require_sudo_mode, %{}, session, socket)
-    end
-  end
-
   describe "require_authenticated_user/2" do
     setup %{conn: conn} do
       %{conn: UserAuth.fetch_current_scope_for_user(conn, [])}

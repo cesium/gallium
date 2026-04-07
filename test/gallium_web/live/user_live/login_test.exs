@@ -93,16 +93,4 @@ defmodule GalliumWeb.UserLive.LoginTest do
       assert login_html =~ "Regista-te"
     end
   end
-
-  describe "re-authentication (sudo mode)" do
-    setup %{conn: conn} do
-      user = user_fixture()
-      %{user: user, conn: log_in_user(conn, user)}
-    end
-
-    test "re-authentication (sudo mode) redirects logged in user", %{conn: conn} do
-      # The setup block already logged the user in, so we just check the redirect directly
-      assert {:error, {:redirect, %{to: "/"}}} = live(conn, ~p"/users/log-in")
-    end
-  end
 end

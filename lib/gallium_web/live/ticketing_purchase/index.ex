@@ -50,8 +50,7 @@ defmodule GalliumWeb.TicketingPurchaseLive.Index do
 
   @impl true
   def handle_event("to_tickets", _params, socket) do
-    # change to the page where the users selects the ticket when created
-    {:noreply, push_navigate(socket, to: ~p"/")}
+    {:noreply, push_navigate(socket, to: ~p"/bilhetes")}
   end
 
   @impl true

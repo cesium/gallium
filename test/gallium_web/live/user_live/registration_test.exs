@@ -8,7 +8,6 @@ defmodule GalliumWeb.UserLive.RegistrationTest do
     test "renders registration page", %{conn: conn} do
       {:ok, _lv, html} = live(conn, ~p"/users/register")
 
-      # Changed "Register" to match your new UI title
       assert html =~ "Regista a tua conta"
       assert html =~ "Log in"
     end
@@ -31,11 +30,8 @@ defmodule GalliumWeb.UserLive.RegistrationTest do
         |> element("#registration_form")
         |> render_change(user: %{"email" => "with spaces"})
 
-      # Changed "Register" to match your new UI title
       assert result =~ "Regista a tua conta"
 
-      # NOTE: If you translated your Ecto errors to Portuguese,
-      # you will need to change this string to match the Portuguese error!
       assert result =~ "must have the @ sign and no spaces"
     end
   end
@@ -51,8 +47,6 @@ defmodule GalliumWeb.UserLive.RegistrationTest do
         render_submit(form)
         |> follow_redirect(conn, ~p"/users/log-in")
 
-      # NOTE: If you translated the success flash message in RegistrationLive,
-      # update this regex to match the Portuguese text!
       assert html =~
                ~r/An email was sent to .*, please access it to confirm your account/
     end
@@ -69,7 +63,6 @@ defmodule GalliumWeb.UserLive.RegistrationTest do
         )
         |> render_submit()
 
-      # NOTE: If you translated your Ecto errors, change this to your Portuguese error message
       assert result =~ "has already been taken"
     end
   end

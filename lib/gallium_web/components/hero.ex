@@ -31,7 +31,7 @@ defmodule GalliumWeb.Components.Hero do
         </p>
         <div class="w-fit">
           <.primary_button
-            text="comprar bilhetes"
+            text="Comprar Bilhetes"
             link={@ticket_url}
             color={:light_muted}
             text_color={:blue}
