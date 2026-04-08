@@ -82,10 +82,12 @@ defmodule GalliumWeb.Components.Navbar do
         class="fixed inset-0 z-40 bg-beige hidden flex-col"
       >
         <div class="flex flex-col h-full">
-          <div class="flex justify-between p-6">
-            <.link href="/user/profile">
-              <.icon name="hero-user-circle" class="bg-blue-500 px-4 md:px-6 py-1 size-7" />
-            </.link>
+          <div class={"flex #{if @current_scope, do: "justify-between", else: "justify-end"} p-6"}>
+            <%= if @current_scope do %>
+              <.link href="/user/profile">
+                <.icon name="hero-user-circle" class="bg-blue-500 px-4 md:px-6 py-1 size-7" />
+              </.link>
+            <% end %>
             <button type="button" phx-click={hide_mobile_navbar()}>
               <.icon name="hero-x-mark" class="text-blue-500" />
             </button>
@@ -132,7 +134,7 @@ defmodule GalliumWeb.Components.Navbar do
 
             <div class="mt-4">
               <.primary_button
-                text="ComprarBbilhetes"
+                text="Comprar Bilhetes"
                 link="/bilhetes"
                 color={:blue}
                 text_color={:auto}

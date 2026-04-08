@@ -1,12 +1,13 @@
 defmodule GalliumWeb.UserLive.Confirmation do
   use GalliumWeb, :live_view
   import GalliumWeb.Components.Button
+  import GalliumWeb.Layouts
   alias Gallium.Accounts
 
   @impl true
   def render(assigns) do
     ~H"""
-    <Layouts.app flash={@flash} current_scope={@current_scope}>
+    <.app flash={@flash} current_scope={@current_scope}>
       <div class="mx-auto max-w-lg py-12 px-4 sm:px-6">
         <div class="text-7xl text-center mb-10 flex flex-col gap-2 text-olive font-cormorant">
           <h1>Bem Vindo</h1>
@@ -84,7 +85,7 @@ defmodule GalliumWeb.UserLive.Confirmation do
           </span>
         </div>
       </div>
-    </Layouts.app>
+    </.app>
     """
   end
 

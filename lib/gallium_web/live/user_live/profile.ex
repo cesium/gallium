@@ -102,13 +102,13 @@ defmodule GalliumWeb.UserLive.Profile do
               Junta-te a nós na Quinta da Aldeia no dia 30 de Maio para um evento inesquecível. Garante já o teu lugar!
             </p>
             <.primary_button
-              type="link"
               text="Comprar Bilhete Agora"
               icon="hero-arrow-right"
               iconpos={:right}
               class="font-cormorant text-lg px-8 py-3"
               color={:blue}
-            /> <%!-- link={~p"/bilhetes"} --%  -> to put when implemented --%>
+              link={~p"/bilhetes"}
+            />
           </div>
         <% end %>
       </div>

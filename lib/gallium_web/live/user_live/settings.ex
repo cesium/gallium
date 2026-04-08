@@ -1,6 +1,7 @@
 defmodule GalliumWeb.UserLive.Settings do
   use GalliumWeb, :live_view
   import GalliumWeb.Components.Button
+  import GalliumWeb.Layouts
   # Change this to :require_authenticated if you want to remove the Sudo Mode popup!
   on_mount {GalliumWeb.UserAuth, :require_authenticated}
 
@@ -9,7 +10,7 @@ defmodule GalliumWeb.UserLive.Settings do
   @impl true
   def render(assigns) do
     ~H"""
-    <Layouts.app flash={@flash} current_scope={@current_scope}>
+    <.app flash={@flash} current_scope={@current_scope}>
       <div class="max-w-2xl mx-auto py-8 px-4">
         <div class="text-center mb-8">
           <h1 class="text-4xl font-amarante text-olive uppercase mb-2">Definições da Conta</h1>
@@ -105,7 +106,7 @@ defmodule GalliumWeb.UserLive.Settings do
           </.form>
         </div>
       </div>
-    </Layouts.app>
+    </.app>
     """
   end
 

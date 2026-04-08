@@ -1,12 +1,13 @@
 defmodule GalliumWeb.UserLive.Login do
   use GalliumWeb, :live_view
   import GalliumWeb.Components.Button
+  import GalliumWeb.Layouts
   alias Gallium.Accounts
 
   @impl true
   def render(assigns) do
     ~H"""
-    <Layouts.app flash={@flash} current_scope={@current_scope}>
+    <.app flash={@flash} current_scope={@current_scope}>
       <div class="mx-auto max-w-sm space-y-4">
         <div class="text-center font-cormorant">
           <.header>
@@ -105,7 +106,7 @@ defmodule GalliumWeb.UserLive.Login do
           </div>
         </.form>
       </div>
-    </Layouts.app>
+    </.app>
     """
   end
 
