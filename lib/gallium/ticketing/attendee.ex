@@ -2,18 +2,18 @@ defmodule Gallium.Ticketing.Attendee do
   use Ecto.Schema
   import Ecto.Changeset
 
-  @required_fields ~w(full_name email phone_number is_cesium_member)a
+  @required_fields ~w(full_name phone_number is_cesium_member user_id)a
   @optional_fields ~w(student_number nif)a
 
   @primary_key {:id, :binary_id, autogenerate: true}
   @foreign_key_type :binary_id
   schema "attendees" do
     field :full_name, :string
-    field :email, :string
     field :phone_number, :string
     field :student_number, :string
     field :nif, :string
     field :is_cesium_member, :boolean, default: false
+    belongs_to :user, Gallium.Accounts.User, type: :binary_id
 
     has_one :accompany, Gallium.Ticketing.Accompany
     has_one :payment, Gallium.Ticketing.Payment

@@ -165,18 +165,19 @@ defmodule Gallium.TicketingTest do
     end
 
     test "create_attendee/1 with valid data creates a attendee" do
+      user = Gallium.AccountsFixtures.user_fixture()
+
       valid_attrs = %{
         full_name: "some full_name",
-        email: "some email",
         phone_number: "some phone_number",
         student_number: "some student_number",
         nif: "some nif"
       }
 
-      # Corrigido para %Attendee{} (maiúsculo)
-      assert {:ok, %Attendee{} = attendee} = Ticketing.create_attendee(valid_attrs)
+      attrs = Map.put(valid_attrs, :user_id, user.id)
+
+      assert {:ok, %Attendee{} = attendee} = Ticketing.create_attendee(attrs)
       assert attendee.full_name == "some full_name"
-      assert attendee.email == "some email"
       assert attendee.phone_number == "some phone_number"
       assert attendee.student_number == "some student_number"
       assert attendee.nif == "some nif"
@@ -191,7 +192,6 @@ defmodule Gallium.TicketingTest do
 
       update_attrs = %{
         full_name: "some updated full_name",
-        email: "some updated email",
         phone_number: "some updated phone_number",
         student_number: "some updated student_number",
         nif: "some updated nif"
@@ -199,7 +199,6 @@ defmodule Gallium.TicketingTest do
 
       assert {:ok, %Attendee{} = attendee} = Ticketing.update_attendee(attendee, update_attrs)
       assert attendee.full_name == "some updated full_name"
-      assert attendee.email == "some updated email"
       assert attendee.phone_number == "some updated phone_number"
       assert attendee.student_number == "some updated student_number"
       assert attendee.nif == "some updated nif"

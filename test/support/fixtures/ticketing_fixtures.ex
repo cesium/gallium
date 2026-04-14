@@ -4,15 +4,21 @@ defmodule Gallium.TicketingFixtures do
   entities via the `Gallium.Ticketing` context.
   """
 
+  # Import accounts fixtures to easily create a user
+  import Gallium.AccountsFixtures
+
   @doc """
   Generate a attendee.
   """
   def attendee_fixture(attrs \\ %{}) do
+    # 1. Create a fake user first so we have a valid user_id
+    user = user_fixture()
+
     {:ok, attendee} =
       attrs
       |> Enum.into(%{
-        # Email único para evitar erros de duplicado
-        email: "some email #{System.unique_integer()}",
+        # 2. Add the user_id (and remove the old email field)
+        user_id: user.id,
         full_name: "some full_name",
         nif: "some nif",
         phone_number: "some phone_number",

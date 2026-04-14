@@ -33,18 +33,20 @@ defmodule GalliumWeb.Layouts do
     default: nil,
     doc: "the current [scope](https://hexdocs.pm/phoenix/scopes.html)"
 
+  slot :inner_block
+
   def app(assigns) do
     ~H"""
-    <.navbar />
+    <div class="flex flex-col min-h-screen bg-beige">
+      <.navbar current_scope={assigns.current_scope} />
 
-    <main class="px-4 py-20 sm:px-6 lg:px-8">
-      <div class="mx-auto max-w-2xl space-y-4">
-        {@inner_content}
-      </div>
-    </main>
-
-    <.footer />
-
+      <main class="px-4 py-20 sm:px-6 lg:px-8">
+        <div class="mx-auto max-w-2xl space-y-4">
+          {assigns[:inner_content] || render_slot(@inner_block)}
+        </div>
+      </main>
+      <.footer />
+    </div>
     <.flash_group flash={@flash} />
     """
   end

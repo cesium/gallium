@@ -3,6 +3,7 @@ defmodule GalliumWeb.TicketingPurchaseLive.Index do
   use GalliumWeb, :app_view
   import GalliumWeb.Components.{Button, Stepper}
 
+  alias Gallium.Accounts
   alias Gallium.Ticketing
   alias Gallium.Ticketing.CheckoutForm
 
@@ -12,6 +13,12 @@ defmodule GalliumWeb.TicketingPurchaseLive.Index do
   def mount(params, _session, socket) do
     # takes the type of the ticket from the url
     is_cesium_member? = Map.get(params, "tipo", "nao_socio") == "socio"
+
+    user_info =
+      case Accounts.get_user_info_by_id(socket.assigns.current_scope.user.id) do
+        {:ok, attendee} -> attendee
+        {:error, nil} -> nil
+      end
 
     initial_changeset =
       CheckoutForm.changeset_personal_data(
@@ -27,7 +34,8 @@ defmodule GalliumWeb.TicketingPurchaseLive.Index do
      |> assign(:form_data, to_form(initial_changeset))
      |> assign(:has_accompany?, false)
      |> assign(:amount_to_pay, nil)
-     |> assign(:price_per_ticket, price_per_ticket)}
+     |> assign(:price_per_ticket, price_per_ticket)
+     |> assign(:user_info, user_info)}
   end
 
   @impl true
@@ -42,8 +50,7 @@ defmodule GalliumWeb.TicketingPurchaseLive.Index do
 
   @impl true
   def handle_event("to_tickets", _params, socket) do
-    # change to the page where the users selects the ticket when created
-    {:noreply, push_navigate(socket, to: ~p"/")}
+    {:noreply, push_navigate(socket, to: ~p"/bilhetes")}
   end
 
   @impl true
@@ -119,6 +126,7 @@ defmodule GalliumWeb.TicketingPurchaseLive.Index do
   end
 
   def handle_event("save_step3", %{"checkout_form" => form_data}, socket) do
+    user_id = socket.assigns.current_scope.user.id
     changeset = CheckoutForm.changeset_payment(socket.assigns.form_data.data, form_data)
 
     if changeset.valid? do
@@ -127,7 +135,8 @@ defmodule GalliumWeb.TicketingPurchaseLive.Index do
       case Ticketing.process_ticket_purchase(
              final_data,
              socket.assigns.amount_to_pay,
-             socket.assigns.has_accompany?
+             socket.assigns.has_accompany?,
+             user_id
            ) do
         {:ok, _bd_result} ->
           # Success
@@ -145,8 +154,8 @@ defmodule GalliumWeb.TicketingPurchaseLive.Index do
            put_flash(socket, :error, "Ocorreu um erro ao guardar o bilhete. Tenta novamente.")}
       end
     else
-      changeset_com_erros = Map.put(changeset, :action, :validate)
-      {:noreply, assign(socket, :form_data, to_form(changeset_com_erros))}
+      changeset_with_errors = Map.put(changeset, :action, :validate)
+      {:noreply, assign(socket, :form_data, to_form(changeset_with_errors))}
     end
   end
 end
