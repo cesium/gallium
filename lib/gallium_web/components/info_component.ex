@@ -20,26 +20,7 @@ defmodule GalliumWeb.Components.InfoSection do
 
         <div class="text-center mb-8 flex flex-col items-center">
           <div class="flex items-center space-x-2 font-glacial text-xs tracking-[0.3em] uppercase opacity-80">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke-width="1.5"
-              stroke="currentColor"
-              class="h-5 w-5"
-            >
-              <path
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                d="M15 10.5a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z"
-              />
-
-              <path
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1 1 15 0Z"
-              />
-            </svg>
+            <.icon name="hero-map-pin" class="h-5 w-5" />
 
             <p>Viagem de Ida</p>
           </div>
