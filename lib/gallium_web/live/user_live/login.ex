@@ -8,10 +8,10 @@ defmodule GalliumWeb.UserLive.Login do
   def render(assigns) do
     ~H"""
     <.app flash={@flash} current_scope={@current_scope}>
-      <div class="mx-auto max-w-sm space-y-4">
+      <div class="mx-auto w-full max-w-sm my-8 space-y-4 flex flex-1 flex-col justify-center">
         <div class="text-center font-cormorant">
           <.header>
-            <p class="text-3xl mt-4">Log in</p>
+            <p class="text-3xl">Log in</p>
             <:subtitle>
               <%= if @current_scope do %>
                 Precisas de te reautenticar para fazer ações sensíveis
@@ -35,7 +35,6 @@ defmodule GalliumWeb.UserLive.Login do
             </p>
           </div>
         </div>
-
         <.form
           :let={f}
           for={@form}
@@ -54,7 +53,7 @@ defmodule GalliumWeb.UserLive.Login do
             phx-mounted={JS.focus()}
           />
           <.primary_button
-            class="font-cormorant text-xl"
+            class="font-cormorant"
             color={:blue}
             text="Log in com email"
             icon="hero-arrow-right"
@@ -62,7 +61,7 @@ defmodule GalliumWeb.UserLive.Login do
           />
         </.form>
 
-        <div class="divider">or</div>
+        <div class="divider font-cormorant">or</div>
 
         <.form
           :let={f}
@@ -90,7 +89,7 @@ defmodule GalliumWeb.UserLive.Login do
           />
           <div class="flex flex-col gap-3">
             <.primary_button
-              class="font-cormorant text-xl"
+              class="font-cormorant"
               color={:blue}
               text="Mantém-me logado neste dispositivo"
               name={@form[:remember_me].name}
@@ -99,7 +98,7 @@ defmodule GalliumWeb.UserLive.Login do
               iconpos={:right}
             />
             <.primary_button
-              class="font-cormorant text-xl"
+              class="font-cormorant"
               color={:blue}
               text="Log in apenas desta vez"
             />

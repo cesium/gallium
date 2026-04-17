@@ -86,7 +86,7 @@ defmodule GalliumWeb.UserLive.LoginTest do
 
       {:ok, _login_live, login_html} =
         lv
-        |> element("main a", "Regista")
+        |> element("a[href='/users/register'][data-phx-link]", "Regista")
         |> render_click()
         |> follow_redirect(conn, ~p"/users/register")
 

@@ -33,7 +33,7 @@ defmodule GalliumWeb.CoreComponents do
   alias Phoenix.LiveView.JS
 
   @doc """
-  Renders flash notices.
+  Renders flash notices.Spacing
 
   ## Examples
 

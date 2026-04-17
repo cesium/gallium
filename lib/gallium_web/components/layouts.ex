@@ -39,12 +39,7 @@ defmodule GalliumWeb.Layouts do
     ~H"""
     <div class="flex flex-col min-h-screen bg-beige">
       <.navbar current_scope={assigns.current_scope} />
-
-      <main class="px-4 py-20 sm:px-6 lg:px-8">
-        <div class="mx-auto max-w-2xl space-y-4">
-          {assigns[:inner_content] || render_slot(@inner_block)}
-        </div>
-      </main>
+      {assigns[:inner_content] || render_slot(@inner_block)}
       <.footer />
     </div>
     <.flash_group flash={@flash} />
