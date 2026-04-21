@@ -1,0 +1,8 @@
+<div class="flex flex-col min-h-screen bg-beige">
+  <.navbar current_scope={@current_scope} />
+  <main>
+    <.flash_group flash={@flash} />
+    {@inner_content}
+  </main>
+  <.footer />
+</div>
