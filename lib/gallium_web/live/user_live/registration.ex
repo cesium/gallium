@@ -9,7 +9,7 @@ defmodule GalliumWeb.UserLive.Registration do
   def render(assigns) do
     ~H"""
     <.app flash={@flash} current_scope={@current_scope}>
-      <div class="mx-auto max-w-sm flex-1 items-center">
+      <div class="mx-auto w-full max-w-sm my-8 space-y-4 flex flex-1 flex-col justify-center">
         <div class="text-center font-cormorant">
           <.header>
             <div class="text-3xl">
@@ -24,26 +24,27 @@ defmodule GalliumWeb.UserLive.Registration do
             </:subtitle>
           </.header>
         </div>
+        <div class="w-full">
+          <.form for={@form} id="registration_form" phx-submit="save" phx-change="validate">
+            <.input
+              field={@form[:email]}
+              type="email"
+              label="Email"
+              autocomplete="username"
+              spellcheck="false"
+              required
+              placeholder="exemplo@gmail.com"
+              phx-mounted={JS.focus()}
+            />
 
-        <.form for={@form} id="registration_form" phx-submit="save" phx-change="validate">
-          <.input
-            field={@form[:email]}
-            type="email"
-            label="Email"
-            autocomplete="username"
-            spellcheck="false"
-            required
-            placeholder="exemplo@gmail.com"
-            phx-mounted={JS.focus()}
-          />
-
-          <.primary_button
-            phx-disable-with="Creating account..."
-            text="Criar conta"
-            color={:blue}
-            class="font-cormorant"
-          />
-        </.form>
+            <.primary_button
+              phx-disable-with="Creating account..."
+              text="Criar conta"
+              color={:blue}
+              class="font-cormorant"
+            />
+          </.form>
+        </div>
       </div>
     </.app>
     """
