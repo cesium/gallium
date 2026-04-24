@@ -6,6 +6,7 @@ defmodule Gallium.Accounts.User do
   @foreign_key_type :binary_id
   schema "users" do
     field :email, :string
+    field :type, :string
     field :password, :string, virtual: true, redact: true
     field :hashed_password, :string, redact: true
     field :confirmed_at, :utc_datetime
@@ -131,6 +132,14 @@ defmodule Gallium.Accounts.User do
 
   def valid_password?(_, _) do
     Bcrypt.no_user_verify()
+    false
+  end
+
+  def admin?(%__MODULE__{type: "admin"}) do
+    true
+  end
+
+  def admin?(_user) do
     false
   end
 end

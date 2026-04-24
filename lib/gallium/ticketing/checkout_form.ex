@@ -1,6 +1,8 @@
 defmodule Gallium.Ticketing.CheckoutForm do
   use Ecto.Schema
   import Ecto.Changeset
+  alias Gallium.Accounts
+  alias Gallium.Members
 
   @primary_key false
   embedded_schema do
@@ -29,6 +31,7 @@ defmodule Gallium.Ticketing.CheckoutForm do
     |> validate_format(:student_number, ~r/^(A|PG|a|pg)\d+$/,
       message: "Formato inválido (ex: A12345)"
     )
+    |> validate_cesium_member(:student_number, :is_cesium_member)
     |> validate_format(:nif, ~r/^\d{9}$/, message: "O NIF tem de ter exatamente 9 números")
     |> cast_embed(:accompany, with: &accompany_changeset/2)
   end
@@ -47,5 +50,82 @@ defmodule Gallium.Ticketing.CheckoutForm do
     |> cast(attrs, [:mbway_number])
     |> validate_required([:mbway_number], message: "Este campo é obrigatório")
     |> validate_format(:mbway_number, ~r/^\+?\d{9,15}$/, message: "Formato de número inválido")
+  end
+
+  def validate_cesium_member(changeset, student_number_field, is_cesium_member_field) do
+    student_number_value = get_field(changeset, student_number_field)
+
+    if is_binary(student_number_value) do
+      formatted_number = format_student_number(student_number_value)
+      is_member_claimed = get_field(changeset, is_cesium_member_field)
+
+      check_already_used(
+        changeset,
+        formatted_number,
+        is_member_claimed,
+        student_number_field,
+        is_cesium_member_field
+      )
+    else
+      changeset
+    end
+  end
+
+  defp format_student_number(number) do
+    number
+    |> String.trim()
+    |> String.downcase()
+  end
+
+  defp check_already_used(
+         changeset,
+         formatted_number,
+         is_member_claimed,
+         number_field,
+         member_field
+       ) do
+    if Accounts.student_number_already_used?(formatted_number) do
+      add_error(
+        changeset,
+        number_field,
+        "Este número de estudante já foi usado para comprar um bilhete."
+      )
+    else
+      apply_membership_rules(
+        changeset,
+        formatted_number,
+        is_member_claimed,
+        number_field,
+        member_field
+      )
+    end
+  end
+
+  defp apply_membership_rules(changeset, formatted_number, true, number_field, _member_field) do
+    if Members.cesium_member?(formatted_number) do
+      put_change(changeset, number_field, formatted_number)
+    else
+      add_error(
+        changeset,
+        number_field,
+        "O número de estudante não corresponde a um sócio válido do CeSIUM."
+      )
+    end
+  end
+
+  defp apply_membership_rules(
+         changeset,
+         formatted_number,
+         _claimed_false,
+         number_field,
+         member_field
+       ) do
+    if Members.cesium_member?(formatted_number) do
+      changeset
+      |> put_change(member_field, true)
+      |> put_change(number_field, formatted_number)
+    else
+      changeset
+    end
   end
 end

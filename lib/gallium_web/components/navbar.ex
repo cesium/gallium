@@ -4,6 +4,7 @@ defmodule GalliumWeb.Components.Navbar do
   """
   use Phoenix.Component
   use GalliumWeb, :verified_routes
+  alias Gallium.Accounts.User
   alias Phoenix.LiveView.JS
 
   import GalliumWeb.Components.Button
@@ -69,6 +70,13 @@ defmodule GalliumWeb.Components.Navbar do
                 <.icon name="hero-user-circle" class="bg-blue-500 px-4 md:px-6 py-1 size-7" />
               </.link>
             <% end %>
+            <%= if @current_scope && User.admin?(@current_scope.user) do %>
+              <.link href="/backoffice">
+                <span class="text-xs font-amarante uppercase text-blue hover:text-blue-500 transition-colors">
+                  Backoffice
+                </span>
+              </.link>
+            <% end %>
           </div>
 
           <button type="button" class="lg:hidden p-2" phx-click={show_mobile_navbar()}>
@@ -87,6 +95,13 @@ defmodule GalliumWeb.Components.Navbar do
               <.link href="/user/profile">
                 <.icon name="hero-user-circle" class="bg-blue-500 px-4 md:px-6 py-1 size-7" />
               </.link>
+              <%= if User.admin?(@current_scope.user) do %>
+                <.link href="/backoffice">
+                  <span class="text-xs font-amarante uppercase text-blue hover:text-blue-500 transition-colors">
+                    Backoffice
+                  </span>
+                </.link>
+              <% end %>
             <% end %>
             <button type="button" phx-click={hide_mobile_navbar()}>
               <.icon name="hero-x-mark" class="text-blue-500" />

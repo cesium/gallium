@@ -1,0 +1,74 @@
+<div class="flex flex-col h-screen">
+  <header class="md:hidden border-b border-base-200 px-4 py-3 flex items-center justify-between">
+    <h1 class="text-xl font-bold font-amarante text-base-content">Backoffice</h1>
+    <button
+      phx-click="toggle_sidebar"
+      class="btn btn-ghost btn-sm"
+      aria-label="Toggle sidebar"
+    >
+      <.icon name="hero-bars-3" class="h-6 w-6" />
+    </button>
+  </header>
+
+  <div class="flex flex-1 overflow-hidden">
+    <!-- Overlay (mobile only) -->
+    <%= if @sidebar_open do %>
+      <div
+        class="fixed inset-0 bg-black/50 z-40 md:hidden"
+        phx-click="toggle_sidebar"
+      />
+    <% end %>
+    
+<!-- Sidebar -->
+    <nav class={[
+      "fixed left-0 top-0 h-screen min-w-52 md:relative md:h-auto  md:border-r-2 md:border-base-300 z-50 transition-transform duration-300 overflow-y-auto bg-white md:bg-transparent",
+      if(@sidebar_open, do: "translate-x-0", else: "-translate-x-full md:translate-x-0")
+    ]}>
+      <!-- Sidebar Header (mobile only) -->
+      <div class="md:hidden px-4 py-3 border-b border-base-200 flex items-center justify-between">
+        <h2 class="font-bold font-amarante text-base-content">Menu</h2>
+        <button
+          phx-click="toggle_sidebar"
+          class="btn btn-ghost btn-sm"
+        >
+          <.icon name="hero-x-mark" class="h-5 w-5" />
+        </button>
+      </div>
+
+      <ul class="w-full flex flex-col">
+        <li class="w-full menu-title mt-3 mb-1 md:flex md:justify-center md:mb-4">
+          <span class="text-left text-base-content/50 uppercase tracking-wider text-xs font-bold font-amarante md:text-xl">
+            Backoffice
+          </span>
+        </li>
+        <%= for item <- @menu_items do %>
+          <li>
+            <a
+              class={[
+                if(@current_page == item.page,
+                  do: "bg-olive text-white font-bold hover:brightness-95",
+                  else: "hover:bg-base-300"
+                ),
+                "font-cormorant w-full flex py-2 justify-center px-4 transition-all "
+              ]}
+              phx-click="change_page"
+              phx-value-page={item.page}
+            >
+              <.icon name={item.icon} class="h-5 w-5" />
+              <span class="ml-2">{item.label}</span>
+            </a>
+          </li>
+        <% end %>
+      </ul>
+    </nav>
+    
+<!-- Main Content -->
+    <main class="flex-1 px-4 py-10 md:px-8 overflow-y-auto">
+      <div class="w-full">
+        <%= if @current_page == "add_cesium_members" do %>
+          <.add_cesium_members uploads={@uploads} flash={@flash} />
+        <% end %>
+      </div>
+    </main>
+  </div>
+</div>

@@ -37,6 +37,8 @@ defmodule GalliumWeb.Components.Button do
     include: ~w(name value type form),
     doc: "Additional attributes for the button"
 
+  attr :disabled, :boolean, default: false
+
   def primary_button(%{link: nil} = assigns) do
     ~H"""
     {button_content(assigns)}
@@ -54,10 +56,15 @@ defmodule GalliumWeb.Components.Button do
   defp button_content(assigns) do
     ~H"""
     <button
+      disabled={@disabled}
       class={[
         "flex w-full h-full items-center justify-center gap-2 px-4 py-2 rounded-md
          cursor-pointer hover:scale-95 transition-all duration-300",
         color_classes(@color, @text_color),
+        if(@disabled,
+          do: "opacity-50 cursor-not-allowed pointer-events-none",
+          else: "cursor-pointer hover:scale-95"
+        ),
         @rest[:class]
       ]}
       {@rest}

@@ -238,6 +238,22 @@ defmodule GalliumWeb.UserAuth do
     end
   end
 
+  def on_mount(:require_admin, _params, session, socket) do
+    socket = mount_current_scope(socket, session)
+
+    if socket.assigns.current_scope && socket.assigns.current_scope.user &&
+         socket.assigns.current_scope.user.type == "admin" do
+      {:cont, socket}
+    else
+      socket =
+        socket
+        |> Phoenix.LiveView.put_flash(:error, "You must be an admin to access this page.")
+        |> Phoenix.LiveView.redirect(to: ~p"/")
+
+      {:halt, socket}
+    end
+  end
+
   defp mount_current_scope(socket, session) do
     Phoenix.Component.assign_new(socket, :current_scope, fn ->
       {user, _} =
@@ -249,6 +265,7 @@ defmodule GalliumWeb.UserAuth do
     end)
   end
 
+  @spec signed_in_path(any()) :: any()
   @doc "Returns the path to redirect to after log in."
   # the user was already logged in, redirect to settings
   def signed_in_path(%Plug.Conn{assigns: %{current_scope: %Scope{user: %Accounts.User{}}}}) do
@@ -288,6 +305,18 @@ defmodule GalliumWeb.UserAuth do
       |> halt()
     else
       conn
+    end
+  end
+
+  def require_admin(conn, _opts) do
+    if conn.assigns.current_scope && conn.assigns.current_scope.user &&
+         conn.assigns.current_scope.user.type == "admin" do
+      conn
+    else
+      conn
+      |> put_flash(:error, "You must be an admin to access this page.")
+      |> redirect(to: ~p"/")
+      |> halt()
     end
   end
 end

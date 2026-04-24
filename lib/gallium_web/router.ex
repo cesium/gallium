@@ -50,6 +50,18 @@ defmodule GalliumWeb.Router do
     end
   end
 
+  scope "/", GalliumWeb do
+    pipe_through [:browser, :require_authenticated_user, :require_admin]
+
+    live_session :require_admin,
+      on_mount: [
+        {GalliumWeb.UserAuth, :require_authenticated},
+        {GalliumWeb.UserAuth, :require_admin}
+      ] do
+      live "/backoffice", BackOfficeIndex.Index, :index
+    end
+  end
+
   ## Authentication routes
 
   scope "/", GalliumWeb do

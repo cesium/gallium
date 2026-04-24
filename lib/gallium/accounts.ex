@@ -76,7 +76,7 @@ defmodule Gallium.Accounts do
 
   """
   def register_user(attrs) do
-    %User{}
+    %User{type: "attendee"}
     |> User.email_changeset(attrs)
     |> Repo.insert()
   end
@@ -293,5 +293,13 @@ defmodule Gallium.Accounts do
     else
       {:ok, attendee}
     end
+  end
+
+  def student_number_already_used?(student_number) do
+    query =
+      from a in Attendee,
+        where: fragment("LOWER(TRIM(?))", a.student_number) == ^student_number
+
+    Repo.exists?(query)
   end
 end
