@@ -134,12 +134,4 @@ defmodule Gallium.Accounts.User do
     Bcrypt.no_user_verify()
     false
   end
-
-  def admin?(%__MODULE__{type: "admin"}) do
-    true
-  end
-
-  def admin?(_user) do
-    false
-  end
 end

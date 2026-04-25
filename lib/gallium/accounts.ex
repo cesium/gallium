@@ -302,4 +302,12 @@ defmodule Gallium.Accounts do
 
     Repo.exists?(query)
   end
+
+  def admin?(%User{type: "admin"}) do
+    true
+  end
+
+  def admin?(_user) do
+    false
+  end
 end
