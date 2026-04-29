@@ -77,7 +77,16 @@ defmodule Gallium.Accounts do
   """
   def register_user(attrs) do
     %User{}
+    |> User.type_changeset(%{type: "attendee"})
     |> User.email_changeset(attrs)
+    |> Repo.insert()
+  end
+
+  def register_user(attrs, type) do
+    %User{}
+    |> User.type_changeset(%{type: type})
+    |> User.email_changeset(attrs)
+    |> User.password_changeset(attrs)
     |> Repo.insert()
   end
 
@@ -293,5 +302,21 @@ defmodule Gallium.Accounts do
     else
       {:ok, attendee}
     end
+  end
+
+  def student_number_already_used?(student_number) do
+    query =
+      from a in Attendee,
+        where: a.student_number == ^student_number
+
+    Repo.exists?(query)
+  end
+
+  def admin?(%User{type: "admin"}) do
+    true
+  end
+
+  def admin?(_user) do
+    false
   end
 end

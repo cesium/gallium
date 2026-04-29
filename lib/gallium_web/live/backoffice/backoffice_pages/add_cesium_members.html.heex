@@ -1,0 +1,132 @@
+<div class="flex flex-col gap-6 animate-in fade-in duration-300">
+  <div class="mb-2">
+    <h1 class="text-4xl font-bold text-gray-content font-amarante">Adicionar Sócios</h1>
+    <p class="text-gray  mt-2 font-cormorant">
+      Atualização da base de dados de sócios do CeSIUM. Ao adicionar um novo ficheiro os dados que se encontravam anteriormente são apagados
+    </p>
+  </div>
+
+  <div class="bg-white shadow-sm p-6 rounded-lg">
+    <h2 class="card-title text-2xl mb-2 font-amarante flex items-center gap-2">
+      <.icon name="hero-document-arrow-up" class="h-6 w-6 text-olive" /> Importar Ficheiro CSV
+    </h2>
+
+    <p class="text-sm text-gray-content/80 mb-6 font-cormorant">
+      Certifica-te de que o ficheiro tem a formatação correta antes de avançar (id_socio, numero_aluno, nome).
+    </p>
+
+    <.form id="upload-form" for={nil} phx-submit="save" phx-change="validate" class="space-y-6">
+      <.live_file_input upload={@uploads.csv} class="hidden" />
+
+      <div class="my-3">
+        <%= if msg = @flash["info"] do %>
+          <div
+            class="bg-success p-2 shadow-sm rounded-xl font-cormorant flex justify-between"
+            role="alert"
+            phx-click="lv:clear-flash"
+            phx-value-key="info"
+          >
+            <div class="flex items-center gap-2">
+              <.icon name="hero-check-circle" class="h-6 w-6" />
+              <span class="text-lg font-bold">{msg}</span>
+            </div>
+            <div>
+              <button class="p-1 rounded-full mr-1 transition-transform hover:scale-125">
+                ✕
+              </button>
+            </div>
+          </div>
+        <% end %>
+
+        <%= if msg = @flash["error"] do %>
+          <div
+            class="bg-error p-2 shadow-sm rounded-xl font-cormorant flex justify-between"
+            role="alert"
+            phx-click="lv:clear-flash"
+            phx-value-key="error"
+          >
+            <div class="flex items-center gap-2">
+              <.icon name="hero-exclamation-triangle" class="h-6 w-6" />
+              <span class="text-lg font-bold">{msg}</span>
+            </div>
+            <button class="p-1 rounded-full mr-1 transition-transform hover:scale-125">✕</button>
+          </div>
+        <% end %>
+      </div>
+      <div class={["form-control w-full", not Enum.empty?(@uploads.csv.entries) && "hidden"]}>
+        <label
+          class="label relative flex-col items-center justify-center w-full h-64 border-2 border-dashed rounded-xl border-gray-300 bg-gray-200/30 hover:bg-gray-200 hover:border-olive transition-all cursor-pointer group"
+          phx-drop-target={@uploads.csv.ref}
+        >
+          <div class="flex flex-col items-center justify-center pt-5 pb-6">
+            <.icon
+              name="hero-cloud-arrow-up"
+              class="w-12 h-12 text-gray group-hover:text-olive mb-4 transition-colors"
+            />
+            <p class="mb-2 text-xl text-gray font-medium font-cormorant flex flex-wrap justify-center gap-1">
+              <span class="font-bold text-olive">Clique para enviar</span>
+              <span>ou arraste o ficheiro</span>
+            </p>
+            <p class="text-xs text-gray uppercase tracking-widest font-bold">
+              Apenas CSV Suportado
+            </p>
+          </div>
+
+          <.live_file_input upload={@uploads.csv} class="hidden" />
+        </label>
+      </div>
+
+      <section class="space-y-3">
+        <%= for entry <- @uploads.csv.entries do %>
+          <div class="flex items-center justify-between bg-gray-100 p-4 rounded-xl border border-gray-200">
+            <div class="flex items-center space-x-4">
+              <div class="p-3 bg-olive/10 rounded-lg text-olive">
+                <.icon name="hero-document-text" class="h-6 w-6" />
+              </div>
+              <div>
+                <p class="text-lg font-bold text-gray font-cormorant">
+                  {entry.client_name}
+                </p>
+                <p class="text-xs text-gray">{trunc(entry.client_size / 1024)} KB</p>
+              </div>
+            </div>
+
+            <div class="flex items-center space-x-4">
+              <.primary_button
+                type="button"
+                text="Remover"
+                color={:bronze}
+                iconpos={:left}
+                phx-click="cancel-upload"
+                phx-value-ref={entry.ref}
+                class="font-cormorant font-bold text-lg"
+                icon="hero-trash"
+              />
+            </div>
+          </div>
+
+          <%= for err <- upload_errors(@uploads.csv, entry) do %>
+            <div class="alert alert-error mt-2 py-2 text-sm shadow-sm rounded-xl font-cormorant">
+              <.icon name="hero-exclamation-circle" class="h-5 w-5" />
+              <span>Ocorreu um erro no ficheiro selecionado. Confirme se é um CSV válido.</span>
+            </div>
+          <% end %>
+        <% end %>
+      </section>
+
+      <div class="mt-6 pt-6 flex justify-end w-full">
+        <div class="flex w-fit">
+          <.primary_button
+            type="submit"
+            text="Processar Ficheiro"
+            color={:blue}
+            iconpos={:left}
+            class="font-cormorant font-bold text-lg"
+            phx-disable-with="A processar..."
+            disabled={Enum.empty?(@uploads.csv.entries)}
+          />
+        </div>
+      </div>
+    </.form>
+  </div>
+</div>
