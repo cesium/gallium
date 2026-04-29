@@ -9,23 +9,6 @@ defmodule Gallium.Members do
   alias Gallium.Repo
   alias NimbleCSV.RFC4180, as: CSV
 
-  @doc """
-  Subscribes to notifications about any cesium_member changes.
-
-  The broadcasted messages match the pattern:
-
-    * {:created, %CesiumMember{}}
-    * {:updated, %CesiumMember{}}
-    * {:deleted, %CesiumMember{}}
-
-  """
-  def subscribe_cesium_members do
-    Phoenix.PubSub.subscribe(Gallium.PubSub, "cesium_members")
-  end
-
-  defp broadcast_cesium_member(message) do
-    Phoenix.PubSub.broadcast(Gallium.PubSub, "cesium_members", message)
-  end
 
   @doc """
   Returns the list of cesium_members.
@@ -75,7 +58,6 @@ defmodule Gallium.Members do
            %CesiumMember{}
            |> CesiumMember.changeset(attrs)
            |> Repo.insert() do
-      broadcast_cesium_member({:created, cesium_member})
       {:ok, cesium_member}
     end
   end
@@ -97,7 +79,6 @@ defmodule Gallium.Members do
            cesium_member
            |> CesiumMember.changeset(attrs)
            |> Repo.update() do
-      broadcast_cesium_member({:updated, cesium_member})
       {:ok, cesium_member}
     end
   end
@@ -117,7 +98,6 @@ defmodule Gallium.Members do
   def delete_cesium_member(%CesiumMember{} = cesium_member) do
     with {:ok, cesium_member = %CesiumMember{}} <-
            Repo.delete(cesium_member) do
-      broadcast_cesium_member({:deleted, cesium_member})
       {:ok, cesium_member}
     end
   end
@@ -143,10 +123,7 @@ defmodule Gallium.Members do
   The headers of the CSV file must be exactly: id_socio, numero_aluno, nome. The function will return an error if the structure is not correct or if the file is not found.
   """
   def import_cesium_members(file_path) do
-    unless File.exists?(file_path) do
-      {:error, "Ficheiro CSV não encontrado."}
-    end
-
+  if File.exists?(file_path) do
     try do
       stream =
         file_path
@@ -158,9 +135,12 @@ defmodule Gallium.Members do
     rescue
       NimbleCSV.ParseError ->
         {:error,
-         "Formato CSV inválido. Certifique-se de que o separador é um um ponto e vírgula (;) e não uma (,)."}
+         "Formato CSV inválido. Certifique-se de que o separador é um ponto e vírgula (;) e não uma (,)."}
     end
+  else
+    {:error, "Ficheiro CSV não encontrado."}
   end
+end
 
   defp validate_csv_headers(stream) do
     case Enum.take(stream, 1) do
@@ -201,7 +181,6 @@ defmodule Gallium.Members do
   defp format_row_attrs([id_socio, numero_aluno, nome]) do
     %{member_id: id_socio, student_number: String.downcase(String.trim(numero_aluno)), name: nome}
   end
-
   defp format_row_attrs(_), do: nil
 
   def cesium_member?(student_number) do

@@ -16,7 +16,7 @@ defmodule GalliumWeb.BackOfficeIndex.Index do
 
     socket =
       socket
-      |> allow_upload(:csv, accept: ~w(.csv), max_entries: 1)
+      |> allow_upload(:csv, accept: ~w(.csv), max_entries: 1, max_file_size: 500_000)
       |> assign(:current_page, "add_cesium_members")
       |> assign(:sidebar_open, false)
       |> assign(:menu_items, menu_items)

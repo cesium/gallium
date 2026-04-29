@@ -4,6 +4,7 @@ defmodule Gallium.Accounts.User do
 
   @primary_key {:id, :binary_id, autogenerate: true}
   @foreign_key_type :binary_id
+  @valid_types ~w(admin attendee)
   schema "users" do
     field :email, :string
     field :type, :string
@@ -134,4 +135,13 @@ defmodule Gallium.Accounts.User do
     Bcrypt.no_user_verify()
     false
   end
+
+  def type_changeset(user, attrs) do
+  user
+  |> cast(attrs, [:type])
+  |> validate_required([:type])
+  |> validate_inclusion(:type, @valid_types,
+      message: "tem de ser 'admin' ou 'user'"
+    )
+end
 end

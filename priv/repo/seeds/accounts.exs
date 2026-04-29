@@ -5,6 +5,7 @@ defmodule Gallium.Repo.Seeds.Accounts do
   Admin credentials  → admin@gallium.pt / password1234
   Attendee pattern   → attendeeN@gallium.pt / password1234
   """
+  alias Gallium.Accounts
   alias Gallium.Accounts.User
   alias Gallium.Repo
 
@@ -26,7 +27,7 @@ defmodule Gallium.Repo.Seeds.Accounts do
   # ── Admin ──────────────────────────────────────────────────────────────────
 
   defp seed_admin do
-    case insert_user(@admin_email, "admin") do
+    case Accounts.register_user(%{email: @admin_email, password: @password }, "admin") do
       {:ok, user} ->
         confirm_user(user)
         Mix.shell().info("Admin created: #{@admin_email}")
@@ -42,7 +43,7 @@ defmodule Gallium.Repo.Seeds.Accounts do
     for i <- 1..@attendee_count do
       email = "attendee#{i}@gallium.pt"
 
-      case insert_user(email, "attendee") do
+      case Accounts.register_user( %{email: email, password: @password}, "attendee") do
         {:ok, user} ->
           confirm_user(user)
 
@@ -55,14 +56,6 @@ defmodule Gallium.Repo.Seeds.Accounts do
   end
 
   # ── Helpers ────────────────────────────────────────────────────────────────
-
-  defp insert_user(email, type) do
-    %User{type: type}
-    |> User.email_changeset(%{email: email})
-    |> User.password_changeset(%{password: @password})
-    |> Repo.insert()
-  end
-
   defp confirm_user(user) do
     user
     |> User.confirm_changeset()
