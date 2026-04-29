@@ -140,6 +140,6 @@ defmodule Gallium.Accounts.User do
     user
     |> cast(attrs, [:type])
     |> validate_required([:type])
-    |> validate_inclusion(:type, @valid_types, message: "tem de ser 'admin' ou 'user'")
+    |> validate_inclusion(:type, @valid_types, message: "tem de ser 'admin' ou 'attendee'")
   end
 end
