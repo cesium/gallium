@@ -5,12 +5,11 @@ defmodule GalliumWeb.BackOfficeIndex.Index do
   use GalliumWeb, :live_view
   import GalliumWeb.Components.Button
 
-  alias Gallium.Accounts
   alias Gallium.Members
 
   embed_templates "backoffice_pages/*"
 
-  def mount(_params, session, socket) do
+  def mount(_params, _session, socket) do
     menu_items = [
       %{page: "add_cesium_members", icon: "hero-arrow-up-tray", label: "Adicionar Membros"}
     ]
@@ -20,7 +19,6 @@ defmodule GalliumWeb.BackOfficeIndex.Index do
       |> allow_upload(:csv, accept: ~w(.csv), max_entries: 1)
       |> assign(:current_page, "add_cesium_members")
       |> assign(:sidebar_open, false)
-      |> assign(:current_user_id, session["user_id"])
       |> assign(:menu_items, menu_items)
 
     {:ok, socket}
@@ -50,11 +48,7 @@ defmodule GalliumWeb.BackOfficeIndex.Index do
       # Consume the uploaded file (only 1 due to max_entries: 1)
       results =
         consume_uploaded_entries(socket, :csv, fn %{path: path}, _entry ->
-          # Get the current user's scope
-          user = socket.assigns.current_scope.user
-          scope = %Accounts.Scope{user: user}
-
-          import_result = Members.import_cesium_members(scope, path)
+          import_result = Members.import_cesium_members(path)
 
           # Wrap it in :ok to tell LiveView the file was safely consumed
           {:ok, import_result}

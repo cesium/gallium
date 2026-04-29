@@ -7,7 +7,7 @@ defmodule Gallium.MembersFixtures do
   @doc """
   Generate a cesium_member.
   """
-  def cesium_member_fixture(scope, attrs \\ %{}) do
+  def cesium_member_fixture(attrs \\ %{}) do
     attrs =
       Enum.into(attrs, %{
         member_id: "some member_id",
@@ -15,7 +15,7 @@ defmodule Gallium.MembersFixtures do
         student_number: "some student_number"
       })
 
-    {:ok, cesium_member} = Gallium.Members.create_cesium_member(scope, attrs)
+    {:ok, cesium_member} = Gallium.Members.create_cesium_member(attrs)
     cesium_member
   end
 end

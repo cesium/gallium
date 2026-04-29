@@ -5,13 +5,12 @@ defmodule Gallium.Members do
 
   import Ecto.Query, warn: false
 
-  alias Gallium.Accounts.Scope
   alias Gallium.Members.CesiumMember
   alias Gallium.Repo
   alias NimbleCSV.RFC4180, as: CSV
 
   @doc """
-  Subscribes to scoped notifications about any cesium_member changes.
+  Subscribes to notifications about any cesium_member changes.
 
   The broadcasted messages match the pattern:
 
@@ -20,16 +19,12 @@ defmodule Gallium.Members do
     * {:deleted, %CesiumMember{}}
 
   """
-  def subscribe_cesium_members(%Scope{} = scope) do
-    key = scope.user.id
-
-    Phoenix.PubSub.subscribe(Gallium.PubSub, "user:#{key}:cesium_members")
+  def subscribe_cesium_members do
+    Phoenix.PubSub.subscribe(Gallium.PubSub, "cesium_members")
   end
 
-  defp broadcast_cesium_member(%Scope{} = scope, message) do
-    key = scope.user.id
-
-    Phoenix.PubSub.broadcast(Gallium.PubSub, "user:#{key}:cesium_members", message)
+  defp broadcast_cesium_member(message) do
+    Phoenix.PubSub.broadcast(Gallium.PubSub, "cesium_members", message)
   end
 
   @doc """
@@ -37,12 +32,12 @@ defmodule Gallium.Members do
 
   ## Examples
 
-      iex> list_cesium_members(scope)
+      iex> list_cesium_members()
       [%CesiumMember{}, ...]
 
   """
-  def list_cesium_members(%Scope{} = scope) do
-    Repo.all_by(CesiumMember, user_id: scope.user.id)
+  def list_cesium_members do
+    Repo.all(CesiumMember)
   end
 
   @doc """
@@ -52,15 +47,15 @@ defmodule Gallium.Members do
 
   ## Examples
 
-      iex> get_cesium_member!(scope, 123)
+      iex> get_cesium_member!(123)
       %CesiumMember{}
 
-      iex> get_cesium_member!(scope, 456)
+      iex> get_cesium_member!(456)
       ** (Ecto.NoResultsError)
 
   """
-  def get_cesium_member!(%Scope{} = scope, id) do
-    Repo.get_by!(CesiumMember, id: id, user_id: scope.user.id)
+  def get_cesium_member!(id) do
+    Repo.get_by!(CesiumMember, id: id)
   end
 
   @doc """
@@ -68,19 +63,19 @@ defmodule Gallium.Members do
 
   ## Examples
 
-      iex> create_cesium_member(scope, %{field: value})
+      iex> create_cesium_member(%{field: value})
       {:ok, %CesiumMember{}}
 
-      iex> create_cesium_member(scope, %{field: bad_value})
+      iex> create_cesium_member(%{field: bad_value})
       {:error, %Ecto.Changeset{}}
 
   """
-  def create_cesium_member(%Scope{} = scope, attrs) do
+  def create_cesium_member(attrs) do
     with {:ok, cesium_member = %CesiumMember{}} <-
            %CesiumMember{}
-           |> CesiumMember.changeset(attrs, scope)
+           |> CesiumMember.changeset(attrs)
            |> Repo.insert() do
-      broadcast_cesium_member(scope, {:created, cesium_member})
+      broadcast_cesium_member({:created, cesium_member})
       {:ok, cesium_member}
     end
   end
@@ -90,21 +85,19 @@ defmodule Gallium.Members do
 
   ## Examples
 
-      iex> update_cesium_member(scope, cesium_member, %{field: new_value})
+      iex> update_cesium_member(cesium_member, %{field: new_value})
       {:ok, %CesiumMember{}}
 
-      iex> update_cesium_member(scope, cesium_member, %{field: bad_value})
+      iex> update_cesium_member(cesium_member, %{field: bad_value})
       {:error, %Ecto.Changeset{}}
 
   """
-  def update_cesium_member(%Scope{} = scope, %CesiumMember{} = cesium_member, attrs) do
-    true = cesium_member.user_id == scope.user.id
-
+  def update_cesium_member(%CesiumMember{} = cesium_member, attrs) do
     with {:ok, cesium_member = %CesiumMember{}} <-
            cesium_member
-           |> CesiumMember.changeset(attrs, scope)
+           |> CesiumMember.changeset(attrs)
            |> Repo.update() do
-      broadcast_cesium_member(scope, {:updated, cesium_member})
+      broadcast_cesium_member({:updated, cesium_member})
       {:ok, cesium_member}
     end
   end
@@ -114,19 +107,17 @@ defmodule Gallium.Members do
 
   ## Examples
 
-      iex> delete_cesium_member(scope, cesium_member)
+      iex> delete_cesium_member(cesium_member)
       {:ok, %CesiumMember{}}
 
-      iex> delete_cesium_member(scope, cesium_member)
+      iex> delete_cesium_member(cesium_member)
       {:error, %Ecto.Changeset{}}
 
   """
-  def delete_cesium_member(%Scope{} = scope, %CesiumMember{} = cesium_member) do
-    true = cesium_member.user_id == scope.user.id
-
+  def delete_cesium_member(%CesiumMember{} = cesium_member) do
     with {:ok, cesium_member = %CesiumMember{}} <-
            Repo.delete(cesium_member) do
-      broadcast_cesium_member(scope, {:deleted, cesium_member})
+      broadcast_cesium_member({:deleted, cesium_member})
       {:ok, cesium_member}
     end
   end
@@ -136,22 +127,22 @@ defmodule Gallium.Members do
 
   ## Examples
 
-      iex> change_cesium_member(scope, cesium_member)
+      iex> change_cesium_member(cesium_member)
       %Ecto.Changeset{data: %CesiumMember{}}
 
   """
-  def change_cesium_member(%Scope{} = scope, %CesiumMember{} = cesium_member, attrs \\ %{}) do
-    true = cesium_member.user_id == scope.user.id
-
-    CesiumMember.changeset(cesium_member, attrs, scope)
+  def change_cesium_member(%CesiumMember{} = cesium_member, attrs \\ %{}) do
+    CesiumMember.changeset(cesium_member, attrs)
   end
 
   @doc """
   Imports a list of cesium_members from a CSV file.
   The CSV must have the headers: id_socio, numero_aluno, nome
   Since the file serves as a sync, existing members for this scope are deleted.
+
+  The headers of the CSV file must be exactly: id_socio, numero_aluno, nome. The function will return an error if the structure is not correct or if the file is not found.
   """
-  def import_cesium_members(%Scope{} = scope, file_path) do
+  def import_cesium_members(file_path) do
     unless File.exists?(file_path) do
       {:error, "Ficheiro CSV não encontrado."}
     end
@@ -160,11 +151,10 @@ defmodule Gallium.Members do
       stream =
         file_path
         |> File.stream!()
-        |> Stream.map(&String.replace(&1, "\uFEFF", ""))
         |> CSV.parse_stream(skip_headers: false)
 
-      format = detect_csv_format(stream)
-      import_from_stream(scope, stream, format)
+      status = validate_csv_headers(stream)
+      import_from_stream(stream, status)
     rescue
       NimbleCSV.ParseError ->
         {:error,
@@ -172,32 +162,28 @@ defmodule Gallium.Members do
     end
   end
 
-  defp detect_csv_format(stream) do
+  defp validate_csv_headers(stream) do
     case Enum.take(stream, 1) do
-      [[col1, col2, col3]]
-      when col1 == "id_socio" and col2 == "numero_aluno" and col3 == "nome" ->
-        :id_socio_first
-
-      [[col1, col2, col3]]
-      when col1 == "nome" and col2 == "id_socio" and col3 == "numero_aluno" ->
-        :nome_first
+      [["id_socio", "numero_aluno", "nome"]] ->
+        :ok
 
       _ ->
         {:error, "O CSV não tem a estrutura requerida (id_socio, numero_aluno, nome)."}
     end
   end
 
-  defp import_from_stream(%Scope{} = _scope, _stream, {:error, _} = error), do: error
+  defp import_from_stream(_stream, {:error, _} = error), do: error
 
-  defp import_from_stream(%Scope{} = scope, stream, format) do
+  defp import_from_stream(stream, :ok) do
     # Entire operation is atomic - all or nothing
     Repo.transaction(fn ->
-      # Remove existing members for this scope completely inserting the new ones
-      Repo.delete_all(from(c in CesiumMember))
+      # Remove existing members completely inserting the new ones
+      CesiumMember
+      |> Repo.delete_all()
 
       stream
       |> Stream.drop(1)
-      |> Enum.each(&process_row(scope, format, &1))
+      |> Enum.each(&process_row/1)
 
       "Sócios importados com sucesso!"
     end)
@@ -207,25 +193,19 @@ defmodule Gallium.Members do
     end
   end
 
-  defp process_row(scope, format, row) do
-    attrs = format_row_attrs(format, row)
-    if attrs, do: create_cesium_member(scope, attrs)
+  defp process_row(row) do
+    attrs = format_row_attrs(row)
+    if attrs, do: create_cesium_member(attrs)
   end
 
-  defp format_row_attrs(:id_socio_first, [id_socio, numero_aluno, nome]) do
-    %{member_id: id_socio, student_number: numero_aluno, name: nome}
+  defp format_row_attrs([id_socio, numero_aluno, nome]) do
+    %{member_id: id_socio, student_number: String.downcase(String.trim(numero_aluno)), name: nome}
   end
 
-  defp format_row_attrs(:nome_first, [nome, id_socio, numero_aluno]) do
-    %{name: nome, member_id: id_socio, student_number: numero_aluno}
-  end
-
-  defp format_row_attrs(_, _), do: nil
+  defp format_row_attrs(_), do: nil
 
   def cesium_member?(student_number) do
-    Repo.exists?(
-      from m in CesiumMember,
-        where: fragment("LOWER(TRIM(?))", m.student_number) == ^student_number
-    )
+    query = from m in CesiumMember, where: m.student_number == ^student_number
+    Repo.exists?(query)
   end
 end

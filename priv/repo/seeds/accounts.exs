@@ -5,8 +5,6 @@ defmodule Gallium.Repo.Seeds.Accounts do
   Admin credentials  → admin@gallium.pt / password1234
   Attendee pattern   → attendeeN@gallium.pt / password1234
   """
-
-  alias Gallium.Accounts
   alias Gallium.Accounts.User
   alias Gallium.Repo
 

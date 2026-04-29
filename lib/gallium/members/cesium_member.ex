@@ -8,16 +8,14 @@ defmodule Gallium.Members.CesiumMember do
     field :name, :string
     field :member_id, :string
     field :student_number, :string
-    field :user_id, :binary_id
 
     timestamps(type: :utc_datetime)
   end
 
   @doc false
-  def changeset(cesium_member, attrs, user_scope) do
+  def changeset(cesium_member, attrs) do
     cesium_member
     |> cast(attrs, [:name, :member_id, :student_number])
     |> validate_required([:name, :member_id, :student_number])
-    |> put_change(:user_id, user_scope.user.id)
   end
 end

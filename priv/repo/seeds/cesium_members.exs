@@ -2,20 +2,14 @@ defmodule Gallium.Repo.Seeds.CesiumMembers do
   @moduledoc """
   Seeds the cesium_members table with a handful of fake members.
 
-  These are linked to the admin user (the single user allowed to own
-  cesium member records in the current scope-based model).
   The list intentionally includes student numbers that overlap with
   attendees seeded in ticketing.exs so that `cesium_member?/1`
   returns `true` for those users.
   """
 
-  alias Gallium.Accounts
-  alias Gallium.Accounts.Scope
   alias Gallium.Members
   alias Gallium.Members.CesiumMember
   alias Gallium.Repo
-
-  @admin_email "admin@gallium.pt"
 
   # student_number must match what ticketing.exs seeds for
   # is_cesium_member: true users (attendees 1–5).
@@ -33,14 +27,7 @@ defmodule Gallium.Repo.Seeds.CesiumMembers do
   def run do
     case Repo.all(CesiumMember) do
       [] ->
-        case Accounts.get_user_by_email(@admin_email) do
-          nil ->
-            Mix.shell().error("Admin user not found; run accounts seed first.")
-
-          admin ->
-            scope = Scope.for_user(admin)
-            seed_cesium_members(scope)
-        end
+        seed_cesium_members()
 
       _ ->
         Mix.shell().error("Found existing cesium members, aborting seeding.")
@@ -49,9 +36,9 @@ defmodule Gallium.Repo.Seeds.CesiumMembers do
 
   # ── Private ────────────────────────────────────────────────────────────────
 
-  defp seed_cesium_members(scope) do
+  defp seed_cesium_members() do
     Enum.each(@members, fn attrs ->
-      case Members.create_cesium_member(scope, attrs) do
+      case Members.create_cesium_member(attrs) do
         {:ok, member} ->
           Mix.shell().info("CesiumMember created: #{member.name} (#{member.member_id})")
 
