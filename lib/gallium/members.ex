@@ -9,7 +9,6 @@ defmodule Gallium.Members do
   alias Gallium.Repo
   alias NimbleCSV.RFC4180, as: CSV
 
-
   @doc """
   Returns the list of cesium_members.
 
@@ -123,24 +122,24 @@ defmodule Gallium.Members do
   The headers of the CSV file must be exactly: id_socio, numero_aluno, nome. The function will return an error if the structure is not correct or if the file is not found.
   """
   def import_cesium_members(file_path) do
-  if File.exists?(file_path) do
-    try do
-      stream =
-        file_path
-        |> File.stream!()
-        |> CSV.parse_stream(skip_headers: false)
+    if File.exists?(file_path) do
+      try do
+        stream =
+          file_path
+          |> File.stream!()
+          |> CSV.parse_stream(skip_headers: false)
 
-      status = validate_csv_headers(stream)
-      import_from_stream(stream, status)
-    rescue
-      NimbleCSV.ParseError ->
-        {:error,
-         "Formato CSV inválido. Certifique-se de que o separador é um ponto e vírgula (;) e não uma (,)."}
+        status = validate_csv_headers(stream)
+        import_from_stream(stream, status)
+      rescue
+        NimbleCSV.ParseError ->
+          {:error,
+           "Formato CSV inválido. Certifique-se de que o separador é um ponto e vírgula (;) e não uma (,)."}
+      end
+    else
+      {:error, "Ficheiro CSV não encontrado."}
     end
-  else
-    {:error, "Ficheiro CSV não encontrado."}
   end
-end
 
   defp validate_csv_headers(stream) do
     case Enum.take(stream, 1) do
@@ -181,6 +180,7 @@ end
   defp format_row_attrs([id_socio, numero_aluno, nome]) do
     %{member_id: id_socio, student_number: String.downcase(String.trim(numero_aluno)), name: nome}
   end
+
   defp format_row_attrs(_), do: nil
 
   def cesium_member?(student_number) do

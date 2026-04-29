@@ -137,11 +137,9 @@ defmodule Gallium.Accounts.User do
   end
 
   def type_changeset(user, attrs) do
-  user
-  |> cast(attrs, [:type])
-  |> validate_required([:type])
-  |> validate_inclusion(:type, @valid_types,
-      message: "tem de ser 'admin' ou 'user'"
-    )
-end
+    user
+    |> cast(attrs, [:type])
+    |> validate_required([:type])
+    |> validate_inclusion(:type, @valid_types, message: "tem de ser 'admin' ou 'user'")
+  end
 end
