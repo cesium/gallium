@@ -12,7 +12,7 @@ defmodule GalliumWeb.UserLive.Registration do
       <div class="mx-auto w-full max-w-sm my-8 space-y-4 flex flex-1 flex-col justify-center">
         <div class="text-center font-cormorant">
           <.header>
-            <div class="text-4xl">
+            <div class="text-5xl">
               Regista a tua conta
             </div>
             <:subtitle>
