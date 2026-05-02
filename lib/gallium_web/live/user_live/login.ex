@@ -11,7 +11,7 @@ defmodule GalliumWeb.UserLive.Login do
       <div class="mx-auto w-full max-w-sm my-8 space-y-4 flex flex-1 flex-col justify-center">
         <div class="text-center font-cormorant">
           <.header>
-            <p class="text-3xl">Log in</p>
+            <p class="text-5xl">Log in</p>
             <:subtitle>
               <%= if @current_scope do %>
                 Precisas de te reautenticar para fazer ações sensíveis
