@@ -24,6 +24,17 @@ config :gallium, GalliumWeb.Endpoint,
   http: [port: String.to_integer(System.get_env("PORT", "4000"))]
 
 if config_env() == :prod do
+  config :gallium, :midas,
+    api_key:
+      System.get_env("GALLIUM_API_KEY") ||
+        raise("environment variable GALLIUM_API_KEY is missing."),
+    midas_api_url:
+      System.get_env("MIDAS_API_URL") ||
+        raise("environment variable MIDAS_API_URL is missing."),
+    midas_api_key:
+      System.get_env("MIDAS_API_KEY") ||
+        raise("environment variable MIDAS_API_KEY is missing.")
+
   database_url =
     System.get_env("DATABASE_URL") ||
       raise """

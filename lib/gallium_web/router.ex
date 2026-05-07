@@ -28,10 +28,18 @@ defmodule GalliumWeb.Router do
     end
   end
 
-  # Other scopes may use custom stacks.
-  # scope "/api", GalliumWeb do
-  #   pipe_through :api
-  # end
+  scope "/api", GalliumWeb do
+    pipe_through :api
+
+    post "/midas/:api_key/webhook", MidasController, :handle_webhook
+    get "/v1/payments/received", MidasController, :payment_received
+  end
+
+  scope "/uploads", GalliumWeb do
+    pipe_through :api
+
+    get "/invoices/:order_id/original.pdf", MidasController, :invoice_not_found
+  end
 
   # Enable LiveDashboard and Swoosh mailbox preview in development
   if Application.compile_env(:gallium, :dev_routes) do

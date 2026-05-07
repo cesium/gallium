@@ -12,6 +12,7 @@ defmodule GalliumWeb.Components.Ticket do
   attr :subtitle, :string, doc: "Ticket sub-title"
   attr :advantages_list, :list, doc: "List of advantages"
   attr :price, :string, doc: "Price of the ticket"
+  attr :link, :string, default: nil, doc: "Link for the select button"
 
   def ticket(assigns) do
     ~H"""
@@ -35,7 +36,7 @@ defmodule GalliumWeb.Components.Ticket do
           <p class="text-golden text-3xl font-amarante">{@price}€</p>
           <p class="text-gray-500 text-l font-cormorant">POR PESSOA</p>
         </div>
-        <.primary_button text="Selecionar" class="bg-golden! text-xl font-cormorant px-8 py-2" />
+        <.primary_button text="Selecionar" link={@link} class="bg-golden! text-base font-cormorant px-4 py-1" />
       </div>
     </div>
     """

@@ -11,21 +11,21 @@ defmodule GalliumWeb.Components.Footer do
 
   def footer(assigns) do
     ~H"""
-    <footer class={"w-full border-t border-olive-800/20 bg-beige text-blue-800/80 px-6 py-16 #{@class}"}>
+    <footer class={"w-full border-t border-beige/20 bg-blue text-beige/80 px-6 py-16 #{@class}"}>
       <div class="max-w-7xl mx-auto flex flex-col">
         <div class="flex flex-col md:flex-row justify-between items-center md:items-baseline mb-12 gap-8">
           <div class="flex-1 text-center md:text-left min-w-max">
-            <p class="font-amarante text-blue-500 text-3xl tracking-widest uppercase">
+            <p class="font-amarante text-light-muted text-3xl tracking-widest uppercase">
               jantar de gala
             </p>
-            <p class="font-cormorant text-xs text-blue-800/60 tracking-[0.2em] mt-2 uppercase">
+            <p class="font-cormorant text-xs text-beige/60 tracking-[0.2em] mt-2 uppercase">
               jantar de gala 2026
             </p>
           </div>
 
           <nav class="flex flex-wrap gap-10 uppercase font-cormorant text-xs tracking-widest">
             <%= for page <- @landing_pages do %>
-              <.link navigate={page.url} class="hover:text-blue-500 transition-colors">
+              <.link navigate={page.url} class="hover:text-light-muted transition-colors">
                 {page.name}
               </.link>
             <% end %>
@@ -38,21 +38,21 @@ defmodule GalliumWeb.Components.Footer do
               {@date}
             </p>
 
-            <p class="text-olive text-xs mt-1 font-cormorant tracking-widest">
+            <p class="text-beige/70 text-xs mt-1 font-cormorant tracking-widest">
               Organizado pelo CeSIUM
             </p>
           </div>
         </div>
 
-        <div class="w-full border-t border-olive-800/20 mb-12"></div>
+        <div class="w-full border-t border-beige/20 mb-12"></div>
 
         <div class="flex justify-center mb-8">
-          <div class="w-4 h-4 rounded-full border border-blue-500 flex items-center justify-center">
-            <div class="w-1.5 h-1.5 rounded-full bg-blue-500"></div>
+          <div class="w-4 h-4 rounded-full border border-light-muted flex items-center justify-center">
+            <div class="w-1.5 h-1.5 rounded-full bg-light-muted"></div>
           </div>
         </div>
 
-        <p class="text-center font-cormorant text-sm">
+        <p class="text-center font-cormorant text-sm text-beige/70">
           © 2026 Jantar de Gala. Todos os direitos reservados.
         </p>
       </div>

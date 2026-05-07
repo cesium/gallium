@@ -16,6 +16,7 @@
             has_accompany?={@has_accompany?}
             amount_to_pay={@amount_to_pay}
             price_per_ticket={@price_per_ticket}
+            companion_price={@companion_price}
           />
         <% 3 -> %>
           <.payment
@@ -31,6 +32,7 @@
             amount_to_pay={@amount_to_pay}
             price_per_ticket={@price_per_ticket}
             current_scope={@current_scope}
+            payment_status={@payment_status}
           />
       <% end %>
     </div>

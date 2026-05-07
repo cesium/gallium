@@ -14,6 +14,7 @@ defmodule Gallium.Accounts.User do
     field :authenticated_at, :utc_datetime, virtual: true
 
     has_one :attendee, Gallium.Ticketing.Attendee
+    has_one :ticket, Gallium.Ticketing.Ticket
 
     timestamps(type: :utc_datetime)
   end
@@ -39,8 +40,10 @@ defmodule Gallium.Accounts.User do
     changeset =
       changeset
       |> validate_required([:email])
-      |> validate_format(:email, ~r/^[^@,;\s]+@[^@,;\s]+$/,
-        message: "must have the @ sign and no spaces"
+      |> validate_format(
+        :email,
+        ~r/^[a-zA-Z0-9.!#$%&'*+\/=?^_{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*\.[a-zA-Z]{2,}$/,
+        message: "formato inválido"
       )
       |> validate_length(:email, max: 160)
 

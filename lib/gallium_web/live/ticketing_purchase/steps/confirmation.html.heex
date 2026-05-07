@@ -1,17 +1,26 @@
 <div class="flex flex-col items-center max-w-lg mx-auto my-8 px-4">
-  <div class="bg-olive-200 text-olive-700 rounded-full p-5 mb-4 shadow-sm">
-    <.icon name="hero-check-circle" class="size-10" />
+  <div class={[
+    "rounded-full p-5 mb-4 shadow-sm",
+    if(@payment_status == :paid, do: "bg-green-100 text-green-600", else: "bg-amber-100 text-amber-600")
+  ]}>
+    <.icon name={if @payment_status == :paid, do: "hero-check-circle", else: "hero-clock"} class="size-10" />
   </div>
 
-  <h1 class="text-5xl font-amarante text-olive mb-4 uppercase">Comprado</h1>
+  <h1 class={[
+    "text-5xl font-amarante mb-4 uppercase",
+    if(@payment_status == :paid, do: "text-green-600", else: "text-amber-600")
+  ]}>
+    {if @payment_status == :paid, do: "Bilhete Confirmado!", else: "Pagamento Pendente"}
+  </h1>
 
   <p class="font-cormorant text-gray-600 text-center mb-8">
-    O teu bilhete foi comprado com sucesso. Estamos ansiosos<br class="hidden sm:block" />
-    por celebrar contigo na Quinta da Aldeia no dia 30 de Maio.
+    {if @payment_status == :paid,
+      do: "O teu pagamento foi recebido. Até já na Quinta da Aldeia!",
+      else: "A tua reserva foi registada. Efetua o pagamento via MBWay para confirmares o teu bilhete."}
   </p>
 
   <div class="w-full border-2 border-olive-200 p-8 bg-white rounded-box relative mb-8">
-    <h2 class="font-amarante text-olive uppercase text-xl mb-6">Detalhes da Compra</h2>
+    <h2 class="font-amarante text-olive uppercase text-xl mb-6">Detalhes da Reserva</h2>
 
     <div class="mb-5 flex flex-row gap-3 justify-between">
       <div>
@@ -66,7 +75,7 @@
 
     <div class="flex justify-between items-end mt-2">
       <div>
-        <p class="text-gray-600 text-xs font-cormorant uppercase mb-1">Total Pago</p>
+        <p class="text-gray-600 text-xs font-cormorant uppercase mb-1">Total a Pagar</p>
         <p class="font-cormorant text-xs">
           {if @has_accompany?, do: "2 bilhetes", else: "1 bilhete"}
         </p>
@@ -92,6 +101,6 @@
   </div>
 
   <p class="font-cormorant text-gray-500 text-xs sm:text-sm mt-6 text-center">
-    Um email de confirmação foi enviado para {@current_scope.user.email}
+    Efetua o pagamento via MBWay para o número indicado. O teu bilhete será confirmado após validação do pagamento.
   </p>
 </div>

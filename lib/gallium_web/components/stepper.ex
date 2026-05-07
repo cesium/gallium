@@ -15,7 +15,7 @@ defmodule GalliumWeb.Components.Stepper do
         <div class="flex flex-col items-center relative">
           <div class={[
             "rounded-full transition duration-500 ease-in-out h-10 w-10 flex items-center justify-center p-2 shrink-0 m-2",
-            @current_step > index && "bg-olive text-white",
+            @current_step > index && "bg-blue-500 text-white",
             @current_step == index && "bg-blue-500 border-blue-200 text-white ring-4 ring-blue-100",
             @current_step < index && "bg-gray-300 text-gray-500"
           ]}>
@@ -32,7 +32,7 @@ defmodule GalliumWeb.Components.Stepper do
         <%= if index < length(@step_names) do %>
           <div class={[
             "flex-1 h-1 transition duration-500 ease-in-out",
-            @current_step > index && "bg-olive",
+            @current_step > index && "bg-blue-500",
             @current_step <= index && "bg-gray-300"
           ]}>
           </div>

@@ -7,7 +7,7 @@ defmodule GalliumWeb.Components.Forecast do
 
   def forecast(assigns) do
     ~H"""
-    <section class="w-full bg-bronze-500 py-16 px-4">
+    <section class="w-full bg-olive py-16 px-4">
       <div class="flex flex-col items-center gap-2 mb-12">
         <h2 class="font-amarante text-beige text-4xl tracking-[4px] uppercase text-center">
           O Que Esperar

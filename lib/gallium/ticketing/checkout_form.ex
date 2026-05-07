@@ -12,6 +12,9 @@ defmodule Gallium.Ticketing.CheckoutForm do
     field :nif, :string
     field :mbway_number, :string
     field :is_cesium_member, :boolean
+    field :wants_transport, :boolean, default: false
+    field :table_preference, :string
+    field :allergies, :string
 
     embeds_one :accompany, AccompanyForm, primary_key: false, on_replace: :delete do
       field :full_name, :string
@@ -22,7 +25,16 @@ defmodule Gallium.Ticketing.CheckoutForm do
 
   def changeset_personal_data(schema, attrs \\ %{}) do
     schema
-    |> cast(attrs, [:full_name, :student_number, :phone_number, :nif, :is_cesium_member])
+    |> cast(attrs, [
+      :full_name,
+      :student_number,
+      :phone_number,
+      :nif,
+      :is_cesium_member,
+      :wants_transport,
+      :table_preference,
+      :allergies
+    ])
     |> validate_required([:full_name, :student_number, :phone_number, :is_cesium_member],
       message: "Este campo é obrigatório"
     )

@@ -16,17 +16,17 @@ defmodule GalliumWeb.Components.Hero do
   def hero(assigns) do
     ~H"""
     <section class={[
-      "bg-blue-500 w-full h-screen flex flex-col items-center justify-between py-12 md:py-16 snap-start snap-always overflow-hidden",
+      "bg-blue w-full h-screen flex flex-col items-center justify-between py-12 md:py-16 snap-start snap-always overflow-hidden",
       @class
     ]}>
-      <div class="hidden w-full md:flex justify-center scale-100 md:scale-125">
+      <div class="hidden w-full md:flex justify-center scale-75 md:scale-100">
         <.frame style={:style1} mode={:bottom} color={:light_muted} />
       </div>
       <div class="text-center flex flex-col items-center justify-center flex-1">
-        <h1 class="text-beige font-amarante text-[80px] sm:text-[120px] md:text-[140px] lg:text-[180px] leading-[0.85] uppercase mb-8 md:mb-12">
+        <h1 class="text-beige font-amarante text-[60px] sm:text-[90px] md:text-[120px] lg:text-[150px] leading-[0.85] uppercase mb-8 md:mb-12">
           jantar<br /> de gala
         </h1>
-        <p class="text-beige font-glacial text-xs sm:text-sm md:text-xl tracking-[0.4em] uppercase mb-10 md:mb-14">
+        <p class="text-beige font-glacial text-sm sm:text-base md:text-2xl tracking-[0.4em] uppercase mb-10 md:mb-14">
           {@date_info}
         </p>
         <div class="w-fit">
@@ -39,7 +39,7 @@ defmodule GalliumWeb.Components.Hero do
           />
         </div>
       </div>
-      <div class="hidden w-full md:flex justify-center scale-100 md:scale-125">
+      <div class="hidden w-full md:flex justify-center scale-75 md:scale-100">
         <.frame style={:style1} mode={:top} color={:light_muted} />
       </div>
     </section>

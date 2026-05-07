@@ -6,7 +6,8 @@ defmodule GalliumWeb.TicketsLive.Index do
 
   This page is where the user selects the type of ticket they wish to purchase.
   """
-  import GalliumWeb.Components.Button
+
+  import GalliumWeb.Components.{Button, Ticket}
   import GalliumWeb.Layouts
 
   def mount(_params, _session, socket) do

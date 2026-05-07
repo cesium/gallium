@@ -6,12 +6,14 @@ defmodule GalliumWeb.BackOfficeIndex.Index do
   import GalliumWeb.Components.Button
 
   alias Gallium.Members
+  alias Gallium.Ticketing
 
   embed_templates "backoffice_pages/*"
 
   def mount(_params, _session, socket) do
     menu_items = [
-      %{page: "add_cesium_members", icon: "hero-arrow-up-tray", label: "Adicionar Membros"}
+      %{page: "add_cesium_members", icon: "hero-arrow-up-tray", label: "Adicionar Membros"},
+      %{page: "attendees_table", icon: "hero-users", label: "Inscrições"}
     ]
 
     socket =
@@ -20,12 +22,23 @@ defmodule GalliumWeb.BackOfficeIndex.Index do
       |> assign(:current_page, "add_cesium_members")
       |> assign(:sidebar_open, false)
       |> assign(:menu_items, menu_items)
+      |> assign(:attendees, [])
 
     {:ok, socket}
   end
 
   def handle_event("toggle_sidebar", _params, socket) do
     {:noreply, assign(socket, :sidebar_open, !socket.assigns.sidebar_open)}
+  end
+
+  def handle_event("change_page", %{"page" => "attendees_table"} = _params, socket) do
+    attendees = Ticketing.list_attendees_with_details()
+
+    {:noreply,
+     socket
+     |> assign(:current_page, "attendees_table")
+     |> assign(:attendees, attendees)
+     |> assign(:sidebar_open, false)}
   end
 
   def handle_event("change_page", %{"page" => page}, socket) do

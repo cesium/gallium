@@ -5,7 +5,7 @@ defmodule GalliumWeb.TicketingPurchaseLive.Index do
 
   alias Gallium.Accounts
   alias Gallium.Ticketing
-  alias Gallium.Ticketing.CheckoutForm
+  alias Gallium.Ticketing.{CheckoutForm, TicketType}
 
   embed_templates "steps/*"
 
@@ -26,7 +26,10 @@ defmodule GalliumWeb.TicketingPurchaseLive.Index do
         %{}
       )
 
-    price_per_ticket = if is_cesium_member?, do: 25, else: 30
+    price_per_ticket =
+      if is_cesium_member?,
+        do: TicketType.price_for_member(),
+        else: TicketType.price_for_non_member()
 
     {:ok,
      socket
@@ -35,6 +38,8 @@ defmodule GalliumWeb.TicketingPurchaseLive.Index do
      |> assign(:has_accompany?, false)
      |> assign(:amount_to_pay, nil)
      |> assign(:price_per_ticket, price_per_ticket)
+     |> assign(:companion_price, price_per_ticket)
+     |> assign(:payment_status, :pending)
      |> assign(:user_info, user_info)}
   end
 
@@ -64,12 +69,15 @@ defmodule GalliumWeb.TicketingPurchaseLive.Index do
 
     changeset = CheckoutForm.changeset_personal_data(socket.assigns.form_data.data, params)
     is_member = Ecto.Changeset.get_field(changeset, :is_cesium_member)
-    price_per_ticket = if is_member, do: 25, else: 30
+
+    price_per_ticket =
+      if is_member, do: TicketType.price_for_member(), else: TicketType.price_for_non_member()
 
     {:noreply,
      socket
      |> assign(:has_accompany?, has_accompany?)
      |> assign(:price_per_ticket, price_per_ticket)
+     |> assign(:companion_price, price_per_ticket)
      |> assign(:form_data, to_form(changeset))}
   end
 
@@ -78,26 +86,29 @@ defmodule GalliumWeb.TicketingPurchaseLive.Index do
     changeset_with_error_info = Map.put(changeset, :action, :validate)
 
     is_member = Ecto.Changeset.get_field(changeset, :is_cesium_member)
-    price_per_ticket = if is_member, do: 25, else: 30
+
+    price_per_ticket =
+      if is_member, do: TicketType.price_for_member(), else: TicketType.price_for_non_member()
 
     {:noreply,
      socket
      |> assign(:price_per_ticket, price_per_ticket)
+     |> assign(:companion_price, price_per_ticket)
      |> assign(:form_data, to_form(changeset_with_error_info))}
   end
 
   def handle_event("save_step1", %{"checkout_form" => form_data}, socket) do
     changeset = CheckoutForm.changeset_personal_data(socket.assigns.form_data.data, form_data)
     is_member = Ecto.Changeset.get_field(changeset, :is_cesium_member)
-    price_per_ticket = if is_member, do: 25, else: 30
+
+    price_per_ticket =
+      if is_member, do: TicketType.price_for_member(), else: TicketType.price_for_non_member()
 
     if changeset.valid? do
       amount_to_pay =
-        if socket.assigns.has_accompany? do
-          price_per_ticket * 2
-        else
-          price_per_ticket
-        end
+        if socket.assigns.has_accompany?,
+          do: price_per_ticket * 2,
+          else: price_per_ticket
 
       new_data = Ecto.Changeset.apply_changes(changeset)
       new_changeset = CheckoutForm.changeset_personal_data(new_data, %{})
@@ -105,6 +116,7 @@ defmodule GalliumWeb.TicketingPurchaseLive.Index do
       {:noreply,
        socket
        |> assign(:price_per_ticket, price_per_ticket)
+       |> assign(:companion_price, price_per_ticket)
        |> assign(:form_data, to_form(new_changeset))
        |> assign(:amount_to_pay, amount_to_pay)
        |> update(:current_step, &(&1 + 1))}
@@ -114,6 +126,7 @@ defmodule GalliumWeb.TicketingPurchaseLive.Index do
       {:noreply,
        socket
        |> assign(:price_per_ticket, price_per_ticket)
+       |> assign(:companion_price, price_per_ticket)
        |> assign(:form_data, to_form(changeset_com_erros))}
     end
   end
@@ -126,30 +139,57 @@ defmodule GalliumWeb.TicketingPurchaseLive.Index do
   end
 
   def handle_event("save_step3", %{"checkout_form" => form_data}, socket) do
-    user_id = socket.assigns.current_scope.user.id
+    user = socket.assigns.current_scope.user
     changeset = CheckoutForm.changeset_payment(socket.assigns.form_data.data, form_data)
 
     if changeset.valid? do
       final_data = Ecto.Changeset.apply_changes(changeset)
 
-      case Ticketing.process_ticket_purchase(
-             final_data,
-             socket.assigns.amount_to_pay,
-             socket.assigns.has_accompany?,
-             user_id
-           ) do
-        {:ok, _bd_result} ->
-          # Success
-          new_changeset = CheckoutForm.changeset_payment(final_data, %{})
+      attendee_result =
+        case Ticketing.get_attendee_by_user_id(user.id) do
+          nil ->
+            case Ticketing.create_booking(final_data, socket.assigns.has_accompany?, user.id) do
+              {:ok, %{attendee: attendee}} -> {:ok, attendee}
+              {:error, _op, _errors, _} -> {:error, :booking_failed}
+            end
 
-          {:noreply,
-           socket
-           |> assign(:form_data, to_form(new_changeset))
-           |> update(:current_step, &(&1 + 1))}
+          attendee ->
+            {:ok, attendee}
+        end
 
-        {:error, _operation, _errors, _alterations} ->
-          # DataBase error
+      case attendee_result do
+        {:ok, attendee} ->
+          case Ticketing.start_payment(
+                 :mbway,
+                 attendee,
+                 user,
+                 final_data,
+                 socket.assigns.amount_to_pay,
+                 socket.assigns.has_accompany?
+               ) do
+            {:ok, payment} ->
+              if connected?(socket) do
+                Ticketing.subscribe_to_payment_order_updates(payment.order_id)
+              end
 
+              new_changeset = CheckoutForm.changeset_payment(final_data, %{})
+
+              {:noreply,
+               socket
+               |> assign(:form_data, to_form(new_changeset))
+               |> assign(:payment_status, :pending)
+               |> update(:current_step, &(&1 + 1))}
+
+            {:error, reason} ->
+              {:noreply,
+               put_flash(
+                 socket,
+                 :error,
+                 "Erro ao iniciar pagamento MBWay: #{inspect(reason)}. Tenta novamente."
+               )}
+          end
+
+        {:error, :booking_failed} ->
           {:noreply,
            put_flash(socket, :error, "Ocorreu um erro ao guardar o bilhete. Tenta novamente.")}
       end
@@ -157,5 +197,9 @@ defmodule GalliumWeb.TicketingPurchaseLive.Index do
       changeset_with_errors = Map.put(changeset, :action, :validate)
       {:noreply, assign(socket, :form_data, to_form(changeset_with_errors))}
     end
+  end
+
+  def handle_info({:payment_order_updated, payment}, socket) do
+    {:noreply, assign(socket, :payment_status, payment.status)}
   end
 end

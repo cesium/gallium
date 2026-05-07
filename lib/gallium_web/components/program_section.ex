@@ -44,7 +44,7 @@ defmodule GalliumWeb.Components.ProgramSection do
     ~H"""
     <section class={["bg-beige py-24 px-4 flex flex-col items-center w-full", @class]}>
       <div class="relative z-10 w-full max-w-3xl flex flex-col items-center py-16 px-8">
-        <h2 class="text-olive-500 font-amarante text-5xl uppercase mb-7 tracking-widest text-center">
+        <h2 class="text-bronze font-amarante text-5xl uppercase mb-7 tracking-widest text-center">
           Programa
         </h2>
 
@@ -52,7 +52,7 @@ defmodule GalliumWeb.Components.ProgramSection do
           <%= for item <- @schedule_items do %>
             <div class="flex flex-col sm:flex-row items-start py-8 border-b border-gray-200 last:border-none gap-2 sm:gap-0">
               <div class="w-full sm:w-1/3">
-                <p class="text-olive-500 font-amarante text-xl uppercase max-w-none sm:max-w-[120px] leading-tight">
+                <p class="text-bronze font-amarante text-xl uppercase max-w-none sm:max-w-[120px] leading-tight">
                   {item.time}
                 </p>
               </div>
@@ -66,7 +66,7 @@ defmodule GalliumWeb.Components.ProgramSection do
           <% end %>
         </div>
 
-        <p class="mt-16 text-olive-500 font-amarante text-[10px] text-center uppercase tracking-[2px] max-w-md">
+        <p class="mt-16 text-bronze font-amarante text-[10px] text-center uppercase tracking-[2px] max-w-md">
           Não percas atividades incríveis como karaoke, cartões quebra-gelo e muitas outras surpresas!
         </p>
       </div>

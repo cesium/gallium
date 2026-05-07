@@ -37,9 +37,9 @@
 
       <div class="w-full flex flex-col">
         <div class="w-full px-4 mt-4 mb-4 md:flex md:justify-center md:mb-">
-          <span class="text-left text-olive uppercase tracking-wider text-xs font-bold font-amarante md:text-xl">
+          <.link navigate={~p"/"} class="text-left text-olive uppercase tracking-wider text-xs font-bold font-amarante md:text-xl hover:opacity-70 transition-opacity">
             Backoffice
-          </span>
+          </.link>
         </div>
         <%= for item <- @menu_items do %>
           <button
@@ -61,10 +61,13 @@
     </nav>
     
 <!-- Main Content -->
-    <main class="flex-1 px-4 py-10 md:px-8 overflow-y-auto">
+    <main class="flex-1 px-4 py-8 md:px-8 overflow-y-auto bg-gray-50">
       <div class="w-full">
         <%= if @current_page == "add_cesium_members" do %>
           <.add_cesium_members uploads={@uploads} flash={@flash} />
+        <% end %>
+        <%= if @current_page == "attendees_table" do %>
+          <.attendees_table attendees={@attendees} />
         <% end %>
       </div>
     </main>

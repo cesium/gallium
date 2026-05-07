@@ -1,13 +1,13 @@
 defmodule Gallium.Repo.Seeds.Ticketing do
   @moduledoc """
-  Seeds the ticketing tables: attendees, accompanies, and payments.
+  Seeds the ticketing tables: attendees, tickets, accompanies, and payments.
 
   One Attendee record is created for each regular attendee user
   (attendee1@gallium.pt ... attendee10@gallium.pt).
 
   Rules applied:
-    - Attendees 1-5  -> is_cesium_member: true, student numbers match cesium_members.exs
-    - Attendees 6-10 -> is_cesium_member: false
+    - Attendees 1-5  -> is_cesium_member: true, ticket type: :member, student numbers match cesium_members.exs
+    - Attendees 6-10 -> is_cesium_member: false, ticket type: :non_member
     - Attendees 1-3  -> include an Accompany
 
   Pricing:
@@ -19,6 +19,8 @@ defmodule Gallium.Repo.Seeds.Ticketing do
 
   alias Gallium.Accounts
   alias Gallium.Ticketing
+  alias Gallium.Ticketing.Ticket
+  alias Gallium.Repo
 
   @student_numbers %{
     1  => "a100001",
@@ -61,6 +63,7 @@ defmodule Gallium.Repo.Seeds.Ticketing do
 
         user ->
           attendee = seed_attendee(i, user.id)
+          if attendee, do: seed_ticket(i, user)
           if attendee, do: seed_payment(i, attendee)
           if attendee, do: maybe_seed_accompany(i, attendee)
       end
@@ -94,6 +97,22 @@ defmodule Gallium.Repo.Seeds.Ticketing do
     end
   end
 
+  # -- Ticket -----------------------------------------------------------------
+
+  defp seed_ticket(index, attendee) do
+    type = if index <= 5, do: :member, else: :non_member
+
+    attrs = %{attendee_id: attendee.id, type: type}
+
+    case Repo.insert(Ticket.changeset(%Ticket{}, attrs)) do
+      {:ok, _ticket} ->
+        Mix.shell().info("Ticket (#{type}) created for attendee #{index}")
+
+      {:error, changeset} ->
+        Mix.shell().error("Failed to create ticket #{index}: #{inspect(changeset.errors)}")
+    end
+  end
+
   # -- Payment ----------------------------------------------------------------
 
   defp seed_payment(index, attendee) do
@@ -112,8 +131,7 @@ defmodule Gallium.Repo.Seeds.Ticketing do
       attendee_id: attendee.id,
       amount:      amount,
       status:      :paid,
-      mbway_phone: attendee.phone_number,
-      order_id:    "SEED_#{String.pad_leading(Integer.to_string(index), 4, "0")}_#{Ecto.UUID.generate()}"
+      order_id:    Ecto.UUID.generate()
     }
 
     case Ticketing.create_payment(attrs) do

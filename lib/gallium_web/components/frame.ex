@@ -64,8 +64,8 @@ defmodule GalliumWeb.Components.Frame do
     """
   end
 
-  defp get_svg_color(:blue), do: "#467486"
-  defp get_svg_color(:bronze), do: "#A86824"
-  defp get_svg_color(:olive), do: "#7B8A42"
-  defp get_svg_color(:light_muted), do: "#EEEEE5"
+  defp get_svg_color(:blue), do: "#39448B"
+  defp get_svg_color(:bronze), do: "#7C0B2B"
+  defp get_svg_color(:olive), do: "#45503B"
+  defp get_svg_color(:light_muted), do: "#EFC7C2"
 end
