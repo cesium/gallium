@@ -40,8 +40,8 @@ defmodule Gallium.Ticketing.CheckoutForm do
     )
     |> validate_length(:full_name, min: 3, message: "O nome tem de ter pelo menos 3 letras")
     |> validate_format(:phone_number, ~r/^\+?\d{9,15}$/, message: "Número de telefone inválido")
-    |> validate_format(:student_number, ~r/^(A|PG|a|pg)\d+$/,
-      message: "Formato inválido (ex: A12345)"
+    |> validate_format(:student_number, ~r/^(a\d{1,6}|pg\d{1,5}|e\d{1,6})$/i,
+      message: "Formato inválido (ex: A12345, PG1234, E12345)"
     )
     |> validate_cesium_member(:student_number, :is_cesium_member)
     |> validate_format(:nif, ~r/^\d{9}$/, message: "O NIF tem de ter exatamente 9 números")

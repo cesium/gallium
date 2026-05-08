@@ -11,7 +11,7 @@ defmodule GalliumWeb.Components.HeroBanner do
     ~H"""
     <div class="bg-blue h-dvh w-full px-8 sm:px-0 flex flex-col items-center py-12 overflow-hidden">
       <div class="w-full flex justify-center overflow-hidden">
-        <div class="w-full md:scale-125">
+        <div class="w-full md:scale-25">
           <.frame style={:style2} mode={:bottom} color={:light_muted} />
         </div>
       </div>
@@ -42,7 +42,7 @@ defmodule GalliumWeb.Components.HeroBanner do
         </div>
       </div>
       <div class="w-full flex justify-center overflow-hidden">
-        <div class="w-full md:scale-125">
+        <div class="w-full md:scale-25">
           <.frame style={:style2} mode={:top} color={:light_muted} />
         </div>
       </div>

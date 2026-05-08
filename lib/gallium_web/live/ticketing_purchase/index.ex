@@ -16,8 +16,8 @@ defmodule GalliumWeb.TicketingPurchaseLive.Index do
 
     user_info =
       case Accounts.get_user_info_by_id(socket.assigns.current_scope.user.id) do
-        {:ok, attendee} -> attendee
-        {:error, nil} -> nil
+        {:ok, %{payment: %{status: :paid}} = attendee} -> attendee
+        _ -> nil
       end
 
     initial_changeset =
