@@ -64,6 +64,8 @@ defmodule Gallium.MixProject do
       {:req, "~> 0.5"},
       {:telemetry_metrics, "~> 1.0"},
       {:telemetry_poller, "~> 1.0"},
+      {:ex_aws, "~> 2.1"},
+      {:ex_aws_s3, "~> 2.0"},
       {:gettext, "~> 1.0"},
       {:jason, "~> 1.2"},
       {:nimble_csv, "~> 1.3.0"},
