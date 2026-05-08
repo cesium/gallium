@@ -139,63 +139,65 @@ defmodule GalliumWeb.TicketingPurchaseLive.Index do
   end
 
   def handle_event("save_step3", %{"checkout_form" => form_data}, socket) do
-    user = socket.assigns.current_scope.user
     changeset = CheckoutForm.changeset_payment(socket.assigns.form_data.data, form_data)
 
     if changeset.valid? do
-      final_data = Ecto.Changeset.apply_changes(changeset)
+      process_step3(socket, Ecto.Changeset.apply_changes(changeset))
+    else
+      {:noreply, assign(socket, :form_data, to_form(Map.put(changeset, :action, :validate)))}
+    end
+  end
 
-      attendee_result =
-        case Ticketing.get_attendee_by_user_id(user.id) do
-          nil ->
-            case Ticketing.create_booking(final_data, socket.assigns.has_accompany?, user.id) do
-              {:ok, %{attendee: attendee}} -> {:ok, attendee}
-              {:error, _op, _errors, _} -> {:error, :booking_failed}
-            end
+  defp process_step3(socket, final_data) do
+    user = socket.assigns.current_scope.user
 
-          attendee ->
-            {:ok, attendee}
+    with {:ok, attendee} <-
+           get_or_create_attendee(user.id, final_data, socket.assigns.has_accompany?),
+         {:ok, payment} <-
+           Ticketing.start_payment(
+             :mbway,
+             attendee,
+             user,
+             final_data,
+             socket.assigns.amount_to_pay,
+             socket.assigns.has_accompany?
+           ) do
+      if connected?(socket) do
+        Ticketing.subscribe_to_payment_order_updates(payment.order_id)
+      end
+
+      new_changeset = CheckoutForm.changeset_payment(final_data, %{})
+
+      {:noreply,
+       socket
+       |> assign(:form_data, to_form(new_changeset))
+       |> assign(:payment_status, :pending)
+       |> update(:current_step, &(&1 + 1))}
+    else
+      {:error, :booking_failed} ->
+        {:noreply,
+         put_flash(socket, :error, "Ocorreu um erro ao guardar o bilhete. Tenta novamente.")}
+
+      {:error, reason} ->
+        {:noreply,
+         put_flash(
+           socket,
+           :error,
+           "Erro ao iniciar pagamento MBWay: #{inspect(reason)}. Tenta novamente."
+         )}
+    end
+  end
+
+  defp get_or_create_attendee(user_id, final_data, has_accompany?) do
+    case Ticketing.get_attendee_by_user_id(user_id) do
+      nil ->
+        case Ticketing.create_booking(final_data, has_accompany?, user_id) do
+          {:ok, %{attendee: attendee}} -> {:ok, attendee}
+          {:error, _op, _errors, _} -> {:error, :booking_failed}
         end
 
-      case attendee_result do
-        {:ok, attendee} ->
-          case Ticketing.start_payment(
-                 :mbway,
-                 attendee,
-                 user,
-                 final_data,
-                 socket.assigns.amount_to_pay,
-                 socket.assigns.has_accompany?
-               ) do
-            {:ok, payment} ->
-              if connected?(socket) do
-                Ticketing.subscribe_to_payment_order_updates(payment.order_id)
-              end
-
-              new_changeset = CheckoutForm.changeset_payment(final_data, %{})
-
-              {:noreply,
-               socket
-               |> assign(:form_data, to_form(new_changeset))
-               |> assign(:payment_status, :pending)
-               |> update(:current_step, &(&1 + 1))}
-
-            {:error, reason} ->
-              {:noreply,
-               put_flash(
-                 socket,
-                 :error,
-                 "Erro ao iniciar pagamento MBWay: #{inspect(reason)}. Tenta novamente."
-               )}
-          end
-
-        {:error, :booking_failed} ->
-          {:noreply,
-           put_flash(socket, :error, "Ocorreu um erro ao guardar o bilhete. Tenta novamente.")}
-      end
-    else
-      changeset_with_errors = Map.put(changeset, :action, :validate)
-      {:noreply, assign(socket, :form_data, to_form(changeset_with_errors))}
+      attendee ->
+        {:ok, attendee}
     end
   end
 

@@ -1,6 +1,4 @@
 <div class="flex flex-col gap-6">
-
-  <%# Stats cards %>
   <div class="grid grid-cols-2 lg:grid-cols-4 gap-4">
     <div class="bg-white rounded-xl border border-gray-200 px-5 py-4 shadow-sm">
       <p class="text-xs font-cormorant uppercase tracking-widest text-gray-400 mb-1">Total</p>
@@ -19,14 +17,15 @@
       </p>
     </div>
     <div class="bg-white rounded-xl border border-gray-200 px-5 py-4 shadow-sm">
-      <p class="text-xs font-cormorant uppercase tracking-widest text-gray-400 mb-1">Com Acomp.</p>
+      <p class="text-xs font-cormorant uppercase tracking-widest text-gray-400 mb-1">
+        Com Acomp.
+      </p>
       <p class="text-3xl font-amarante text-blue">
         {@attendees |> Enum.count(& &1.accompany)}
       </p>
     </div>
   </div>
 
-  <%# Table %>
   <div class="bg-white rounded-xl border border-gray-200 shadow-sm overflow-hidden">
     <div class="px-6 py-4 border-b border-gray-100">
       <h2 class="text-xl font-amarante text-gray-800 uppercase tracking-wide">Inscrições</h2>
@@ -82,7 +81,9 @@
                 <td class="px-5 py-3.5">
                   <%= if attendee.accompany do %>
                     <div class="flex flex-col">
-                      <span class="text-gray-800 font-medium">{attendee.accompany.full_name}</span>
+                      <span class="text-gray-800 font-medium">
+                        {attendee.accompany.full_name}
+                      </span>
                       <span class="text-gray-400 text-xs">{attendee.accompany.email}</span>
                     </div>
                   <% else %>
@@ -146,7 +147,9 @@
                 <td class="px-5 py-3.5 text-right text-gray-400 text-xs whitespace-nowrap">
                   {Calendar.strftime(attendee.inserted_at, "%d/%m/%Y")}
                   <br />
-                  <span class="text-gray-300">{Calendar.strftime(attendee.inserted_at, "%H:%M")}</span>
+                  <span class="text-gray-300">
+                    {Calendar.strftime(attendee.inserted_at, "%H:%M")}
+                  </span>
                 </td>
               </tr>
             <% end %>

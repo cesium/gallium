@@ -89,7 +89,9 @@ defmodule GalliumWeb.UserLive.Profile do
                     <p class="text-gray-800 text-xl">{@user_info.phone_number}</p>
                   </div>
                   <div>
-                    <p class="text-gray-400 text-xs uppercase tracking-widest mb-1">Número de Aluno</p>
+                    <p class="text-gray-400 text-xs uppercase tracking-widest mb-1">
+                      Número de Aluno
+                    </p>
                     <p class="text-gray-800 text-xl">{@user_info.student_number}</p>
                   </div>
                   <%= if @user_info.nif do %>
@@ -102,7 +104,9 @@ defmodule GalliumWeb.UserLive.Profile do
 
                 <%= if @user_info.payment do %>
                   <div class="mt-8 pt-6 border-t border-gray-100">
-                    <p class="text-gray-400 text-xs uppercase tracking-widest mb-3">Estado do Pagamento</p>
+                    <p class="text-gray-400 text-xs uppercase tracking-widest mb-3">
+                      Estado do Pagamento
+                    </p>
                     <div class="flex items-center gap-3">
                       <div class={[
                         "w-2.5 h-2.5 rounded-full flex-shrink-0",
@@ -132,7 +136,9 @@ defmodule GalliumWeb.UserLive.Profile do
                     <div class="grid grid-cols-1 sm:grid-cols-2 gap-y-6 gap-x-10 font-cormorant text-lg">
                       <div>
                         <p class="text-gray-400 text-xs uppercase tracking-widest mb-1">Nome</p>
-                        <p class="text-gray-800 font-semibold text-xl">{@user_info.accompany.full_name}</p>
+                        <p class="text-gray-800 font-semibold text-xl">
+                          {@user_info.accompany.full_name}
+                        </p>
                       </div>
                       <div>
                         <p class="text-gray-400 text-xs uppercase tracking-widest mb-1">Telemóvel</p>

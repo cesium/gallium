@@ -117,7 +117,10 @@ defmodule GalliumWeb.UserLive.Settings do
         </div>
 
         <div class="mt-6 text-center">
-          <a href={~p"/user/profile"} class="font-cormorant text-gray-400 hover:text-olive text-base transition-colors">
+          <a
+            href={~p"/user/profile"}
+            class="font-cormorant text-gray-400 hover:text-olive text-base transition-colors"
+          >
             ← Voltar ao perfil
           </a>
         </div>

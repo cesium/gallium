@@ -293,7 +293,10 @@ defmodule GalliumWeb.CoreComponents do
     ~H"""
     <div class="fieldset mb-2">
       <label for={@id} class="relative block">
-        <span :if={@label} class="block text-base font-cormorant font-bold text-gray-700 uppercase mb-1.5">
+        <span
+          :if={@label}
+          class="block text-base font-cormorant font-bold text-gray-700 uppercase mb-1.5"
+        >
           {@label}
         </span>
 

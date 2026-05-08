@@ -355,22 +355,8 @@ defmodule Gallium.Ticketing do
              }
            ) do
         {:ok, %Req.Response{status: 201, body: body}} ->
-          midas_order_id = to_string(body["id"])
-
-          case Repo.get_by(Payment, attendee_id: attendee.id) do
-            nil ->
-              create_payment(%{
-                attendee_id: attendee.id,
-                amount: amount,
-                order_id: midas_order_id,
-                status: :pending
-              })
-
-            existing ->
-              existing
-              |> Ecto.Changeset.change(order_id: midas_order_id, amount: amount, status: :pending)
-              |> Repo.update()
-          end
+          to_string(body["id"])
+          |> upsert_payment(attendee.id, amount)
           |> broadcast_payment_order_update()
 
         {:ok, %Req.Response{status: status, body: body}} ->
@@ -417,6 +403,23 @@ defmodule Gallium.Ticketing do
 
   def subscribe_to_payment_order_updates(order_id) do
     Phoenix.PubSub.subscribe(@pubsub, "payment_order:#{order_id}")
+  end
+
+  defp upsert_payment(order_id, attendee_id, amount) do
+    case Repo.get_by(Payment, attendee_id: attendee_id) do
+      nil ->
+        create_payment(%{
+          attendee_id: attendee_id,
+          amount: amount,
+          order_id: order_id,
+          status: :pending
+        })
+
+      existing ->
+        existing
+        |> Ecto.Changeset.change(order_id: order_id, amount: amount, status: :pending)
+        |> Repo.update()
+    end
   end
 
   defp broadcast_payment_order_update({:ok, %Payment{} = payment} = result) do

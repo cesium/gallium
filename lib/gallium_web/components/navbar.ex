@@ -95,9 +95,15 @@ defmodule GalliumWeb.Components.Navbar do
         <div class="flex flex-col h-full overflow-hidden">
           <div class={"flex items-center #{if @current_scope, do: "justify-between", else: "justify-end"} px-6 py-4 border-b border-beige/10 flex-shrink-0"}>
             <%= if @current_scope do %>
-              <.link href="/user/profile" phx-click={hide_mobile_navbar()} class="flex items-center gap-2">
+              <.link
+                href="/user/profile"
+                phx-click={hide_mobile_navbar()}
+                class="flex items-center gap-2"
+              >
                 <.icon name="hero-user-circle" class="text-beige size-6" />
-                <span class="text-xs font-cormorant uppercase tracking-wider text-beige/70">Perfil</span>
+                <span class="text-xs font-cormorant uppercase tracking-wider text-beige/70">
+                  Perfil
+                </span>
               </.link>
               <%= if Accounts.admin?(@current_scope.user) do %>
                 <.link href="/backoffice">
@@ -113,32 +119,60 @@ defmodule GalliumWeb.Components.Navbar do
           </div>
 
           <nav class="flex flex-col items-center justify-center gap-6 flex-1 overflow-y-auto py-8 font-cormorant font-semibold text-2xl text-beige/80">
-            <.link navigate="/" phx-click={hide_mobile_navbar()} class="font-amarante text-light-muted text-xl mb-2">
+            <.link
+              navigate="/"
+              phx-click={hide_mobile_navbar()}
+              class="font-amarante text-light-muted text-xl mb-2"
+            >
               Jantar de Gala
             </.link>
             <%= for page <- @landing_pages do %>
-              <.link navigate={page.url} phx-click={hide_mobile_navbar()} class="hover:text-white transition-colors">
+              <.link
+                navigate={page.url}
+                phx-click={hide_mobile_navbar()}
+                class="hover:text-white transition-colors"
+              >
                 {page.name}
               </.link>
             <% end %>
-            <.link navigate={~p"/evento"} phx-click={hide_mobile_navbar()} class="hover:text-white transition-colors">
+            <.link
+              navigate={~p"/evento"}
+              phx-click={hide_mobile_navbar()}
+              class="hover:text-white transition-colors"
+            >
               Evento
             </.link>
 
             <div class="w-8 h-px bg-beige/20 my-2"></div>
 
             <%= if @current_scope do %>
-              <.link href={~p"/users/settings"} phx-click={hide_mobile_navbar()} class="text-lg text-beige/60 hover:text-white transition-colors">
+              <.link
+                href={~p"/users/settings"}
+                phx-click={hide_mobile_navbar()}
+                class="text-lg text-beige/60 hover:text-white transition-colors"
+              >
                 Definições
               </.link>
-              <.link href={~p"/users/log-out"} method="delete" class="text-lg text-beige/60 hover:text-white transition-colors">
+              <.link
+                href={~p"/users/log-out"}
+                method="delete"
+                class="text-lg text-beige/60 hover:text-white transition-colors"
+              >
                 Terminar sessão
               </.link>
             <% else %>
-              <.link href={~p"/users/register"} phx-click={hide_mobile_navbar()} class="text-lg text-beige/60 hover:text-white transition-colors">
+              <.link
+                href={~p"/users/register"}
+                phx-click={hide_mobile_navbar()}
+                class="text-lg text-beige/60 hover:text-white transition-colors"
+              >
                 Registar
               </.link>
-              <.link href={~p"/users/log-in"} phx-click={hide_mobile_navbar()} class="text-lg text-beige/60 hover:text-white transition-colors">
+              <.link
+                href={~p"/users/log-in"}
+                phx-click={hide_mobile_navbar()}
+                class="text-lg text-beige/60 hover:text-white transition-colors"
+              >
                 Entrar
               </.link>
             <% end %>

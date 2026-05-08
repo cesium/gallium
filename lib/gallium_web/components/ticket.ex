@@ -36,7 +36,11 @@ defmodule GalliumWeb.Components.Ticket do
           <p class="text-golden text-3xl font-amarante">{@price}€</p>
           <p class="text-gray-500 text-l font-cormorant">POR PESSOA</p>
         </div>
-        <.primary_button text="Selecionar" link={@link} class="bg-golden! text-base font-cormorant px-4 py-1" />
+        <.primary_button
+          text="Selecionar"
+          link={@link}
+          class="bg-golden! text-base font-cormorant px-4 py-1"
+        />
       </div>
     </div>
     """
