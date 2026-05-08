@@ -143,7 +143,6 @@ defmodule GalliumWeb.UserLive.Login do
   end
 
   defp local_mail_adapter? do
-    Mix.env() != :prod and
-      Application.get_env(:gallium, Gallium.Mailer)[:adapter] == Swoosh.Adapters.Local
+    Application.get_env(:gallium, Gallium.Mailer)[:adapter] == Swoosh.Adapters.Local
   end
 end

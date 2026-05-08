@@ -9,7 +9,7 @@ defmodule GalliumWeb.Components.HeroBanner do
 
   def hero_banner(assigns) do
     ~H"""
-    <div class="bg-blue h-dvh w-full px-8 sm:px-0 flex flex-col items-center py-12 overflow-hidden">
+    <div class="bg-blue h-[calc(100dvh-3rem)] overflow-y-auto w-full px-8 sm:px-0 flex flex-col items-center py-12 overflow-hidden">
       <div class="w-full flex justify-center overflow-hidden">
         <div class="w-full md:scale-25">
           <.frame style={:style2} mode={:bottom} color={:light_muted} />
