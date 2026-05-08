@@ -313,7 +313,7 @@ defmodule GalliumWeb.CoreComponents do
             class={[
               if(@icon != [], do: "pl-12", else: "pl-3"),
               @class ||
-                "focus:outline-none focus:ring-0 w-full rounded-field border font-cormorant text-lg py-3.5 pr-3 placeholder:text-gray-400 text-gray-800 bg-white transition-colors duration-200",
+                "text-xl focus:outline-none focus:ring-0 w-full rounded-field border font-cormorant py-2 pr-2 placeholder:text-gray-400 text-gray-800 bg-white transition-colors duration-200",
               if(@errors != [], do: "border-red-500", else: "border-gray-300"),
               @errors != [] && (@error_class || "input-error")
             ]}
