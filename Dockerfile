@@ -7,13 +7,13 @@
 # This file is based on these images:
 #
 #   - https://hub.docker.com/r/hexpm/elixir/tags - for the build image
-#   - https://hub.docker.com/_/debian/tags?name=trixie-20260202-slim - for the release image
+#   - https://hub.docker.com/_/debian/tags?name=trixie-20260421-slim - for the release image
 #   - https://pkgs.org/ - resource for finding needed packages
-#   - Ex: docker.io/hexpm/elixir:1.15.7-erlang-26.2.1-debian-trixie-20260202-slim
+#   - Ex: docker.io/hexpm/elixir:1.15.7-erlang-26.2.1-debian-trixie-20260421-slim
 #
 ARG ELIXIR_VERSION=1.15.7
 ARG OTP_VERSION=26.2.1
-ARG DEBIAN_VERSION=trixie-20260202-slim
+ARG DEBIAN_VERSION=trixie-20260421-slim
 
 ARG BUILDER_IMAGE="docker.io/hexpm/elixir:${ELIXIR_VERSION}-erlang-${OTP_VERSION}-debian-${DEBIAN_VERSION}"
 ARG RUNNER_IMAGE="docker.io/debian:${DEBIAN_VERSION}"
@@ -89,7 +89,7 @@ RUN chown nobody /app
 ENV MIX_ENV="prod"
 
 # Only copy the final release from the build stage
-COPY --from=builder --chown=nobody:root /app/_build/${MIX_ENV}/rel/ares ./
+COPY --from=builder --chown=nobody:root /app/_build/${MIX_ENV}/rel/gallium ./
 
 USER nobody
 
