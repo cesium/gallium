@@ -13,7 +13,7 @@ defmodule GalliumWeb.UserLive.SettingsTest do
         |> live(~p"/users/settings")
 
       assert html =~ "Atualizar Email"
-      assert html =~ "Guardar palavra-passe"
+      assert html =~ "Guardar Palavra-Passe"
     end
 
     test "redirects if user is not logged in", %{conn: conn} do
@@ -59,7 +59,7 @@ defmodule GalliumWeb.UserLive.SettingsTest do
         })
 
       assert result =~ "Atualizar Email"
-      assert result =~ "must have the @ sign and no spaces"
+      assert result =~ "formato inválido"
     end
 
     test "renders errors with invalid data (phx-submit)", %{conn: conn, user: user} do
@@ -124,7 +124,7 @@ defmodule GalliumWeb.UserLive.SettingsTest do
           }
         })
 
-      assert result =~ "Guardar palavra-passe"
+      assert result =~ "Guardar Palavra-Passe"
       assert result =~ "should be at least 12 character(s)"
       assert result =~ "does not match password"
     end
@@ -142,7 +142,7 @@ defmodule GalliumWeb.UserLive.SettingsTest do
         })
         |> render_submit()
 
-      assert result =~ "Guardar palavra-passe"
+      assert result =~ "Guardar Palavra-Passe"
       assert result =~ "should be at least 12 character(s)"
       assert result =~ "does not match password"
     end

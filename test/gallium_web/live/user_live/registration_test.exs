@@ -32,7 +32,7 @@ defmodule GalliumWeb.UserLive.RegistrationTest do
 
       assert result =~ "Regista a tua conta"
 
-      assert result =~ "must have the @ sign and no spaces"
+      assert result =~ "formato inválido"
     end
   end
 
