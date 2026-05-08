@@ -11,10 +11,6 @@ defmodule GalliumWeb.MidasController do
     end
   end
 
-  def invoice_not_found(conn, _params) do
-    send_resp(conn, 404, "")
-  end
-
   def payment_received(conn, %{"orderId" => order_id, "key" => api_key}) do
     if api_key == Application.fetch_env!(:gallium, :midas)[:midas_api_key] do
       process_payment_if_pending(conn, order_id)
