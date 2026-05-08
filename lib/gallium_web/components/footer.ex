@@ -51,10 +51,6 @@ defmodule GalliumWeb.Components.Footer do
             <div class="w-1.5 h-1.5 rounded-full bg-light-muted"></div>
           </div>
         </div>
-
-        <p class="text-center font-cormorant text-sm text-beige/70">
-          © 2026 Jantar de Gala. Todos os direitos reservados.
-        </p>
       </div>
     </footer>
     """
