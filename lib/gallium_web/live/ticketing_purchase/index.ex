@@ -201,6 +201,7 @@ defmodule GalliumWeb.TicketingPurchaseLive.Index do
     end
   end
 
+  @impl true
   def handle_info({:payment_order_updated, payment}, socket) do
     {:noreply, assign(socket, :payment_status, payment.status)}
   end
