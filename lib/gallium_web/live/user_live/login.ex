@@ -11,7 +11,7 @@ defmodule GalliumWeb.UserLive.Login do
       <div class="mx-auto w-full max-w-sm my-8 px-4 space-y-4 flex flex-1 flex-col justify-center">
         <div class="text-center font-cormorant">
           <.header subtitle_class="text-base font-cormorant text-blue/60">
-            <p class="text-5xl">Log in</p>
+            <p class="text-5xl">Entrar</p>
             <:subtitle>
               <%= if @current_scope do %>
                 Precisas de te reautenticar para fazer ações sensíveis
@@ -55,13 +55,13 @@ defmodule GalliumWeb.UserLive.Login do
           <.primary_button
             class="font-cormorant"
             color={:blue}
-            text="Log in com email"
+            text="Entrar com email"
             icon="hero-arrow-right"
             iconpos={:right}
           />
         </.form>
 
-        <div class="divider font-cormorant">or</div>
+        <div class="divider font-cormorant">ou</div>
 
         <.form
           :let={f}
@@ -100,7 +100,7 @@ defmodule GalliumWeb.UserLive.Login do
             <.primary_button
               class="font-cormorant"
               color={:blue}
-              text="Log in apenas desta vez"
+              text="Entrar apenas desta vez"
             />
           </div>
         </.form>
@@ -134,7 +134,7 @@ defmodule GalliumWeb.UserLive.Login do
     end
 
     info =
-      "If your email is in our system, you will receive instructions for logging in shortly."
+      "Se o teu email estiver no nosso sistema, receberás instruções para entrar em breve."
 
     {:noreply,
      socket

@@ -36,7 +36,7 @@ defmodule GalliumWeb.UserLive.Registration do
             />
 
             <.primary_button
-              phx-disable-with="Creating account..."
+              phx-disable-with="A criar conta..."
               text="Criar conta"
               color={:blue}
               class="font-cormorant"
@@ -74,7 +74,7 @@ defmodule GalliumWeb.UserLive.Registration do
          socket
          |> put_flash(
            :info,
-           "An email was sent to #{user.email}, please access it to confirm your account."
+           "Foi enviado um email para #{user.email}, acede a ele para confirmar a tua conta."
          )
          |> push_navigate(to: ~p"/users/log-in")}
 

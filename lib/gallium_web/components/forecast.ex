@@ -31,7 +31,7 @@ defmodule GalliumWeb.Components.Forecast do
         <.card
           icon="hero-camera"
           title="Sessão Fotográfica"
-          description="Capta memórias eternas com uma sessão fotográfica profissional entre as 19h30 e as 20h."
+          description="Capta memórias eternas com uma sessão fotográfica entre as 19h30 e as 20h."
         />
         <.card
           icon="hero-truck"

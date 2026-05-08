@@ -41,14 +41,14 @@ defmodule GalliumWeb.Components.Navbar do
           <div class="hidden lg:flex items-center gap-4 text-xs font-cormorant uppercase tracking-wider text-beige/80 mr-3">
             <%= if @current_scope do %>
               <.link href={~p"/users/settings"} class="hover:text-light-muted transition-colors">
-                Settings
+                Definições
               </.link>
               <.link
                 href={~p"/users/log-out"}
                 method="delete"
                 class="hover:text-light-muted transition-colors"
               >
-                Log out
+                Sair
               </.link>
             <% else %>
               <.link href={~p"/users/register"} class="hover:text-light-muted transition-colors">
