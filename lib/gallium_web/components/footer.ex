@@ -15,11 +15,11 @@ defmodule GalliumWeb.Components.Footer do
       <div class="max-w-7xl mx-auto flex flex-col">
         <div class="flex flex-col md:flex-row justify-between items-center md:items-baseline mb-12 gap-8">
           <div class="flex-1 text-center md:text-left min-w-max">
-            <p class="font-amarante text-light-muted text-3xl tracking-widest uppercase">
-              jantar de gala
+            <p class="font-amarante text-light-muted text-3xl">
+              Jantar de Gala
             </p>
-            <p class="font-cormorant text-xs text-beige/60 tracking-[0.2em] mt-2 uppercase">
-              jantar de gala 2026
+            <p class="font-cormorant text-xs text-beige/60 tracking-wider mt-2 uppercase">
+              Jantar de Gala 2026
             </p>
           </div>
 

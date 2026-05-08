@@ -5,10 +5,15 @@ defmodule GalliumWeb.Components.TicketSection do
 
   use Phoenix.Component
   import GalliumWeb.Components.Ticket
+  import GalliumWeb.Components.Frame
 
   def ticket_section(assigns) do
     ~H"""
-    <section class="bg-beige py-20 px-4 flex flex-col items-center">
+    <section class="bg-beige flex flex-col items-center">
+      <div class="w-full flex justify-center">
+        <.frame style={:style1} mode={:bottom} color={:bronze} />
+      </div>
+      <div class="py-20 px-4 flex flex-col items-center w-full flex-1">
       <div class="text-center mb-16">
         <p class="text-bronze font-cormorant text-sm tracking-[3px] uppercase mb-3">
           Disponibilidade Limitada
@@ -45,6 +50,10 @@ defmodule GalliumWeb.Components.TicketSection do
             "Animação e karaoke"
           ]}
         />
+      </div>
+      </div>
+      <div class="w-full flex justify-center">
+        <.frame style={:style1} mode={:top} color={:bronze} />
       </div>
     </section>
     """

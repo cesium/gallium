@@ -19,14 +19,14 @@ defmodule GalliumWeb.Components.Hero do
       "bg-blue w-full h-screen flex flex-col items-center justify-between py-12 md:py-16 snap-start snap-always overflow-hidden",
       @class
     ]}>
-      <div class="hidden w-full md:flex justify-center scale-75 md:scale-100">
+      <div class="hidden w-full md:flex justify-center scale-75 md:scale-125">
         <.frame style={:style1} mode={:bottom} color={:light_muted} />
       </div>
       <div class="text-center flex flex-col items-center justify-center flex-1">
-        <h1 class="text-beige font-amarante text-[60px] sm:text-[90px] md:text-[120px] lg:text-[150px] leading-[0.85] uppercase mb-8 md:mb-12">
-          jantar<br /> de gala
+        <h1 class="text-white font-amarante text-[60px] sm:text-[90px] md:text-[120px] lg:text-[150px] leading-[0.85] mb-8 md:mb-12">
+          Jantar<br /> de Gala
         </h1>
-        <p class="text-beige font-glacial text-sm sm:text-base md:text-2xl tracking-[0.4em] uppercase mb-10 md:mb-14">
+        <p class="text-white/80 font-glacial text-sm sm:text-base md:text-2xl tracking-wider uppercase mb-10 md:mb-14">
           {@date_info}
         </p>
         <div class="w-fit">
@@ -35,11 +35,11 @@ defmodule GalliumWeb.Components.Hero do
             link={@ticket_url}
             color={:light_muted}
             text_color={:blue}
-            class="px-12 py-5 md:px-16 md:py-6 font-amarante uppercase tracking-[0.2em] text-sm md:text-lg rounded"
+            class="px-12 py-5 md:px-16 md:py-6 font-cormorant font-semibold uppercase tracking-wider text-sm md:text-lg rounded"
           />
         </div>
       </div>
-      <div class="hidden w-full md:flex justify-center scale-75 md:scale-100">
+      <div class="hidden w-full md:flex justify-center scale-75 md:scale-125">
         <.frame style={:style1} mode={:top} color={:light_muted} />
       </div>
     </section>

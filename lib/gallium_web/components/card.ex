@@ -12,7 +12,7 @@ defmodule GalliumWeb.Components.Card do
 
   def card(assigns) do
     ~H"""
-    <div class="rounded-lg flex flex-col p-8 items-center gap-6 w-full max-w-xs min-h-72 h-fit bg-beige">
+    <div class="rounded-lg flex flex-col p-8 items-center gap-6 w-full min-h-72 h-fit bg-beige">
       <div
         :if={@image_url || @icon}
         class="flex w-16 h-16 items-center justify-center rounded-full bg-olive-100"

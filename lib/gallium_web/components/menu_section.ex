@@ -3,7 +3,6 @@ defmodule GalliumWeb.Components.MenuSection do
   This module holds the menu for the Jantar de Gala.
   """
   use Phoenix.Component
-  import GalliumWeb.Components.Frame
 
   attr :title, :string, default: "MENU"
 
@@ -15,7 +14,6 @@ defmodule GalliumWeb.Components.MenuSection do
     ~H"""
     <div class="relative w-full h-auto p-6 bg-beige bg-contain bg-no-repeat bg-center">
       <div class="relative flex flex-col items-center gap-8 p-12">
-        <.frame style={:style1} mode={:bottom} color={:bronze} />
         <h1 class="text-6xl text-bronze font-amarante tracking-wide py-2">{@title}</h1>
         <div>
           <%= if @section == [] do %>
@@ -37,7 +35,6 @@ defmodule GalliumWeb.Components.MenuSection do
             <% end %>
           <% end %>
         </div>
-        <.frame style={:style1} mode={:top} color={:bronze} />
       </div>
     </div>
     """

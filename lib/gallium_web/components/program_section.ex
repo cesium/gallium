@@ -42,7 +42,7 @@ defmodule GalliumWeb.Components.ProgramSection do
 
   def program_section(assigns) do
     ~H"""
-    <section class={["bg-beige py-24 px-4 flex flex-col items-center w-full", @class]}>
+    <section class={["bg-beige flex flex-col items-center w-full", @class]}>
       <div class="relative z-10 w-full max-w-3xl flex flex-col items-center py-16 px-8">
         <h2 class="text-bronze font-amarante text-5xl uppercase mb-7 tracking-widest text-center">
           Programa

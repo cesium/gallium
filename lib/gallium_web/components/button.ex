@@ -58,7 +58,7 @@ defmodule GalliumWeb.Components.Button do
     <button
       disabled={@disabled}
       class={[
-        "flex w-full h-full items-center justify-center gap-2 px-4 py-2 rounded-md
+        "flex w-full h-full items-center justify-center gap-2 px-4 py-2 rounded-md font-cormorant
          cursor-pointer hover:scale-95 transition-all duration-300",
         color_classes(@color, @text_color),
         if(@disabled,

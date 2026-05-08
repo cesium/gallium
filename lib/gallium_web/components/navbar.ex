@@ -18,15 +18,15 @@ defmodule GalliumWeb.Components.Navbar do
   def navbar(assigns) do
     ~H"""
     <header class={"w-full h-fit bg-blue text-beige/80 px-4 py-3 z-30 sticky top-0 border-b-1 border-beige/20 #{@class}"}>
-      <div class="max-w-7xl mx-auto flex items-center justify-between tracking-widest gap-4">
+      <div class="max-w-7xl mx-auto flex items-center justify-between gap-4">
         <div class="flex-1 min-w-max">
           <.link navigate="/">
-            <p class="font-amarante text-light-muted text-xl md:text-2xl uppercase">
-              jantar de gala
+            <p class="font-amarante text-light-muted text-xl md:text-2xl">
+              Jantar de Gala
             </p>
           </.link>
         </div>
-        <nav class="hidden lg:flex flex-wrap gap-x-4 md:gap-x-10 justify-center uppercase font-amarante text-beige/60">
+        <nav class="hidden lg:flex flex-wrap gap-x-4 md:gap-x-10 justify-center font-cormorant text-sm uppercase tracking-wider text-beige/60">
           <%= for page <- @landing_pages do %>
             <.link navigate={page.url} class="hover:text-light-muted transition-colors">
               {page.name}
@@ -38,7 +38,7 @@ defmodule GalliumWeb.Components.Navbar do
         </nav>
 
         <div class="flex-1 flex min-w-max justify-end items-center gap-4">
-          <div class="hidden lg:flex items-center gap-4 text-xs font-amarante uppercase text-beige/80 mr-3">
+          <div class="hidden lg:flex items-center gap-4 text-xs font-cormorant uppercase tracking-wider text-beige/80 mr-3">
             <%= if @current_scope do %>
               <.link href={~p"/users/settings"} class="hover:text-light-muted transition-colors">
                 Settings
@@ -66,7 +66,7 @@ defmodule GalliumWeb.Components.Navbar do
               link="/bilhetes"
               color={:light_muted}
               text_color={:blue}
-              class="px-4 md:px-6 py-1 font-amarante font-bold uppercase text-xs"
+              class="px-4 md:px-6 py-1 font-cormorant font-semibold uppercase text-xs tracking-wider"
             />
             <%= if @current_scope do %>
               <.link href="/user/profile">
@@ -75,7 +75,7 @@ defmodule GalliumWeb.Components.Navbar do
             <% end %>
             <%= if @current_scope && Accounts.admin?(@current_scope.user) do %>
               <.link href="/backoffice">
-                <span class="text-xs font-amarante uppercase text-beige/80 hover:text-light-muted transition-colors">
+                <span class="text-xs font-cormorant uppercase tracking-wider text-beige/80 hover:text-light-muted transition-colors">
                   Backoffice
                 </span>
               </.link>
@@ -92,65 +92,55 @@ defmodule GalliumWeb.Components.Navbar do
         id="mobile-navbar"
         class="fixed inset-0 z-40 bg-blue hidden flex-col"
       >
-        <div class="flex flex-col h-full">
-          <div class={"flex #{if @current_scope, do: "justify-between", else: "justify-end"} p-6"}>
+        <div class="flex flex-col h-full overflow-hidden">
+          <div class={"flex items-center #{if @current_scope, do: "justify-between", else: "justify-end"} px-6 py-4 border-b border-beige/10 flex-shrink-0"}>
             <%= if @current_scope do %>
-              <.link href="/user/profile">
-                <.icon name="hero-user-circle" class="text-beige size-7" />
+              <.link href="/user/profile" phx-click={hide_mobile_navbar()} class="flex items-center gap-2">
+                <.icon name="hero-user-circle" class="text-beige size-6" />
+                <span class="text-xs font-cormorant uppercase tracking-wider text-beige/70">Perfil</span>
               </.link>
               <%= if Accounts.admin?(@current_scope.user) do %>
                 <.link href="/backoffice">
-                  <span class="text-xs font-amarante uppercase text-beige/80 hover:text-light-muted transition-colors">
+                  <span class="text-xs font-cormorant uppercase tracking-wider text-beige/70 hover:text-light-muted transition-colors">
                     Backoffice
                   </span>
                 </.link>
               <% end %>
             <% end %>
-            <button type="button" phx-click={hide_mobile_navbar()}>
-              <.icon name="hero-x-mark" class="text-beige" />
+            <button type="button" phx-click={hide_mobile_navbar()} class="p-1">
+              <.icon name="hero-x-mark" class="text-beige size-6" />
             </button>
           </div>
 
-          <nav class="flex flex-col items-center gap-8 mt-10 uppercase font-cormorant font-bold text-2xl text-beige/80">
+          <nav class="flex flex-col items-center justify-center gap-6 flex-1 overflow-y-auto py-8 font-cormorant font-semibold text-2xl text-beige/80">
+            <.link navigate="/" phx-click={hide_mobile_navbar()} class="font-amarante text-light-muted text-xl mb-2">
+              Jantar de Gala
+            </.link>
             <%= for page <- @landing_pages do %>
-              <.link navigate={page.url} phx-click={hide_mobile_navbar()} class="hover:text-light-muted">
+              <.link navigate={page.url} phx-click={hide_mobile_navbar()} class="hover:text-white transition-colors">
                 {page.name}
               </.link>
             <% end %>
-            <.link navigate={~p"/evento"} phx-click={hide_mobile_navbar()} class="hover:text-light-muted">
+            <.link navigate={~p"/evento"} phx-click={hide_mobile_navbar()} class="hover:text-white transition-colors">
               Evento
             </.link>
 
+            <div class="w-8 h-px bg-beige/20 my-2"></div>
+
             <%= if @current_scope do %>
-              <div class="flex flex-row gap-10">
-                <.link
-                  href={~p"/users/settings"}
-                  phx-click={hide_mobile_navbar()}
-                  class="hover:text-light-muted"
-                >
-                  Settings
-                </.link>
-                <.link href={~p"/users/log-out"} method="delete" class="hover:text-light-muted">
-                  Log out
-                </.link>
-              </div>
+              <.link href={~p"/users/settings"} phx-click={hide_mobile_navbar()} class="text-lg text-beige/60 hover:text-white transition-colors">
+                Definições
+              </.link>
+              <.link href={~p"/users/log-out"} method="delete" class="text-lg text-beige/60 hover:text-white transition-colors">
+                Terminar sessão
+              </.link>
             <% else %>
-              <div class="flex flex-row gap-5">
-                <.link
-                  href={~p"/users/register"}
-                  phx-click={hide_mobile_navbar()}
-                  class="hover:text-light-muted"
-                >
-                  Regista-te
-                </.link>
-                <.link
-                  href={~p"/users/log-in"}
-                  phx-click={hide_mobile_navbar()}
-                  class="hover:text-light-muted"
-                >
-                  Log in
-                </.link>
-              </div>
+              <.link href={~p"/users/register"} phx-click={hide_mobile_navbar()} class="text-lg text-beige/60 hover:text-white transition-colors">
+                Registar
+              </.link>
+              <.link href={~p"/users/log-in"} phx-click={hide_mobile_navbar()} class="text-lg text-beige/60 hover:text-white transition-colors">
+                Entrar
+              </.link>
             <% end %>
 
             <div class="mt-4">
@@ -159,7 +149,7 @@ defmodule GalliumWeb.Components.Navbar do
                 link="/bilhetes"
                 color={:light_muted}
                 text_color={:blue}
-                class="px-8 py-2 font-amarante font-bold uppercase text-lg"
+                class="px-8 py-2 font-cormorant font-semibold uppercase text-base tracking-wider"
               />
             </div>
           </nav>

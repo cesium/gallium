@@ -9,9 +9,11 @@ defmodule GalliumWeb.Components.HeroBanner do
 
   def hero_banner(assigns) do
     ~H"""
-    <div class="bg-blue h-dvh w-full px-8 sm:px-0 flex flex-col items-center py-12">
-      <div class="w-full flex justify-center scale-75 md:scale-100">
-        <.frame style={:style2} mode={:bottom} color={:light_muted} />
+    <div class="bg-blue h-dvh w-full px-8 sm:px-0 flex flex-col items-center py-12 overflow-hidden">
+      <div class="w-full flex justify-center overflow-hidden">
+        <div class="w-full md:scale-125">
+          <.frame style={:style2} mode={:bottom} color={:light_muted} />
+        </div>
       </div>
       <div class="relative w-full font-serif h-auto py-8">
         <div class="flex flex-col items-center justify-center text-center py-3">
@@ -19,8 +21,8 @@ defmodule GalliumWeb.Components.HeroBanner do
             <p class="flex items-center justify-center text-light-muted font-bold text-md tracking-[.25em] opacity-50">
               •••••••••
             </p>
-            <h1 class="text-beige font-amarante leading-tight tracking-wide text-7xl md:text-9xl m-0">
-              JANTAR<br />DE GALA
+            <h1 class="text-beige font-amarante leading-tight text-7xl md:text-9xl m-0">
+              Jantar<br />de Gala
             </h1>
             <p class="text-beige font-glacial text-base tracking-[0.2em] opacity-70">
               <span class="block sm:inline">PROGRAMA</span>
@@ -34,13 +36,15 @@ defmodule GalliumWeb.Components.HeroBanner do
             link="/bilhetes"
             color={:light_muted}
             text_color={:blue}
-            class="px-12 py-4 font-glacial uppercase tracking-[0.22em] text-sm rounded-md shadow-sm hover:scale-100"
+            class="px-12 py-4 font-cormorant font-semibold uppercase tracking-wider text-sm rounded-md shadow-sm hover:scale-100"
           />
           <span class="text-light-muted text-2xl pt-5">✳</span>
         </div>
       </div>
-      <div class="w-full flex justify-center scale-75 md:scale-100">
-        <.frame style={:style2} mode={:top} color={:light_muted} />
+      <div class="w-full flex justify-center overflow-hidden">
+        <div class="w-full md:scale-125">
+          <.frame style={:style2} mode={:top} color={:light_muted} />
+        </div>
       </div>
     </div>
     """

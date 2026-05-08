@@ -105,31 +105,25 @@
 /* This file is for your main application CSS */
 
 @font-face {
-  font-family: 'Amarante';
-  src: url('/fonts/Amarante/Amarante-Regular.ttf') format('truetype');
+  font-family: 'Roby Soho';
+  src: url('/fonts/RobySoho-Regular.ttf') format('truetype');
   font-weight: 400;
+  font-style: normal;
   font-display: swap;
 }
 
 @font-face {
-  font-family: 'Cormorant Garamond';
-  src: url('/fonts/Cormorant/CormorantGaramond-VariableFont_wght.ttf') format('truetype');
+  font-family: 'Instrument Sans';
+  src: url('/fonts/InstrumentSans-Variable.ttf') format('truetype');
   font-weight: 100 900;
+  font-style: normal;
   font-display: swap;
 }
-
-@font-face {
-  font-family: "Glacial Indifference";
-  src: url("/fonts/Glacial/GlacialIndifference-Regular.otf")
-      format("truetype");
-  font-weight: 400;
-  font-display: swap;
-} 
 
 @theme {
-  --font-amarante: "Amarante", serif;
-  --font-cormorant: "Cormorant Garamond", serif;
-  --font-glacial: "Glacial Indifference", serif;
+  --font-amarante: "Roby Soho", serif;
+  --font-cormorant: "Instrument Sans", sans-serif;
+  --font-glacial: "Instrument Sans", sans-serif;
 
   --color-light-muted: #EFC7C2;
   --color-beige: #E7D8B5;
@@ -171,4 +165,16 @@
   --color-olive-950: #0B0E0A;
 
   --color-golden: #B88B4A;
+}
+
+/* Roby Soho — títulos apenas, Regular, line-height 100% */
+.font-amarante {
+  line-height: 1;
+  font-weight: 400;
+}
+
+/* Instrument Sans — corpo/cabeçalhos, line-height ~137% */
+.font-cormorant,
+.font-glacial {
+  line-height: 1.37;
 }
