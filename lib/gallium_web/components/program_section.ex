@@ -66,7 +66,7 @@ defmodule GalliumWeb.Components.ProgramSection do
           <% end %>
         </div>
 
-        <p class="mt-16 text-bronze font-amarante text-[10px] text-center uppercase tracking-[2px] max-w-md">
+        <p class="mt-16 text-bronze text-[10px] text-center uppercase tracking-[2px] max-w-md">
           Não percas atividades incríveis como karaoke, cartões quebra-gelo e muitas outras surpresas!
         </p>
       </div>

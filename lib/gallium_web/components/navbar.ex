@@ -32,9 +32,6 @@ defmodule GalliumWeb.Components.Navbar do
               {page.name}
             </.link>
           <% end %>
-          <.link navigate={~p"/evento"} class="hover:text-light-muted transition-colors">
-            Evento
-          </.link>
         </nav>
 
         <div class="flex-1 flex min-w-max justify-end items-center gap-4">
@@ -135,13 +132,6 @@ defmodule GalliumWeb.Components.Navbar do
                 {page.name}
               </.link>
             <% end %>
-            <.link
-              navigate={~p"/evento"}
-              phx-click={hide_mobile_navbar()}
-              class="hover:text-white transition-colors"
-            >
-              Evento
-            </.link>
 
             <div class="w-8 h-px bg-beige/20 my-2"></div>
 

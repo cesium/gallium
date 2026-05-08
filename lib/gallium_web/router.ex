@@ -24,7 +24,6 @@ defmodule GalliumWeb.Router do
       on_mount: [{GalliumWeb.UserAuth, :mount_current_scope}] do
       live "/", LandingLive.Index, :index
       live "/bilhetes", TicketsLive.Index, :index
-      live "/evento", EventLive.Index, :index
     end
   end
 

@@ -1,7 +1,14 @@
 defmodule GalliumWeb.LandingLive.Index do
   use GalliumWeb, :landing_view
 
-  import GalliumWeb.Components.{AboutSection, Forecast, Hero}
+  import GalliumWeb.Components.{
+    AboutSection,
+    Forecast,
+    Hero,
+    InfoSection,
+    ProgramSection,
+    MenuSection
+  }
 
   @impl true
   def mount(_params, _session, socket) do

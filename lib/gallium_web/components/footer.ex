@@ -16,10 +16,7 @@ defmodule GalliumWeb.Components.Footer do
         <div class="flex flex-col md:flex-row justify-between items-center md:items-baseline mb-12 gap-8">
           <div class="flex-1 text-center md:text-left min-w-max">
             <p class="font-amarante text-light-muted text-3xl">
-              Jantar de Gala
-            </p>
-            <p class="font-cormorant text-xs text-beige/60 tracking-wider mt-2 uppercase">
-              Jantar de Gala 2026
+              Jantar de Gala 26
             </p>
           </div>
 
@@ -38,19 +35,13 @@ defmodule GalliumWeb.Components.Footer do
               {@date}
             </p>
 
-            <p class="text-beige/70 text-xs mt-1 font-cormorant tracking-widest">
+            <p class="text-beige/70 text-xs font-cormorant tracking-widest">
               Organizado pelo CeSIUM
             </p>
           </div>
         </div>
 
         <div class="w-full border-t border-beige/20 mb-12"></div>
-
-        <div class="flex justify-center mb-8">
-          <div class="w-4 h-4 rounded-full border border-light-muted flex items-center justify-center">
-            <div class="w-1.5 h-1.5 rounded-full bg-light-muted"></div>
-          </div>
-        </div>
       </div>
     </footer>
     """
