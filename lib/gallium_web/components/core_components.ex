@@ -342,6 +342,7 @@ defmodule GalliumWeb.CoreComponents do
   @doc """
   Renders a header with title.
   """
+  attr :subtitle_class, :string, default: "text-sm text-base-content/70"
   slot :inner_block, required: true
   slot :subtitle
   slot :actions
@@ -353,7 +354,7 @@ defmodule GalliumWeb.CoreComponents do
         <h1 class="text-lg font-semibold leading-8">
           {render_slot(@inner_block)}
         </h1>
-        <p :if={@subtitle != []} class="text-sm text-base-content/70">
+        <p :if={@subtitle != []} class={["mt-4", @subtitle_class]}>
           {render_slot(@subtitle)}
         </p>
       </div>

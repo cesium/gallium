@@ -19,7 +19,7 @@ defmodule GalliumWeb.Components.Hero do
       "bg-blue w-full h-screen flex flex-col items-center justify-between py-12 md:py-16 snap-start snap-always overflow-hidden",
       @class
     ]}>
-      <div class="hidden w-full md:flex justify-center scale-75 md:scale-100">
+      <div class="hidden w-full md:flex justify-center scale-75 md:scale-125">
         <.frame style={:style1} mode={:bottom} color={:light_muted} />
       </div>
       <div class="text-center flex flex-col items-center justify-center flex-1">

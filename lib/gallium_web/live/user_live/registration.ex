@@ -9,18 +9,16 @@ defmodule GalliumWeb.UserLive.Registration do
   def render(assigns) do
     ~H"""
     <.app flash={@flash} current_scope={@current_scope}>
-      <div class="mx-auto w-full max-w-sm my-8 space-y-4 flex flex-1 flex-col justify-center">
+      <div class="mx-auto w-full max-w-sm my-8 px-4 space-y-4 flex flex-1 flex-col justify-center">
         <div class="text-center font-cormorant">
-          <.header>
-            <div class="text-5xl">
-              Regista a tua conta
-            </div>
+          <.header subtitle_class="text-base font-cormorant text-blue/60">
+            <div class="text-5xl">Registo</div>
             <:subtitle>
-              Já resgistado?
-              <.link navigate={~p"/users/log-in"} class="font-semibold text-brand hover:underline">
-                Log in
-              </.link>
-              na tua conta.
+              Já tens conta? <.link
+                navigate={~p"/users/log-in"}
+                class="font-semibold text-blue hover:text-blue/70 underline"
+                phx-no-format
+              >Entra aqui</.link>
             </:subtitle>
           </.header>
         </div>

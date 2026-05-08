@@ -8,19 +8,19 @@ defmodule GalliumWeb.UserLive.Login do
   def render(assigns) do
     ~H"""
     <.app flash={@flash} current_scope={@current_scope}>
-      <div class="mx-auto w-full max-w-sm my-8 space-y-4 flex flex-1 flex-col justify-center">
+      <div class="mx-auto w-full max-w-sm my-8 px-4 space-y-4 flex flex-1 flex-col justify-center">
         <div class="text-center font-cormorant">
-          <.header>
+          <.header subtitle_class="text-base font-cormorant text-blue/60">
             <p class="text-5xl">Log in</p>
             <:subtitle>
               <%= if @current_scope do %>
                 Precisas de te reautenticar para fazer ações sensíveis
               <% else %>
-                Não tens uma conta? <.link
+                Não tens conta? <.link
                   navigate={~p"/users/register"}
-                  class="font-semibold text-brand hover:underline"
+                  class="font-semibold text-blue hover:text-blue/70 underline"
                   phx-no-format
-                >Regista</.link> a tua conta.
+                >Regista-te aqui</.link>
               <% end %>
             </:subtitle>
           </.header>
@@ -143,6 +143,7 @@ defmodule GalliumWeb.UserLive.Login do
   end
 
   defp local_mail_adapter? do
-    Application.get_env(:gallium, Gallium.Mailer)[:adapter] == Swoosh.Adapters.Local
+    Mix.env() != :prod and
+      Application.get_env(:gallium, Gallium.Mailer)[:adapter] == Swoosh.Adapters.Local
   end
 end

@@ -55,7 +55,7 @@ defmodule GalliumWeb.Components.Navbar do
                 Regista-te
               </.link>
               <.link href={~p"/users/log-in"} class="hover:text-light-muted transition-colors">
-                Log in
+                Entrar
               </.link>
             <% end %>
           </div>

@@ -3,6 +3,6 @@ defmodule GalliumWeb.PageControllerTest do
 
   test "GET /", %{conn: conn} do
     conn = get(conn, ~p"/")
-    assert html_response(conn, 200) =~ "Gallium"
+    assert html_response(conn, 200) =~ "Jantar de Gala"
   end
 end
