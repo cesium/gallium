@@ -108,7 +108,7 @@ defmodule GalliumWeb.UserLive.Confirmation do
     else
       {:ok,
        socket
-       |> put_flash(:error, "Magic link is invalid or it has expired.")
+       |> put_flash(:error, "O link é inválido ou expirou.")
        |> push_navigate(to: ~p"/users/log-in")}
     end
   end

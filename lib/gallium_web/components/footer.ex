@@ -13,7 +13,7 @@ defmodule GalliumWeb.Components.Footer do
     ~H"""
     <footer class={"w-full border-t border-beige/20 bg-blue text-beige/80 px-6 py-16 #{@class}"}>
       <div class="max-w-7xl mx-auto flex flex-col">
-        <div class="flex flex-col md:flex-row justify-between items-center md:items-baseline mb-12 gap-8">
+        <div class="flex flex-col md:flex-row justify-between items-center md:items-baseline gap-4">
           <div class="flex-1 text-center md:text-left min-w-max">
             <p class="font-amarante text-light-muted text-3xl">
               Jantar de Gala 26
@@ -34,14 +34,19 @@ defmodule GalliumWeb.Components.Footer do
               <span :if={@place_name != "" and @date != ""}>-</span>
               {@date}
             </p>
+            <div class="w-full border-t border-beige/20 block md:hidden"></div>
 
-            <p class="text-beige/70 text-xs font-cormorant tracking-widest">
-              Organizado pelo CeSIUM
+            <p class="text-beige/70 text-xs font-cormorant tracking-widest mt-4">
+              Organizado pelo
+              <.link
+                navigate="https://www.cesium.di.uminho.pt"
+                class="hover:text-light-muted transition-colors"
+              >
+                CeSIUM
+              </.link>
             </p>
           </div>
         </div>
-
-        <div class="w-full border-t border-beige/20 mb-12"></div>
       </div>
     </footer>
     """

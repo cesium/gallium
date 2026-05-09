@@ -21,7 +21,7 @@ defmodule GalliumWeb.UserLive.SettingsTest do
 
       assert {:redirect, %{to: path, flash: flash}} = redirect
       assert path == ~p"/users/log-in"
-      assert %{"error" => "You must log in to access this page."} = flash
+      assert %{"error" => "Precisa de estar logado para acessar esta página."} = flash
     end
   end
 
@@ -106,7 +106,7 @@ defmodule GalliumWeb.UserLive.SettingsTest do
       assert get_session(new_password_conn, :user_token) != get_session(conn, :user_token)
 
       assert Phoenix.Flash.get(new_password_conn.assigns.flash, :info) =~
-               "Password updated successfully"
+               "Palavra-passe atualizada com sucesso!"
 
       assert Accounts.get_user_by_email_and_password(user.email, new_password)
     end
@@ -167,7 +167,7 @@ defmodule GalliumWeb.UserLive.SettingsTest do
       assert {:live_redirect, %{to: path, flash: flash}} = redirect
       assert path == ~p"/users/settings"
       assert %{"info" => message} = flash
-      assert message == "Email changed successfully."
+      assert message == "Email alterado com sucesso."
       refute Accounts.get_user_by_email(user.email)
       assert Accounts.get_user_by_email(email)
 
@@ -176,7 +176,7 @@ defmodule GalliumWeb.UserLive.SettingsTest do
       assert {:live_redirect, %{to: path, flash: flash}} = redirect
       assert path == ~p"/users/settings"
       assert %{"error" => message} = flash
-      assert message == "Email change link is invalid or it has expired."
+      assert message == "O link é inválido ou expirou."
     end
 
     test "does not update email with invalid token", %{conn: conn, user: user} do
@@ -184,7 +184,7 @@ defmodule GalliumWeb.UserLive.SettingsTest do
       assert {:live_redirect, %{to: path, flash: flash}} = redirect
       assert path == ~p"/users/settings"
       assert %{"error" => message} = flash
-      assert message == "Email change link is invalid or it has expired."
+      assert message == "O link é inválido ou expirou."
       assert Accounts.get_user_by_email(user.email)
     end
 
@@ -194,7 +194,7 @@ defmodule GalliumWeb.UserLive.SettingsTest do
       assert {:redirect, %{to: path, flash: flash}} = redirect
       assert path == ~p"/users/log-in"
       assert %{"error" => message} = flash
-      assert message == "You must log in to access this page."
+      assert message == "Precisa de estar logado para acessar esta página."
     end
   end
 end

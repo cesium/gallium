@@ -11,7 +11,7 @@ defmodule GalliumWeb.UserLive.Settings do
   def render(assigns) do
     ~H"""
     <.app flash={@flash} current_scope={@current_scope}>
-      <div class="max-w-2xl mx-auto py-12 px-4">
+      <div class="max-w-3xl w-full mx-auto py-12 px-4">
         <div class="text-center mb-10">
           <h1 class="text-5xl font-amarante text-olive uppercase mb-3">Definições</h1>
           <p class="font-cormorant text-gray-500 text-xl">
@@ -119,7 +119,7 @@ defmodule GalliumWeb.UserLive.Settings do
         <div class="mt-6 text-center">
           <a
             href={~p"/user/profile"}
-            class="font-cormorant text-gray-400 hover:text-olive text-base transition-colors"
+            class="font-cormorant text-olive hover:text-black text-base transition-colors"
           >
             ← Voltar ao perfil
           </a>
@@ -134,10 +134,10 @@ defmodule GalliumWeb.UserLive.Settings do
     socket =
       case Accounts.update_user_email(socket.assigns.current_scope.user, token) do
         {:ok, _user} ->
-          put_flash(socket, :info, "Email changed successfully.")
+          put_flash(socket, :info, "Email alterado com sucesso.")
 
         {:error, _} ->
-          put_flash(socket, :error, "Email change link is invalid or it has expired.")
+          put_flash(socket, :error, "O link é inválido ou expirou.")
       end
 
     {:ok, push_navigate(socket, to: ~p"/users/settings")}

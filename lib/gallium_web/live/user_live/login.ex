@@ -29,9 +29,9 @@ defmodule GalliumWeb.UserLive.Login do
         <div :if={local_mail_adapter?()} class="alert alert-info">
           <.icon name="hero-information-circle" class="size-6 shrink-0" />
           <div>
-            <p>You are running the local mail adapter.</p>
+            <p>Está a usar o adaptador de email local.</p>
             <p>
-              To see sent emails, visit <.link href={~p"/dev/mailbox"} class="underline">the mailbox page</.link>.
+              Para ver os emails enviados, visite <.link href="/dev/mailbox" class="underline">a página da mailbox</.link>.
             </p>
           </div>
         </div>

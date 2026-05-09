@@ -11,7 +11,7 @@ defmodule GalliumWeb.Components.ProgramSection do
       %{
         time: "18H30",
         title: "PARTIDA DA UNIVERSIDADE",
-        description: "Encontro no Paragens Um para embarque no autocarro"
+        description: "Encontro na paragem da UM para embarque no autocarro"
       },
       %{
         time: "19H30",
@@ -66,7 +66,7 @@ defmodule GalliumWeb.Components.ProgramSection do
           <% end %>
         </div>
 
-        <p class="mt-16 text-bronze text-[10px] text-center uppercase tracking-[2px] max-w-md">
+        <p class="mt-16 text-bronze text-sm text-center tracking-[2px] max-w-md">
           Não percas atividades incríveis como karaoke, cartões quebra-gelo e muitas outras surpresas!
         </p>
       </div>

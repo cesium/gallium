@@ -2,19 +2,21 @@
   <div class={[
     "rounded-full p-5 mb-4 shadow-sm",
     if(@payment_status == :paid,
-      do: "bg-green-100 text-green-600",
+      do: "bg-olive text-olive-600",
       else: "bg-amber-100 text-amber-600"
     )
   ]}>
     <.icon
       name={if @payment_status == :paid, do: "hero-check-circle", else: "hero-clock"}
-      class="size-10"
+      class={
+        if @payment_status == :paid, do: "size-10 text-white", else: "size-10 text-amber-600ç"
+      }
     />
   </div>
 
   <h1 class={[
-    "text-5xl font-amarante mb-4 uppercase",
-    if(@payment_status == :paid, do: "text-green-600", else: "text-amber-600")
+    "text-5xl font-amarante mb-4 text-center uppercase",
+    if(@payment_status == :paid, do: "text-olive", else: "text-amber-600")
   ]}>
     {if @payment_status == :paid, do: "Bilhete Confirmado!", else: "Pagamento Pendente"}
   </h1>
@@ -58,7 +60,7 @@
     <div class="mb-5">
       <p class="text-gray-600 text-xs font-cormorant uppercase mb-2">Evento</p>
       <div class="flex items-center gap-2 font-cormorant mb-2">
-        <span>30 de Maio, 2026</span>
+        <span>5 de Junho, 2026</span>
       </div>
       <div class="flex items-center gap-2 font-cormorant">
         <span>Quinta da Aldeia, Guimarães</span>
@@ -74,7 +76,6 @@
           {if @has_accompany?, do: "2", else: "1"}
           {if @form_data.data.is_cesium_member, do: " x Bilhete Sócio", else: " x Bilhete Normal"}
         </span>
-        <span class="font-bold">{@price_per_ticket} € / por bilhete</span>
       </div>
     </div>
 

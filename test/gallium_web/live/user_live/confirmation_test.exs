@@ -59,7 +59,7 @@ defmodule GalliumWeb.UserLive.ConfirmationTest do
       conn = follow_trigger_action(form, conn)
 
       assert Phoenix.Flash.get(conn.assigns.flash, :info) =~
-               "User confirmed successfully"
+               "Utilizador confirmado com sucesso"
 
       assert Accounts.get_user!(user.id).confirmed_at
 
@@ -72,7 +72,7 @@ defmodule GalliumWeb.UserLive.ConfirmationTest do
         live(conn, ~p"/users/log-in/#{token}")
         |> follow_redirect(conn, ~p"/users/log-in")
 
-      assert html =~ "Magic link is invalid or it has expired"
+      assert html =~ "O link é inválido ou expirou"
     end
 
     test "logs confirmed user in without changing confirmed_at", %{
@@ -92,7 +92,7 @@ defmodule GalliumWeb.UserLive.ConfirmationTest do
       conn = follow_trigger_action(form, conn)
 
       assert Phoenix.Flash.get(conn.assigns.flash, :info) =~
-               "Welcome back!"
+               "Bem-vindo de volta!"
 
       assert Accounts.get_user!(user.id).confirmed_at == user.confirmed_at
 
@@ -102,7 +102,7 @@ defmodule GalliumWeb.UserLive.ConfirmationTest do
         live(conn, ~p"/users/log-in/#{token}")
         |> follow_redirect(conn, ~p"/users/log-in")
 
-      assert html =~ "Magic link is invalid or it has expired"
+      assert html =~ "O link é inválido ou expirou"
     end
 
     test "raises error for invalid token", %{conn: conn} do
@@ -110,7 +110,7 @@ defmodule GalliumWeb.UserLive.ConfirmationTest do
         live(conn, ~p"/users/log-in/invalid-token")
         |> follow_redirect(conn, ~p"/users/log-in")
 
-      assert html =~ "Magic link is invalid or it has expired"
+      assert html =~ "O link é inválido ou expirou"
     end
   end
 end

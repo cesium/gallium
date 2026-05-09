@@ -74,8 +74,7 @@ defmodule GalliumWeb.UserLive.LoginTest do
 
       conn = follow_trigger_action(form, conn)
 
-      # NOTE: Update this to Portuguese if you translated the error message!
-      assert Phoenix.Flash.get(conn.assigns.flash, :error) == "Invalid email or password"
+      assert Phoenix.Flash.get(conn.assigns.flash, :error) == "Email ou palavra-passe inválidos"
       assert redirected_to(conn) == ~p"/users/log-in"
     end
   end

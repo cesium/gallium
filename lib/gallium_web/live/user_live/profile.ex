@@ -41,7 +41,7 @@ defmodule GalliumWeb.UserLive.Profile do
     ~H"""
     <.app flash={@flash} current_scope={@current_scope}>
       <div class="grow flex flex-col">
-        <div class="max-w-2xl mx-auto w-full py-12 px-4 flex flex-col gap-6">
+        <div class="max-w-3xl mx-auto w-full py-12 px-4 flex flex-col gap-6">
           <div class="text-center mb-4">
             <div class="inline-flex items-center justify-center w-14 h-14 rounded-full bg-blue mb-4">
               <.icon name="hero-user" class="size-7 text-beige" />
@@ -62,18 +62,18 @@ defmodule GalliumWeb.UserLive.Profile do
                 <h2 class="font-amarante text-white/90 uppercase tracking-wider text-lg">
                   Bilhete
                   <span class="ml-2 text-white/60 text-sm font-glacial font-normal normal-case tracking-normal">
-                    {if @user_info.is_cesium_member, do: "· Sócio CeSIUM", else: "· Normal"}
+                    {if @user_info.is_cesium_member, do: "Sócio CeSIUM", else: "Normal"}
                   </span>
                 </h2>
                 <span class={[
-                  "font-amarante text-xs uppercase tracking-wider px-3 py-1 rounded-full",
+                  "font-amarante text-xs uppercase tracking-wider px-3 py-1 rounded-full flex items-center justify-center text-center",
                   if(@user_info.payment && @user_info.payment.status == :paid,
                     do: "bg-white/20 text-white",
                     else: "bg-white/20 text-white/90"
                   )
                 ]}>
                   {if @user_info.payment && @user_info.payment.status == :paid,
-                    do: "✓ Pago",
+                    do: "Pago",
                     else: "Pagamento Pendente"}
                 </span>
               </div>
@@ -116,16 +116,18 @@ defmodule GalliumWeb.UserLive.Profile do
                           :failed -> "bg-red-500"
                         end
                       ]} />
-                      <span class="font-cormorant text-lg text-gray-700">
-                        {case @user_info.payment.status do
-                          :paid -> "Pagamento confirmado"
-                          :pending -> "Aguarda confirmação de pagamento MBWay"
-                          :failed -> "Pagamento falhado"
-                        end}
-                      </span>
-                      <span class="font-amarante text-olive ml-auto text-xl">
-                        {@user_info.payment.amount} €
-                      </span>
+                      <div class="flex flex-col sm:flex-row sm:items-center gap-2">
+                        <span class="font-cormorant text-lg text-gray-700">
+                          {case @user_info.payment.status do
+                            :paid -> "Pagamento confirmado"
+                            :pending -> "Aguarda confirmação de pagamento MBWay"
+                            :failed -> "Pagamento falhado"
+                          end}
+                        </span>
+                        <span class="font-amarante text-olive text-xl font-semibold">
+                          {@user_info.payment.amount} €
+                        </span>
+                      </div>
                     </div>
                   </div>
                 <% end %>

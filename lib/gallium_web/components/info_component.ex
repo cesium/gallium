@@ -23,7 +23,7 @@ defmodule GalliumWeb.Components.InfoSection do
             <.icon name="hero-map-pin" class="h-5 w-5" />
             <p>Viagem de Ida</p>
           </div>
-          <p class="text-xs font-glacial opacity-70 uppercase mt-1">Paragens UM • Quinta</p>
+          <p class="text-xs font-glacial opacity-70 uppercase mt-1">Paragem da UM  • Quinta</p>
           <p class="text-3xl md:text-4xl mt-2 font-amarante">18H30 • 19H</p>
         </div>
 

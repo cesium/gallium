@@ -7,7 +7,7 @@
   >
     <%= if @has_accompany? do %>
       <div>
-        <div class="flex flex-row justify-between gap-2">
+        <div class="flex flex-col sm:flex-row justify-between gap-2">
           <h2 class="text-4xl font-amarante text-blue-500 mb-3 uppercase ">
             Dados <span class="hidden md:inline">Acompanhante</span>
           </h2>
@@ -65,7 +65,7 @@
     <% end %>
 
     <div>
-      <div class="flex flex-row justify-between gap-2">
+      <div class="flex flex-col sm:flex-row justify-between gap-2">
         <h2 class="text-4xl font-amarante text-blue-500 mb-3 uppercase">Dados Pessoais</h2>
         <%= if !@has_accompany? do %>
           <div>

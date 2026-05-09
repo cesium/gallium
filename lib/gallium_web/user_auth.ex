@@ -221,7 +221,7 @@ defmodule GalliumWeb.UserAuth do
     else
       socket =
         socket
-        |> Phoenix.LiveView.put_flash(:error, "You must log in to access this page.")
+        |> Phoenix.LiveView.put_flash(:error, "Precisa de estar logado para acessar esta página.")
         |> Phoenix.LiveView.redirect(to: ~p"/users/log-in")
 
       {:halt, socket}
@@ -247,7 +247,7 @@ defmodule GalliumWeb.UserAuth do
     else
       socket =
         socket
-        |> Phoenix.LiveView.put_flash(:error, "You must be an admin to access this page.")
+        |> Phoenix.LiveView.put_flash(:error, "Precisa de ser admin para acessar esta página  .")
         |> Phoenix.LiveView.redirect(to: ~p"/")
 
       {:halt, socket}
@@ -281,7 +281,7 @@ defmodule GalliumWeb.UserAuth do
       conn
     else
       conn
-      |> put_flash(:error, "You must log in to access this page.")
+      |> put_flash(:error, "Precisa de estar logado para acessar esta página.")
       |> maybe_store_return_to()
       |> redirect(to: ~p"/users/log-in")
       |> halt()
@@ -313,7 +313,7 @@ defmodule GalliumWeb.UserAuth do
       conn
     else
       conn
-      |> put_flash(:error, "You must be an admin to access this page.")
+      |> put_flash(:error, "Precisa de ser admin para acessar esta página.")
       |> redirect(to: ~p"/")
       |> halt()
     end
