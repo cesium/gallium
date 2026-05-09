@@ -36,7 +36,7 @@ config :swoosh, api_client: Swoosh.ApiClient.Req
 # Disable Swoosh Local Memory Storage
 config :swoosh, local: false
 
-config :gallium, GalliumWeb.Mailer, adapter: Swoosh.Adapters.ExAwsAmazonSES
+config :gallium, Gallium.Mailer, adapter: Swoosh.Adapters.ExAwsAmazonSES
 
 # Do not print debug messages in production
 config :logger, level: :info

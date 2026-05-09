@@ -20,6 +20,10 @@ if System.get_env("PHX_SERVER") do
   config :gallium, GalliumWeb.Endpoint, server: true
 end
 
+config :gallium,
+  from_email_name: System.get_env("FROM_EMAIL_NAME") || "Jantar de Gala",
+  from_email_address: System.get_env("FROM_EMAIL_ADDRESS") || "no-reply@cesium.pt"
+
 config :gallium, GalliumWeb.Endpoint,
   http: [port: String.to_integer(System.get_env("PORT", "4000"))]
 
