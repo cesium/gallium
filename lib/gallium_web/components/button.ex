@@ -48,7 +48,7 @@ defmodule GalliumWeb.Components.Button do
 
   def primary_button(assigns) do
     ~H"""
-    <.link href={@link}>
+    <.link navigate={@link}>
       {button_content(assigns)}
     </.link>
     """
