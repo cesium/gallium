@@ -50,7 +50,7 @@ defmodule GalliumWeb.Components.ProgramSection do
 
         <div class="w-full flex flex-col">
           <%= for item <- @schedule_items do %>
-            <div class="flex flex-col sm:flex-row items-start py-8 border-b border-gray-200 last:border-none gap-2 sm:gap-0">
+            <div class="flex flex-col sm:flex-row items-start py-8 border-b border-bronze/20 last:border-none gap-2 sm:gap-0">
               <div class="w-full sm:w-1/3">
                 <p class="text-bronze font-amarante text-xl uppercase max-w-none sm:max-w-[120px] leading-tight">
                   {item.time}

@@ -8,9 +8,9 @@ defmodule GalliumWeb.Components.InfoSection do
 
   def info_section(assigns) do
     ~H"""
-    <section class="bg-bronze w-full h-screen flex flex-col items-center justify-between py-12 md:py-16 snap-start snap-always overflow-hidden">
+    <section class="bg-bronze w-full select-none h-screen flex flex-col items-center justify-between py-12 md:py-16 snap-start snap-always overflow-hidden">
       <div class="hidden w-full md:flex justify-center scale-100 md:scale-150">
-        <.frame style={:style1} mode={:bottom} color={:light_muted} />
+        <.frame style={:style2} mode={:top} color={:light_muted} />
       </div>
 
       <div class="text-center flex flex-col items-center justify-center flex-1 font-amarante text-beige">
@@ -45,7 +45,7 @@ defmodule GalliumWeb.Components.InfoSection do
       </div>
 
       <div class="hidden w-full md:flex justify-center scale-100 md:scale-150">
-        <.frame style={:style1} mode={:top} color={:light_muted} />
+        <.frame style={:style2} mode={:bottom} color={:light_muted} />
       </div>
     </section>
     """

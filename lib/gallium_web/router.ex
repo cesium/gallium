@@ -51,7 +51,7 @@ defmodule GalliumWeb.Router do
     end
   end
 
-  scope "/", GalliumWeb do
+  scope "/dashboard", GalliumWeb do
     pipe_through [:browser, :require_authenticated_user, :require_admin]
 
     live_session :require_admin,
@@ -59,7 +59,9 @@ defmodule GalliumWeb.Router do
         {GalliumWeb.UserAuth, :require_authenticated},
         {GalliumWeb.UserAuth, :require_admin}
       ] do
-      live "/backoffice", BackOfficeIndex.Index, :index
+      live "/", BackOffice.MembersLive.Index
+      live "/members", BackOffice.MembersLive.Index
+      live "/attendees", BackOffice.AttendeesLive.Index
     end
   end
 

@@ -16,10 +16,10 @@ defmodule GalliumWeb.Components.Hero do
   def hero(assigns) do
     ~H"""
     <section class={[
-      "bg-blue w-full h-[calc(100dvh-3rem)] overflow-y-auto flex flex-col items-center justify-between py-12 md:py-16 snap-start snap-always overflow-hidden",
+      "bg-blue w-full h-[calc(100dvh-3rem)] select-none overflow-y-auto flex flex-col items-center justify-between py-12 md:py-16 snap-start snap-always overflow-hidden",
       @class
     ]}>
-      <div class="hidden w-full md:flex justify-center scale-75 md:scale-125">
+      <div class="w-full flex justify-center scale-100 md:scale-150">
         <.frame style={:style1} mode={:bottom} color={:light_muted} />
       </div>
       <div class="text-center flex flex-col items-center justify-center flex-1">
@@ -39,7 +39,7 @@ defmodule GalliumWeb.Components.Hero do
           />
         </div>
       </div>
-      <div class="hidden w-full md:flex justify-center scale-75 md:scale-125">
+      <div class="w-full flex justify-center scale-100 md:scale-150">
         <.frame style={:style1} mode={:top} color={:light_muted} />
       </div>
     </section>

@@ -31,7 +31,7 @@ defmodule GalliumWeb.UserLive.Login do
           <div>
             <p>You are running the local mail adapter.</p>
             <p>
-              To see sent emails, visit <.link href="/dev/mailbox" class="underline">the mailbox page</.link>.
+              To see sent emails, visit <.link href={~p"/dev/mailbox"} class="underline">the mailbox page</.link>.
             </p>
           </div>
         </div>

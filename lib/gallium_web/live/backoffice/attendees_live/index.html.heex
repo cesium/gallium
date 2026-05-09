@@ -1,0 +1,109 @@
+<.backoffice_layout sidebar_open={@sidebar_open} current_page={@current_page} flash={@flash}>
+  <div class="w-full">
+    <div class="flex flex-col gap-6">
+      <div class="grid grid-cols-2 lg:grid-cols-4 gap-4">
+        <.stat_card label="Total" value={@total_count} />
+        <.stat_card label="Pagos" value={@paid_count} color="text-green-600" />
+        <.stat_card label="Sócios" value={@member_count} />
+        <.stat_card label="Com Acomp." value={@accompany_count} color="text-blue" />
+      </div>
+
+      <div class="bg-white rounded-xl border border-gray-200 shadow-sm overflow-hidden">
+        <div class="px-6 py-4 border-b border-gray-100">
+          <h2 class="text-xl font-amarante text-gray-800 uppercase tracking-wide">
+            Inscrições
+          </h2>
+        </div>
+
+        <%= if @attendees == [] do %>
+          <div class="flex flex-col items-center justify-center py-24 text-gray-300 font-cormorant">
+            <.icon name="hero-users" class="size-14 mb-4" />
+            <p class="text-lg">Ainda não há inscrições.</p>
+          </div>
+        <% else %>
+          <div class="overflow-x-auto">
+            <table class="w-full text-sm font-cormorant">
+              <thead>
+                <tr class="bg-gray-50 border-b border-gray-200 text-xs uppercase tracking-widest text-gray-500">
+                  <th class="px-5 py-3 text-left font-semibold">Nome</th>
+                  <th class="px-5 py-3 text-left font-semibold">Nº Aluno</th>
+                  <th class="px-5 py-3 text-center font-semibold">Bilhete</th>
+                  <th class="px-5 py-3 text-left font-semibold">Acompanhante</th>
+                  <th class="px-5 py-3 text-center font-semibold">Transporte</th>
+                  <th class="px-5 py-3 text-left font-semibold">Mesa</th>
+                  <th class="px-5 py-3 text-left font-semibold">Alergias</th>
+                  <th class="px-5 py-3 text-center font-semibold">Pagamento</th>
+                  <th class="px-5 py-3 text-right font-semibold">Valor</th>
+                  <th class="px-5 py-3 text-right font-semibold">Data</th>
+                </tr>
+              </thead>
+              <tbody class="divide-y divide-gray-100">
+                <%= for attendee <- @attendees do %>
+                  <tr class="hover:bg-gray-50/60 transition-colors">
+                    <td class="px-5 py-3.5 font-medium text-gray-800">
+                      {attendee.full_name}
+                    </td>
+                    <td class="px-5 py-3.5 text-gray-400 font-mono text-xs">
+                      {attendee.student_number || "-"}
+                    </td>
+                    <td class="px-5 py-3.5 text-center">
+                      <.ticket_badge type={attendee.user.ticket && attendee.user.ticket.type} />
+                    </td>
+                    <td class="px-5 py-3.5">
+                      <%= if attendee.accompany do %>
+                        <div class="flex flex-col">
+                          <span class="text-gray-800 font-medium">
+                            {attendee.accompany.full_name}
+                          </span>
+                          <span class="text-gray-400 text-xs">
+                            {attendee.accompany.email}
+                          </span>
+                        </div>
+                      <% else %>
+                        <span class="text-gray-300">-</span>
+                      <% end %>
+                    </td>
+                    <td class="px-5 py-3.5 text-center">
+                      <.transport_badge wants_transport={attendee.wants_transport} />
+                    </td>
+                    <td class="px-5 py-3.5 text-gray-600">
+                      <%= if attendee.table_preference && attendee.table_preference != "" do %>
+                        {attendee.table_preference}
+                      <% else %>
+                        <span class="text-gray-300">-</span>
+                      <% end %>
+                    </td>
+                    <td class="px-5 py-3.5 text-gray-600">
+                      <%= if attendee.allergies && attendee.allergies != "" do %>
+                        {attendee.allergies}
+                      <% else %>
+                        <span class="text-gray-300">-</span>
+                      <% end %>
+                    </td>
+                    <td class="px-5 py-3.5 text-center">
+                      <.payment_badge payment={attendee.payment} />
+                    </td>
+                    <td class="px-5 py-3.5 text-right font-medium text-gray-700">
+                      <%= if attendee.payment do %>
+                        {attendee.payment.amount}€
+                      <% else %>
+                        <span class="text-gray-300">-</span>
+                      <% end %>
+                    </td>
+                    <td class="px-5 py-3.5 text-right text-gray-400 text-xs whitespace-nowrap">
+                      {Calendar.strftime(attendee.inserted_at, "%d/%m/%Y")}
+                      <br />
+                      <span class="text-gray-300">
+                        {Calendar.strftime(attendee.inserted_at, "%H:%M")}
+                      </span>
+                    </td>
+                  </tr>
+                <% end %>
+              </tbody>
+            </table>
+          </div>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</.backoffice_layout>

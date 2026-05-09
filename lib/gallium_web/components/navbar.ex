@@ -17,7 +17,7 @@ defmodule GalliumWeb.Components.Navbar do
 
   def navbar(assigns) do
     ~H"""
-    <header class={"w-full h-fit bg-blue text-beige/80 px-4 py-3 z-30 sticky top-0 border-b-1 border-beige/20 #{@class}"}>
+    <header class={"w-full h-fit bg-blue text-beige/80 px-4 py-3 z-30 sticky top-0 border-b-1 border-light-muted/20 #{@class}"}>
       <div class="max-w-7xl mx-auto flex items-center justify-between gap-4">
         <div class="flex-1 min-w-max">
           <.link navigate="/">
@@ -66,12 +66,12 @@ defmodule GalliumWeb.Components.Navbar do
               class="px-4 md:px-6 py-1 font-cormorant font-semibold uppercase text-xs tracking-wider"
             />
             <%= if @current_scope do %>
-              <.link href="/user/profile">
+              <.link href={~p"/user/profile"}>
                 <.icon name="hero-user-circle" class="text-beige size-7" />
               </.link>
             <% end %>
             <%= if @current_scope && Accounts.admin?(@current_scope.user) do %>
-              <.link href="/backoffice">
+              <.link href={~p"/dashboard"}>
                 <span class="text-xs font-cormorant uppercase tracking-wider text-beige/80 hover:text-light-muted transition-colors">
                   Backoffice
                 </span>
@@ -93,7 +93,7 @@ defmodule GalliumWeb.Components.Navbar do
           <div class={"flex items-center #{if @current_scope, do: "justify-between", else: "justify-end"} px-6 py-4 border-b border-beige/10 flex-shrink-0"}>
             <%= if @current_scope do %>
               <.link
-                href="/user/profile"
+                href={~p"/user/profile"}
                 phx-click={hide_mobile_navbar()}
                 class="flex items-center gap-2"
               >
@@ -103,7 +103,7 @@ defmodule GalliumWeb.Components.Navbar do
                 </span>
               </.link>
               <%= if Accounts.admin?(@current_scope.user) do %>
-                <.link href="/backoffice">
+                <.link href={~p"/dashboard"}>
                   <span class="text-xs font-cormorant uppercase tracking-wider text-beige/70 hover:text-light-muted transition-colors">
                     Backoffice
                   </span>
@@ -115,11 +115,11 @@ defmodule GalliumWeb.Components.Navbar do
             </button>
           </div>
 
-          <nav class="flex flex-col items-center justify-center gap-6 flex-1 overflow-y-auto py-8 font-cormorant font-semibold text-2xl text-beige/80">
+          <nav class="flex flex-col items-center justify-center gap-4 flex-1 overflow-y-auto py-8 font-cormorant font-semibold text-2xl text-beige/80">
             <.link
               navigate="/"
               phx-click={hide_mobile_navbar()}
-              class="font-amarante text-light-muted text-xl mb-2"
+              class="font-amarante text-light-muted text-3xl mb-2"
             >
               Jantar de Gala
             </.link>
@@ -156,7 +156,7 @@ defmodule GalliumWeb.Components.Navbar do
                 phx-click={hide_mobile_navbar()}
                 class="text-lg text-beige/60 hover:text-white transition-colors"
               >
-                Registar
+                Regista-te
               </.link>
               <.link
                 href={~p"/users/log-in"}
