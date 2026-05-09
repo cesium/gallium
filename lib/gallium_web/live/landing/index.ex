@@ -2,8 +2,6 @@ defmodule GalliumWeb.LandingLive.Index do
   use GalliumWeb, :landing_view
 
   import GalliumWeb.Components.{
-    AboutSection,
-    Forecast,
     Hero,
     InfoSection,
     ProgramSection,
