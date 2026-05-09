@@ -60,7 +60,7 @@ defmodule GalliumWeb.Components.Navbar do
           <div class="hidden lg:flex flex-row gap-4">
             <.primary_button
               text="Comprar Bilhetes"
-              link="/bilhetes"
+              link="/tickets"
               color={:light_muted}
               text_color={:blue}
               class="px-4 md:px-6 py-1 font-cormorant font-semibold uppercase text-xs tracking-wider"
@@ -170,7 +170,7 @@ defmodule GalliumWeb.Components.Navbar do
             <div class="mt-4">
               <.primary_button
                 text="Comprar Bilhetes"
-                link="/bilhetes"
+                link="/tickets"
                 color={:light_muted}
                 text_color={:blue}
                 class="px-8 py-2 font-cormorant font-semibold uppercase text-base tracking-wider"

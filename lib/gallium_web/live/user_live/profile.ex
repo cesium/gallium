@@ -170,7 +170,7 @@ defmodule GalliumWeb.UserLive.Profile do
                 iconpos={:right}
                 class="font-cormorant text-lg px-8 py-3"
                 color={:blue}
-                link={~p"/bilhetes"}
+                link={~p"/tickets"}
               />
             </div>
           <% end %>

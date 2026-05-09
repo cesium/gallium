@@ -23,7 +23,7 @@ defmodule GalliumWeb.Router do
     live_session :current_user,
       on_mount: [{GalliumWeb.UserAuth, :mount_current_scope}] do
       live "/", LandingLive.Index, :index
-      live "/bilhetes", TicketsLive.Index, :index
+      live "/tickets", TicketsLive.Index, :index
     end
   end
 
@@ -74,7 +74,7 @@ defmodule GalliumWeb.Router do
       on_mount: [{GalliumWeb.UserAuth, :require_authenticated}] do
       live "/users/settings", UserLive.Settings, :edit
       live "/users/settings/confirm-email/:token", UserLive.Settings, :confirm_email
-      live "/bilhetes/comprar", TicketingPurchaseLive.Index, :index
+      live "/tickets/buy", TicketingPurchaseLive.Index, :index
       live "/user/profile", UserLive.Profile, :new
     end
 

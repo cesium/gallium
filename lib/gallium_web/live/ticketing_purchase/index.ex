@@ -12,7 +12,7 @@ defmodule GalliumWeb.TicketingPurchaseLive.Index do
   @impl true
   def mount(params, _session, socket) do
     # takes the type of the ticket from the url
-    is_cesium_member? = Map.get(params, "tipo", "nao_socio") == "socio"
+    is_cesium_member? = Map.get(params, "type", "nao_socio") == "socio"
 
     user_info =
       case Accounts.get_user_info_by_id(socket.assigns.current_scope.user.id) do
@@ -58,7 +58,7 @@ defmodule GalliumWeb.TicketingPurchaseLive.Index do
 
   @impl true
   def handle_event("to_tickets", _params, socket) do
-    {:noreply, push_navigate(socket, to: ~p"/bilhetes")}
+    {:noreply, push_navigate(socket, to: ~p"/tickets")}
   end
 
   @impl true
