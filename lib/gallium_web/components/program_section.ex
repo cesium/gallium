@@ -9,12 +9,12 @@ defmodule GalliumWeb.Components.ProgramSection do
   attr :schedule_items, :list,
     default: [
       %{
-        time: "18H30",
+        time: "18H",
         title: "PARTIDA DA UNIVERSIDADE",
         description: "Encontro na paragem da UM para embarque no autocarro"
       },
       %{
-        time: "19H30",
+        time: "19H",
         title: "CHEGADA À QUINTA VINHA DO CABO",
         description: "Recepção com entradas e bebidas de boas-vindas"
       },
@@ -26,7 +26,7 @@ defmodule GalliumWeb.Components.ProgramSection do
       %{
         time: "20H30",
         title: "JANTAR",
-        description: "Sopa, prato principal e sobremesa servidos à mesa"
+        description: "Sopa, prato principal e sobremesa"
       },
       %{
         time: "22H00",

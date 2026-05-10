@@ -32,7 +32,7 @@ defmodule GalliumWeb.Components.InfoSection do
             <.icon name="hero-truck" class="h-5 w-5" />
             <p>Regresso</p>
           </div>
-          <p class="text-3xl md:text-4xl mt-2 font-amarante">3H</p>
+          <p class="text-3xl md:text-4xl mt-2 font-amarante">2H</p>
         </div>
       </div>
 
