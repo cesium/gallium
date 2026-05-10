@@ -30,11 +30,11 @@ defmodule GalliumWeb.Components.ProgramSection do
       },
       %{
         time: "22H00",
-        title: "ANIMAÇÃO & KARAOKE",
-        description: "Música, karaoke, cartões quebra-gelo e muitas surpresas"
+        title: "ANIMAÇÃO",
+        description: "Música, cartões quebra-gelo e muitas surpresas"
       },
       %{
-        time: "3H",
+        time: "2H",
         title: "REGRESSO À UNIVERSIDADE",
         description: "Autocarro de volta ao ponto de partida"
       }
