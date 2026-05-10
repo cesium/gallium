@@ -162,7 +162,7 @@ defmodule GalliumWeb.UserLive.Profile do
               </div>
               <h3 class="font-amarante text-blue text-3xl uppercase mb-3">Ainda não tens bilhete</h3>
               <p class="font-cormorant text-gray-500 text-xl mb-8 max-w-sm mx-auto leading-relaxed">
-                Garante já o teu lugar no Jantar de Gala na Quinta da Aldeia.
+                Garante já o teu lugar no Jantar de Gala na Quinta Vinha do Cabo.
               </p>
               <.primary_button
                 text="Comprar Bilhete"

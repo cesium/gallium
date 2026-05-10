@@ -15,7 +15,7 @@ defmodule GalliumWeb.Components.ProgramSection do
       },
       %{
         time: "19H30",
-        title: "CHEGADA À QUINTA DA ALDEIA",
+        title: "CHEGADA À QUINTA VINHA DO CABO",
         description: "Recepção com entradas e bebidas de boas-vindas"
       },
       %{
