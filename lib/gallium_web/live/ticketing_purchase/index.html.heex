@@ -1,4 +1,4 @@
-<div class="bg-beige flex flex-col">
+<div class="grow flex flex-col">
   <%= if !@user_info do %>
     <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 grow w-full py-8">
       <%= if @current_step < 4 do %>
@@ -16,6 +16,7 @@
             has_accompany?={@has_accompany?}
             amount_to_pay={@amount_to_pay}
             price_per_ticket={@price_per_ticket}
+            companion_price={@companion_price}
           />
         <% 3 -> %>
           <.payment
@@ -31,20 +32,21 @@
             amount_to_pay={@amount_to_pay}
             price_per_ticket={@price_per_ticket}
             current_scope={@current_scope}
+            payment_status={@payment_status}
           />
       <% end %>
     </div>
   <% else %>
-    <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 grow w-full py-8 flex flex-col items-center justify-center">
-      <div class="bg-white rounded-lg p-8 text-center w-full">
-        <.icon name="hero-exclamation-triangle" class="mb-4 size-9" />
-        <h2 class="text-2xl font-bold text-blue mb-2 font-amarante uppercase">
+    <div class="flex-1 flex flex-col items-center justify-center py-20 px-4">
+      <div class="text-center max-w-lg">
+        <p class="text-bronze font-amarante text-5xl mb-6">✳</p>
+        <h2 class="text-4xl font-amarante text-blue uppercase tracking-widest mb-3">
           Já não podes comprar
         </h2>
-        <p class="text-gray-600 mb-8 text-xl font-cormorant">
+        <div class="w-12 h-0.5 bg-bronze mx-auto mb-6"></div>
+        <p class="text-gray-500 text-xl font-cormorant leading-relaxed mb-10">
           As vendas estão encerradas ou já possuis um bilhete associado à tua conta.
         </p>
-
         <div class="flex flex-col sm:flex-row justify-center gap-4">
           <.primary_button
             text="Voltar à Página Inicial"

@@ -1,5 +1,20 @@
 import Config
 
+# Auto-load .env.dev variables so they're available via System.get_env/1 below
+if File.exists?(".env.dev") do
+  File.read!(".env.dev")
+  |> String.split("\n", trim: true)
+  |> Enum.each(fn line ->
+    line = String.replace_prefix(line, "export ", "")
+
+    case String.split(line, "=", parts: 2) do
+      ["#" <> _, _] -> :ok
+      [key, value] when byte_size(key) > 0 -> System.put_env(String.trim(key), String.trim(value))
+      _ -> :ok
+    end
+  end)
+end
+
 # Configure your database
 config :gallium, Gallium.Repo,
   username: "postgres",
@@ -90,3 +105,8 @@ config :phoenix_live_view,
 
 # Disable swoosh api client as it is only required for production adapters.
 config :swoosh, :api_client, false
+
+config :gallium, :midas,
+  api_key: System.get_env("GALLIUM_API_KEY") || System.get_env("PEARL_API_KEY", "dev_key"),
+  midas_api_url: System.get_env("MIDAS_API_URL"),
+  midas_api_key: System.get_env("MIDAS_API_KEY")

@@ -2,7 +2,7 @@ defmodule GalliumWeb.Components.Button do
   @moduledoc """
   Button Component.
   """
-  use Phoenix.Component
+  use GalliumWeb, :component
   import GalliumWeb.CoreComponents
 
   attr :text, :string, doc: "Button text"
@@ -38,6 +38,7 @@ defmodule GalliumWeb.Components.Button do
     doc: "Additional attributes for the button"
 
   attr :disabled, :boolean, default: false
+  attr :class, :string, default: nil
 
   def primary_button(%{link: nil} = assigns) do
     ~H"""
@@ -47,9 +48,9 @@ defmodule GalliumWeb.Components.Button do
 
   def primary_button(assigns) do
     ~H"""
-    <a href={@link}>
+    <.link navigate={@link}>
       {button_content(assigns)}
-    </a>
+    </.link>
     """
   end
 
@@ -58,14 +59,14 @@ defmodule GalliumWeb.Components.Button do
     <button
       disabled={@disabled}
       class={[
-        "flex w-full h-full items-center justify-center gap-2 px-4 py-2 rounded-md
+        "flex w-full h-full items-center justify-center gap-2 px-4 py-2 rounded-md font-cormorant
          cursor-pointer hover:scale-95 transition-all duration-300",
         color_classes(@color, @text_color),
         if(@disabled,
           do: "opacity-50 cursor-not-allowed pointer-events-none",
           else: "cursor-pointer hover:scale-95"
         ),
-        @rest[:class]
+        @class
       ]}
       {@rest}
     >

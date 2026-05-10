@@ -8,19 +8,19 @@ defmodule GalliumWeb.UserLive.Login do
   def render(assigns) do
     ~H"""
     <.app flash={@flash} current_scope={@current_scope}>
-      <div class="mx-auto w-full max-w-sm my-8 space-y-4 flex flex-1 flex-col justify-center">
+      <div class="mx-auto w-full max-w-sm my-8 px-4 space-y-4 flex flex-1 flex-col justify-center">
         <div class="text-center font-cormorant">
-          <.header>
-            <p class="text-5xl">Log in</p>
+          <.header subtitle_class="text-base font-cormorant text-blue/60">
+            <p class="text-5xl">Entrar</p>
             <:subtitle>
               <%= if @current_scope do %>
                 Precisas de te reautenticar para fazer ações sensíveis
               <% else %>
-                Não tens uma conta? <.link
+                Não tens conta? <.link
                   navigate={~p"/users/register"}
-                  class="font-semibold text-brand hover:underline"
+                  class="font-semibold text-blue hover:text-blue/70 underline"
                   phx-no-format
-                >Regista</.link> a tua conta.
+                >Regista-te aqui</.link>
               <% end %>
             </:subtitle>
           </.header>
@@ -29,9 +29,9 @@ defmodule GalliumWeb.UserLive.Login do
         <div :if={local_mail_adapter?()} class="alert alert-info">
           <.icon name="hero-information-circle" class="size-6 shrink-0" />
           <div>
-            <p>You are running the local mail adapter.</p>
+            <p>Está a usar o adaptador de email local.</p>
             <p>
-              To see sent emails, visit <.link href="/dev/mailbox" class="underline">the mailbox page</.link>.
+              Para ver os emails enviados, visite <.link href="/dev/mailbox" class="underline">a página da mailbox</.link>.
             </p>
           </div>
         </div>
@@ -55,13 +55,13 @@ defmodule GalliumWeb.UserLive.Login do
           <.primary_button
             class="font-cormorant"
             color={:blue}
-            text="Log in com email"
+            text="Entrar com email"
             icon="hero-arrow-right"
             iconpos={:right}
           />
         </.form>
 
-        <div class="divider font-cormorant">or</div>
+        <div class="divider font-cormorant">ou</div>
 
         <.form
           :let={f}
@@ -100,7 +100,7 @@ defmodule GalliumWeb.UserLive.Login do
             <.primary_button
               class="font-cormorant"
               color={:blue}
-              text="Log in apenas desta vez"
+              text="Entrar apenas desta vez"
             />
           </div>
         </.form>
@@ -134,7 +134,7 @@ defmodule GalliumWeb.UserLive.Login do
     end
 
     info =
-      "If your email is in our system, you will receive instructions for logging in shortly."
+      "Se o teu email estiver no nosso sistema, receberás instruções para entrar em breve."
 
     {:noreply,
      socket

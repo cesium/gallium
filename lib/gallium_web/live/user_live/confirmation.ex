@@ -8,81 +8,90 @@ defmodule GalliumWeb.UserLive.Confirmation do
   def render(assigns) do
     ~H"""
     <.app flash={@flash} current_scope={@current_scope}>
-      <div class="mx-auto max-w-lg py-12 px-4 sm:px-6">
-        <div class="text-7xl text-center mb-10 flex flex-col gap-2 text-olive font-cormorant">
-          <h1>Bem Vindo</h1>
-          <p class="text-gray-500 font-sans text-sm tracking-wide">{@user.email}</p>
-        </div>
+      <div class="grow flex flex-col items-center justify-center px-4 py-16">
+        <div class="w-full max-w-sm text-center">
+          <p class="text-bronze font-amarante text-4xl mb-4">✳</p>
+          <h1 class="text-5xl font-amarante text-blue uppercase tracking-widest mb-2">
+            Bem-Vindo
+          </h1>
+          <div class="w-10 h-0.5 bg-bronze mx-auto my-4"></div>
+          <p class="font-cormorant text-gray-500 text-lg mb-10">{@user.email}</p>
 
-        <.form
-          :if={!@user.confirmed_at}
-          for={@form}
-          id="confirmation_form"
-          phx-mounted={JS.focus_first()}
-          phx-submit="submit"
-          action={~p"/users/log-in?_action=confirmed"}
-          phx-trigger-action={@trigger_submit}
-        >
-          <input type="hidden" name={@form[:token].name} value={@form[:token].value} />
-
-          <div class="flex flex-col gap-4">
-            <.primary_button
-              name={@form[:remember_me].name}
-              value="true"
-              phx-disable-with="A confirmar..."
-              text="Confirmar e ficar logado"
-              class="font-cormorant text-lg py-3"
-            />
-            <.primary_button
-              text="Confirmar e ficar logado apenas desta vez"
-              phx-disable-with="A confirmar..."
-              class="font-cormorant text-lg py-3 "
-            />
-          </div>
-        </.form>
-
-        <.form
-          :if={@user.confirmed_at}
-          for={@form}
-          id="login_form"
-          phx-submit="submit"
-          phx-mounted={JS.focus_first()}
-          action={~p"/users/log-in"}
-          phx-trigger-action={@trigger_submit}
-        >
-          <input type="hidden" name={@form[:token].name} value={@form[:token].value} />
-          <div class="flex flex-col gap-4 mt-4">
-            <%= if @current_scope do %>
-              <.primary_button
-                phx-disable-with="Logging in..."
-                text="Log in"
-                class="font-cormorant text-lg py-3 shadow-md"
-              />
-            <% else %>
+          <.form
+            :if={!@user.confirmed_at}
+            for={@form}
+            id="confirmation_form"
+            phx-mounted={JS.focus_first()}
+            phx-submit="submit"
+            action={~p"/users/log-in?_action=confirmed"}
+            phx-trigger-action={@trigger_submit}
+          >
+            <input type="hidden" name={@form[:token].name} value={@form[:token].value} />
+            <div class="flex flex-col gap-3">
               <.primary_button
                 name={@form[:remember_me].name}
                 value="true"
-                phx-disable-with="Logging in..."
-                text="Mantém-me logado neste dispositivo"
-                class="font-cormorant text-lg py-3 shadow-md"
+                phx-disable-with="A confirmar..."
+                text="Confirmar e ficar logado"
+                class="font-cormorant text-lg py-3"
+                color={:blue}
               />
               <.primary_button
-                text="Mantém-me logado apenas desta vez"
-                phx-disable-with="Logging in..."
+                text="Confirmar apenas desta vez"
+                phx-disable-with="A confirmar..."
                 class="font-cormorant text-lg py-3 opacity-80 hover:opacity-100"
+                color={:blue}
               />
-            <% end %>
-          </div>
-        </.form>
+            </div>
+          </.form>
 
-        <div
-          :if={!@user.confirmed_at}
-          class="mt-10 p-5 bg-blue-50 rounded-xl border border-olive text-center font-amarante flex flex-col gap-1 text-gray-600"
-        >
-          <span class="text-blue-800 font-bold tracking-widest uppercase text-xs">Dica</span>
-          <span class="text-base">
-            Se preferires logar com palavra-passe, podes definir a tua nas "Settings".
-          </span>
+          <.form
+            :if={@user.confirmed_at}
+            for={@form}
+            id="login_form"
+            phx-submit="submit"
+            phx-mounted={JS.focus_first()}
+            action={~p"/users/log-in"}
+            phx-trigger-action={@trigger_submit}
+          >
+            <input type="hidden" name={@form[:token].name} value={@form[:token].value} />
+            <div class="flex flex-col gap-3">
+              <%= if @current_scope do %>
+                <.primary_button
+                  phx-disable-with="A entrar..."
+                  text="Entrar na conta"
+                  class="font-cormorant text-lg py-3"
+                  color={:blue}
+                />
+              <% else %>
+                <.primary_button
+                  name={@form[:remember_me].name}
+                  value="true"
+                  phx-disable-with="A entrar..."
+                  text="Mantém-me logado neste dispositivo"
+                  class="font-cormorant text-lg py-3"
+                  color={:blue}
+                />
+                <.primary_button
+                  text="Apenas desta vez"
+                  phx-disable-with="A entrar..."
+                  class="font-cormorant text-lg py-3 opacity-80 hover:opacity-100"
+                  color={:blue}
+                />
+              <% end %>
+            </div>
+          </.form>
+
+          <div
+            :if={!@user.confirmed_at}
+            class="mt-8 p-4 bg-white rounded-lg border border-gray-100 text-center font-cormorant text-gray-500 text-base"
+          >
+            Podes definir uma palavra-passe nas
+            <a href={~p"/users/settings"} class="text-olive underline-offset-2 hover:underline">
+              definições
+            </a>
+            da tua conta.
+          </div>
         </div>
       </div>
     </.app>
@@ -99,7 +108,7 @@ defmodule GalliumWeb.UserLive.Confirmation do
     else
       {:ok,
        socket
-       |> put_flash(:error, "Magic link is invalid or it has expired.")
+       |> put_flash(:error, "O link é inválido ou expirou.")
        |> push_navigate(to: ~p"/users/log-in")}
     end
   end

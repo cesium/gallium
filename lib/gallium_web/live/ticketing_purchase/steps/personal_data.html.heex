@@ -7,7 +7,7 @@
   >
     <%= if @has_accompany? do %>
       <div>
-        <div class="flex flex-row justify-between gap-2">
+        <div class="flex flex-col sm:flex-row justify-between gap-2">
           <h2 class="text-4xl font-amarante text-blue-500 mb-3 uppercase ">
             Dados <span class="hidden md:inline">Acompanhante</span>
           </h2>
@@ -65,7 +65,7 @@
     <% end %>
 
     <div>
-      <div class="flex flex-row justify-between gap-2">
+      <div class="flex flex-col sm:flex-row justify-between gap-2">
         <h2 class="text-4xl font-amarante text-blue-500 mb-3 uppercase">Dados Pessoais</h2>
         <%= if !@has_accompany? do %>
           <div>
@@ -74,7 +74,7 @@
               phx-click="toggle_accompany"
               text="Adicionar Acompanhante"
               color={:blue}
-              class="font-cormorant !w-fit! h-auto! py-1.5! px-4! text-sm tracking-tight"
+              class="font-cormorant !w-fit! h-auto! py-3! px-8! text-base tracking-tight"
             />
           </div>
         <% end %>
@@ -120,6 +120,55 @@
     <.input field={@form_data[:nif]} type="text" label="NIF (opcional)" placeholder="299999999">
       <:icon>
         <.icon name="hero-hashtag" class="size-5" />
+      </:icon>
+    </.input>
+
+    <div class="flex flex-col gap-2">
+      <label class="font-cormorant text-base font-semibold text-gray-700">Transporte *</label>
+      <p class="font-cormorant text-sm text-gray-500 -mt-1">
+        O transporte é de ida e volta. Pretendes transporte?
+      </p>
+      <div class="flex gap-4 mt-1">
+        <label class="flex items-center gap-2 font-cormorant text-base cursor-pointer">
+          <input
+            type="radio"
+            name={@form_data[:wants_transport].name}
+            value="true"
+            checked={@form_data[:wants_transport].value == true}
+            class="radio radio-sm radio-primary"
+          /> Sim
+        </label>
+        <label class="flex items-center gap-2 font-cormorant text-base cursor-pointer">
+          <input
+            type="radio"
+            name={@form_data[:wants_transport].name}
+            value="false"
+            checked={@form_data[:wants_transport].value != true}
+            class="radio radio-sm radio-primary"
+          /> Não
+        </label>
+      </div>
+    </div>
+
+    <.input
+      field={@form_data[:table_preference]}
+      type="text"
+      label="Preferência de mesa (opcional)"
+      placeholder="ex: com o grupo X, junto à janela..."
+    >
+      <:icon>
+        <.icon name="hero-table-cells" class="size-5" />
+      </:icon>
+    </.input>
+
+    <.input
+      field={@form_data[:allergies]}
+      type="text"
+      label="Alergias ou restrições alimentares (opcional)"
+      placeholder="ex: vegetariano, alergia a amendoins..."
+    >
+      <:icon>
+        <.icon name="hero-exclamation-triangle" class="size-5" />
       </:icon>
     </.input>
 

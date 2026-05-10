@@ -11,16 +11,21 @@ defmodule GalliumWeb.UserLive.Settings do
   def render(assigns) do
     ~H"""
     <.app flash={@flash} current_scope={@current_scope}>
-      <div class="max-w-2xl mx-auto py-8 px-4">
-        <div class="text-center mb-8">
-          <h1 class="text-4xl font-amarante text-olive uppercase mb-2">Definições da Conta</h1>
-          <p class="font-cormorant text-gray-600 text-lg">
-            Altera o email da tua conta ou altera/adiciona uma palavra-passe
+      <div class="max-w-3xl w-full mx-auto py-12 px-4">
+        <div class="text-center mb-10">
+          <h1 class="text-5xl font-amarante text-olive uppercase mb-3">Definições</h1>
+          <p class="font-cormorant text-gray-500 text-xl">
+            Gere o email e a palavra-passe da tua conta
           </p>
         </div>
 
-        <div class="bg-white border-2 border-olive-200 p-8 rounded-box shadow-sm mb-8">
-          <h2 class="font-amarante text-olive uppercase text-xl mb-6">Atualizar Email</h2>
+        <div class="bg-white border border-gray-200 p-8 rounded-lg shadow-sm mb-6">
+          <div class="flex items-center gap-3 mb-6">
+            <div class="bg-olive/10 rounded-full p-2">
+              <.icon name="hero-envelope" class="size-5 text-olive" />
+            </div>
+            <h2 class="font-amarante text-olive uppercase text-xl">Atualizar Email</h2>
+          </div>
 
           <.form
             for={@email_form}
@@ -44,7 +49,7 @@ defmodule GalliumWeb.UserLive.Settings do
               <.primary_button
                 type="submit"
                 text="Atualizar Email"
-                phx-disable-with="Changing..."
+                phx-disable-with="A guardar..."
                 class="font-cormorant w-full sm:w-auto"
                 color={:blue}
               />
@@ -52,8 +57,13 @@ defmodule GalliumWeb.UserLive.Settings do
           </.form>
         </div>
 
-        <div class="bg-white border-2 border-olive-200 p-8 rounded-box shadow-sm">
-          <h2 class="font-amarante text-olive uppercase text-xl mb-6">Update Palavra-Passe</h2>
+        <div class="bg-white border border-gray-200 p-8 rounded-lg shadow-sm">
+          <div class="flex items-center gap-3 mb-6">
+            <div class="bg-olive/10 rounded-full p-2">
+              <.icon name="hero-lock-closed" class="size-5 text-olive" />
+            </div>
+            <h2 class="font-amarante text-olive uppercase text-xl">Atualizar Palavra-Passe</h2>
+          </div>
 
           <.form
             for={@password_form}
@@ -97,13 +107,22 @@ defmodule GalliumWeb.UserLive.Settings do
             <div class="mt-6">
               <.primary_button
                 type="submit"
-                text="Guardar palavra-passe"
-                phx-disable-with="Saving..."
+                text="Guardar Palavra-Passe"
+                phx-disable-with="A guardar..."
                 class="font-cormorant w-full sm:w-auto"
                 color={:blue}
               />
             </div>
           </.form>
+        </div>
+
+        <div class="mt-6 text-center">
+          <a
+            href={~p"/user/profile"}
+            class="font-cormorant text-olive hover:text-black text-base transition-colors"
+          >
+            ← Voltar ao perfil
+          </a>
         </div>
       </div>
     </.app>
@@ -115,10 +134,10 @@ defmodule GalliumWeb.UserLive.Settings do
     socket =
       case Accounts.update_user_email(socket.assigns.current_scope.user, token) do
         {:ok, _user} ->
-          put_flash(socket, :info, "Email changed successfully.")
+          put_flash(socket, :info, "Email alterado com sucesso.")
 
         {:error, _} ->
-          put_flash(socket, :error, "Email change link is invalid or it has expired.")
+          put_flash(socket, :error, "O link é inválido ou expirou.")
       end
 
     {:ok, push_navigate(socket, to: ~p"/users/settings")}

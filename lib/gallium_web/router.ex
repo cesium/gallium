@@ -23,15 +23,16 @@ defmodule GalliumWeb.Router do
     live_session :current_user,
       on_mount: [{GalliumWeb.UserAuth, :mount_current_scope}] do
       live "/", LandingLive.Index, :index
-      live "/bilhetes", TicketsLive.Index, :index
-      live "/evento", EventLive.Index, :index
+      live "/tickets", TicketsLive.Index, :index
     end
   end
 
-  # Other scopes may use custom stacks.
-  # scope "/api", GalliumWeb do
-  #   pipe_through :api
-  # end
+  scope "/api", GalliumWeb do
+    pipe_through :api
+
+    post "/midas/:api_key/webhook", MidasController, :handle_webhook
+    get "/v1/payments/received", MidasController, :payment_received
+  end
 
   # Enable LiveDashboard and Swoosh mailbox preview in development
   if Application.compile_env(:gallium, :dev_routes) do
@@ -50,7 +51,7 @@ defmodule GalliumWeb.Router do
     end
   end
 
-  scope "/", GalliumWeb do
+  scope "/dashboard", GalliumWeb do
     pipe_through [:browser, :require_authenticated_user, :require_admin]
 
     live_session :require_admin,
@@ -58,7 +59,9 @@ defmodule GalliumWeb.Router do
         {GalliumWeb.UserAuth, :require_authenticated},
         {GalliumWeb.UserAuth, :require_admin}
       ] do
-      live "/backoffice", BackOfficeIndex.Index, :index
+      live "/", BackOffice.MembersLive.Index
+      live "/members", BackOffice.MembersLive.Index
+      live "/attendees", BackOffice.AttendeesLive.Index
     end
   end
 
@@ -71,7 +74,7 @@ defmodule GalliumWeb.Router do
       on_mount: [{GalliumWeb.UserAuth, :require_authenticated}] do
       live "/users/settings", UserLive.Settings, :edit
       live "/users/settings/confirm-email/:token", UserLive.Settings, :confirm_email
-      live "/bilhetes/comprar", TicketingPurchaseLive.Index, :index
+      live "/tickets/buy", TicketingPurchaseLive.Index, :index
       live "/user/profile", UserLive.Profile, :new
     end
 

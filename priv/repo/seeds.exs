@@ -21,6 +21,7 @@ defmodule Gallium.Repo.Seeds do
     [
       "accounts.exs",
       "cesium_members.exs",
+      "ticket_types.exs",
       "ticketing.exs"
     ]
     |> Enum.each(fn file ->

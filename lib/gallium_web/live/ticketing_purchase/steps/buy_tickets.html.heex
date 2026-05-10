@@ -32,16 +32,12 @@
           <.icon name="hero-ticket" class="size-6 text-blue" />
         </div>
         <div class="flex flex-col">
-          <p class="font-cormorant text-sm">
-            {if @form_data[:is_cesium_member].value, do: "Sócio CeSIUM", else: "Bilhete Normal"}
-          </p>
-          <p class="text-xs text-gray-500 font-cormorant">
-            {if @form_data[:is_cesium_member].value, do: "Preço de sócio", else: "Preço não sócio"}
-          </p>
+          <p class="font-cormorant text-sm">Acompanhante</p>
+          <p class="text-xs text-gray-500 font-cormorant">Preço de acompanhante</p>
         </div>
       </div>
       <div class="font-cormorant text-gray-600">
-        {@price_per_ticket} €
+        {@companion_price} €
       </div>
     </div>
   <% end %>
@@ -50,7 +46,7 @@
 
   <div class="flex flex-row justify-between mb-6">
     <div>
-      <p class="font-cormorant text-sm">Total</p>
+      <p class="font-cormorant text-sm font-bold">Total:</p>
       <p class="font-cormorant text-sm">
         {if @has_accompany?, do: "2 bilhetes", else: "1 bilhete"}
       </p>

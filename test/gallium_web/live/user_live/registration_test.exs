@@ -8,8 +8,8 @@ defmodule GalliumWeb.UserLive.RegistrationTest do
     test "renders registration page", %{conn: conn} do
       {:ok, _lv, html} = live(conn, ~p"/users/register")
 
-      assert html =~ "Regista a tua conta"
-      assert html =~ "Log in"
+      assert html =~ "Registo"
+      assert html =~ "Entrar"
     end
 
     test "redirects if already logged in", %{conn: conn} do
@@ -30,9 +30,9 @@ defmodule GalliumWeb.UserLive.RegistrationTest do
         |> element("#registration_form")
         |> render_change(user: %{"email" => "with spaces"})
 
-      assert result =~ "Regista a tua conta"
+      assert result =~ "Registo"
 
-      assert result =~ "must have the @ sign and no spaces"
+      assert result =~ "formato inválido"
     end
   end
 
@@ -48,7 +48,7 @@ defmodule GalliumWeb.UserLive.RegistrationTest do
         |> follow_redirect(conn, ~p"/users/log-in")
 
       assert html =~
-               ~r/An email was sent to .*, please access it to confirm your account/
+               ~r/Foi enviado um email para .*, acede a ele para confirmar a tua conta/
     end
 
     test "renders errors for duplicated email", %{conn: conn} do
@@ -73,11 +73,11 @@ defmodule GalliumWeb.UserLive.RegistrationTest do
 
       {:ok, _login_live, login_html} =
         lv
-        |> element("a[href='/users/log-in'][data-phx-link]", "Log in")
+        |> element("a[href='/users/log-in'][data-phx-link]", "Entra aqui")
         |> render_click()
         |> follow_redirect(conn, ~p"/users/log-in")
 
-      assert login_html =~ "Log in"
+      assert login_html =~ "Entrar"
     end
   end
 end

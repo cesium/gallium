@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="pt">
+  <head>
+    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="x-apple-disable-message-reformatting" />
+    <title>Entrar no Jantar de Gala</title>
+  </head>
+  <body style="margin:0;padding:0;background-color:#E7D8B5;color:#39448B;font-family:Arial,Helvetica,sans-serif;">
+    <div style="display:none;overflow:hidden;line-height:1px;opacity:0;max-height:0;max-width:0;">
+      Usa este link para entrares na tua conta do Jantar de Gala.
+    </div>
+
+    <table width="100%" border="0" cellpadding="0" cellspacing="0" role="presentation" style="background-color:#E7D8B5;margin:0;padding:32px 16px;">
+      <tbody>
+        <tr>
+          <td align="center">
+            <table width="100%" border="0" cellpadding="0" cellspacing="0" role="presentation" style="max-width:640px;background-color:#39448B;border-radius:8px;overflow:hidden;margin:0 auto;">
+              <tbody>
+                <tr>
+                  <td align="center" style="padding:40px 28px 32px;background-color:#39448B;border-bottom:1px solid rgba(239,199,194,0.35);">
+                    <h1 style="margin:0;color:#ffffff;font-family:Georgia,'Times New Roman',serif;font-size:56px;line-height:0.9;font-weight:400;">
+                      Jantar de Gala
+                    </h1>
+                  </td>
+                </tr>
+                <tr>
+                  <td style="padding:34px 28px 8px;background-color:#F5F6F3;">
+                    <p style="margin:0 0 18px;color:#39448B;font-size:17px;line-height:28px;">
+                      Olá <strong><%= @user_name %></strong>,
+                    </p>
+                    <p style="margin:0;color:#39448B;font-size:17px;line-height:28px;">
+                      Usa o botão abaixo para entrares na tua conta e continuares a gerir a tua inscrição no Jantar de Gala.
+                    </p>
+                  </td>
+                </tr>
+                <tr>
+                  <td align="center" style="padding:28px;background-color:#F5F6F3;">
+                    <a href="<%= @magic_link %>" target="_blank" style="display:inline-block;background-color:#7C0B2B;color:#EFC7C2;text-decoration:none;border-radius:6px;padding:14px 28px;font-size:15px;line-height:20px;font-weight:700;text-transform:uppercase;letter-spacing:0.8px;">
+                      Entrar na conta
+                    </a>
+                  </td>
+                </tr>
+                <tr>
+                  <td style="padding:0 28px 34px;background-color:#F5F6F3;">
+                    <p style="margin:0;color:#45503B;font-size:15px;line-height:24px;">
+                      Até breve,<br />
+                      <strong>CeSIUM</strong>
+                    </p>
+                  </td>
+                </tr>
+                <tr>
+                  <td style="padding:22px 28px 28px;background-color:#E7D8B5;border-top:1px solid rgba(57,68,139,0.14);">
+                    <p style="margin:0;color:#39448B;font-size:12px;line-height:18px;">
+                      Se o botão não funcionar, usa este link:
+                      <a href="<%= @magic_link %>" style="color:#7C0B2B;text-decoration:underline;word-break:break-all;"><%= @magic_link %></a>
+                    </p>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </body>
+</html>

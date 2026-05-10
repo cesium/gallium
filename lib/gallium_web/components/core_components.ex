@@ -293,14 +293,17 @@ defmodule GalliumWeb.CoreComponents do
     ~H"""
     <div class="fieldset mb-2">
       <label for={@id} class="relative block">
-        <span :if={@label} class="block text-sm font-cormorant font-bold text-gray-700 uppercase mb-1">
+        <span
+          :if={@label}
+          class="block text-base font-cormorant font-bold text-gray-700 uppercase mb-1.5"
+        >
           {@label}
         </span>
 
         <div class="relative w-full">
           <div
             :if={@icon != []}
-            class="absolute z-10 inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-gray-500"
+            class="absolute z-10 inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-gray-500"
           >
             {render_slot(@icon)}
           </div>
@@ -311,7 +314,7 @@ defmodule GalliumWeb.CoreComponents do
             id={@id}
             value={Phoenix.HTML.Form.normalize_value(@type, @value)}
             class={[
-              if(@icon != [], do: "pl-10", else: "pl-2"),
+              if(@icon != [], do: "pl-12", else: "pl-3"),
               @class ||
                 "text-xl focus:outline-none focus:ring-0 w-full rounded-field border font-cormorant py-2 pr-2 placeholder:text-gray-400 text-gray-800 bg-white transition-colors duration-200",
               if(@errors != [], do: "border-red-500", else: "border-gray-300"),
@@ -339,6 +342,7 @@ defmodule GalliumWeb.CoreComponents do
   @doc """
   Renders a header with title.
   """
+  attr :subtitle_class, :string, default: "text-sm text-base-content/70"
   slot :inner_block, required: true
   slot :subtitle
   slot :actions
@@ -350,7 +354,7 @@ defmodule GalliumWeb.CoreComponents do
         <h1 class="text-lg font-semibold leading-8">
           {render_slot(@inner_block)}
         </h1>
-        <p :if={@subtitle != []} class="text-sm text-base-content/70">
+        <p :if={@subtitle != []} class={["mt-4", @subtitle_class]}>
           {render_slot(@subtitle)}
         </p>
       </div>

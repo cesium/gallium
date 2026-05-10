@@ -8,9 +8,9 @@ defmodule GalliumWeb.UserLive.LoginTest do
     test "renders login page", %{conn: conn} do
       {:ok, _lv, html} = live(conn, ~p"/users/log-in")
 
-      assert html =~ "Log in"
+      assert html =~ "Entrar"
       assert html =~ "Regista-te"
-      assert html =~ "Log in com email"
+      assert html =~ "Entrar com email"
     end
   end
 
@@ -27,7 +27,7 @@ defmodule GalliumWeb.UserLive.LoginTest do
 
       # NOTE: If you translated this success message in your application,
       # update this string to match the Portuguese version!
-      assert html =~ "If your email is in our system"
+      assert html =~ "Se o teu email estiver no nosso sistema"
 
       assert Gallium.Repo.get_by!(Gallium.Accounts.UserToken, user_id: user.id).context ==
                "login"
@@ -42,7 +42,7 @@ defmodule GalliumWeb.UserLive.LoginTest do
         |> follow_redirect(conn, ~p"/users/log-in")
 
       # NOTE: Same here, update this if you translated the flash message
-      assert html =~ "If your email is in our system"
+      assert html =~ "Se o teu email estiver no nosso sistema"
     end
   end
 
@@ -74,8 +74,7 @@ defmodule GalliumWeb.UserLive.LoginTest do
 
       conn = follow_trigger_action(form, conn)
 
-      # NOTE: Update this to Portuguese if you translated the error message!
-      assert Phoenix.Flash.get(conn.assigns.flash, :error) == "Invalid email or password"
+      assert Phoenix.Flash.get(conn.assigns.flash, :error) == "Email ou palavra-passe inválidos"
       assert redirected_to(conn) == ~p"/users/log-in"
     end
   end

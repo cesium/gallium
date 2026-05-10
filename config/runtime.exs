@@ -20,10 +20,25 @@ if System.get_env("PHX_SERVER") do
   config :gallium, GalliumWeb.Endpoint, server: true
 end
 
+config :gallium,
+  from_email_name: System.get_env("FROM_EMAIL_NAME") || "Jantar de Gala",
+  from_email_address: System.get_env("FROM_EMAIL_ADDRESS") || "no-reply@cesium.pt"
+
 config :gallium, GalliumWeb.Endpoint,
   http: [port: String.to_integer(System.get_env("PORT", "4000"))]
 
 if config_env() == :prod do
+  config :gallium, :midas,
+    api_key:
+      System.get_env("GALLIUM_API_KEY") ||
+        raise("environment variable GALLIUM_API_KEY is missing."),
+    midas_api_url:
+      System.get_env("MIDAS_API_URL") ||
+        raise("environment variable MIDAS_API_URL is missing."),
+    midas_api_key:
+      System.get_env("MIDAS_API_KEY") ||
+        raise("environment variable MIDAS_API_KEY is missing.")
+
   database_url =
     System.get_env("DATABASE_URL") ||
       raise """

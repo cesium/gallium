@@ -6,7 +6,19 @@ defmodule Gallium.Ticketing do
   import Ecto.Query, warn: false
   alias Gallium.Repo
 
-  alias Gallium.Ticketing.{Accompany, Attendee, Payment}
+  alias Gallium.Ticketing.{Accompany, Attendee, Payment, Ticket, TicketType}
+
+  @pubsub Gallium.PubSub
+
+  @doc """
+  Returns all attendees with their payment and accompany preloaded.
+  """
+  def list_attendees_with_details do
+    Attendee
+    |> order_by([a], desc: a.inserted_at)
+    |> Repo.all()
+    |> Repo.preload([:payment, :accompany, user: :ticket])
+  end
 
   @doc """
   Returns the list of accompanies.
@@ -290,7 +302,11 @@ defmodule Gallium.Ticketing do
     Attendee.changeset(attendee, attrs)
   end
 
-  def process_ticket_purchase(form_data, amount_to_pay, has_accompany?, user_id) do
+  def get_attendee_by_user_id(user_id) do
+    Repo.get_by(Attendee, user_id: user_id)
+  end
+
+  def create_booking(form_data, has_accompany?, user_id) do
     data =
       form_data
       |> Map.from_struct()
@@ -298,14 +314,128 @@ defmodule Gallium.Ticketing do
 
     Ecto.Multi.new()
     |> Ecto.Multi.insert(:attendee, Attendee.changeset(%Attendee{}, data))
+    |> Ecto.Multi.run(:ticket, fn repo, _changes ->
+      insert_ticket(repo, user_id, form_data)
+    end)
     |> Ecto.Multi.run(:accompany, fn repo, %{attendee: attendee} ->
       insert_accompany(repo, attendee, form_data, has_accompany?)
     end)
-    |> Ecto.Multi.run(:payment, fn repo, %{attendee: attendee} ->
-      insert_payment(repo, attendee, form_data, amount_to_pay)
-    end)
     |> Repo.transaction()
   end
+
+  def start_payment(:mbway, attendee, user, form_data, amount, has_accompany?) do
+    ticket_type_name = if form_data.is_cesium_member, do: "member", else: "non_member"
+    ticket_type = Repo.get_by!(TicketType, type: ticket_type_name)
+
+    with :ok <- validate_midas_config(ticket_type) do
+      quantity = if has_accompany?, do: 2, else: 1
+      nif = if form_data.nif in [nil, ""], do: nil, else: form_data.nif
+
+      case Req.post(midas_api_url() <> "/orders",
+             headers: [{"authorization", "Bearer " <> midas_api_key()}],
+             json: %{
+               order: %{
+                 lines: [
+                   %{
+                     product_id: ticket_type.product_id,
+                     quantity: quantity,
+                     discount: 0
+                   }
+                 ],
+                 customer_email: user.email,
+                 customer_name: attendee.full_name,
+                 customer_tax_id: nif,
+                 payment: %{
+                   method: "mbway",
+                   phone_number: form_data.mbway_number
+                 },
+                 message: "CeSIUM - Midas 2026 Tickets",
+                 extra_fields: %{attendee_id: attendee.id}
+               }
+             }
+           ) do
+        {:ok, %Req.Response{status: 201, body: body}} ->
+          to_string(body["id"])
+          |> upsert_payment(attendee.id, amount)
+          |> broadcast_payment_order_update()
+
+        {:ok, %Req.Response{status: status, body: body}} ->
+          {:error, %{status: status, body: body}}
+
+        {:error, reason} ->
+          {:error, reason}
+      end
+    end
+  end
+
+  defp validate_midas_config(ticket_type) do
+    cond do
+      not is_binary(midas_api_url()) ->
+        {:error, :missing_midas_api_url}
+
+      is_nil(ticket_type.product_id) ->
+        {:error, :missing_ticket_product_id}
+
+      not is_binary(midas_api_key()) or midas_api_key() == "" ->
+        {:error, :missing_midas_api_key}
+
+      true ->
+        :ok
+    end
+  end
+
+  def get_payment_by_order_id(order_id) do
+    Repo.get_by(Payment, order_id: order_id)
+  end
+
+  def mark_payment_paid(order_id) do
+    case get_payment_by_order_id(order_id) do
+      nil ->
+        {:error, :not_found}
+
+      payment ->
+        payment
+        |> Ecto.Changeset.change(status: :paid)
+        |> Repo.update()
+        |> broadcast_payment_order_update()
+    end
+  end
+
+  def subscribe_to_payment_order_updates(order_id) do
+    Phoenix.PubSub.subscribe(@pubsub, "payment_order:#{order_id}")
+  end
+
+  defp upsert_payment(order_id, attendee_id, amount) do
+    case Repo.get_by(Payment, attendee_id: attendee_id) do
+      nil ->
+        create_payment(%{
+          attendee_id: attendee_id,
+          amount: amount,
+          order_id: order_id,
+          status: :pending
+        })
+
+      existing ->
+        existing
+        |> Ecto.Changeset.change(order_id: order_id, amount: amount, status: :pending)
+        |> Repo.update()
+    end
+  end
+
+  defp broadcast_payment_order_update({:ok, %Payment{} = payment} = result) do
+    Phoenix.PubSub.broadcast(
+      @pubsub,
+      "payment_order:#{payment.order_id}",
+      {:payment_order_updated, payment}
+    )
+
+    result
+  end
+
+  defp broadcast_payment_order_update({:error, _} = result), do: result
+
+  defp midas_api_url, do: Application.fetch_env!(:gallium, :midas)[:midas_api_url]
+  defp midas_api_key, do: Application.fetch_env!(:gallium, :midas)[:midas_api_key]
 
   defp insert_accompany(repo, attendee, %{accompany: accompany}, true)
        when not is_nil(accompany) do
@@ -322,15 +452,14 @@ defmodule Gallium.Ticketing do
   defp insert_accompany(_repo, _attendee, _form_data, true), do: {:error, :missing_accompany}
   defp insert_accompany(_repo, _attendee, _form_data, false), do: {:ok, nil}
 
-  defp insert_payment(repo, attendee, form_data, amount_to_pay) do
-    payment_attrs = %{
-      attendee_id: attendee.id,
-      amount: amount_to_pay,
-      status: "paid",
-      mbway_phone: form_data.mbway_number,
-      order_id: "MOCK_" <> Ecto.UUID.generate()
+  defp insert_ticket(repo, user_id, form_data) do
+    ticket_type = if form_data.is_cesium_member, do: :member, else: :non_member
+
+    ticket_attrs = %{
+      user_id: user_id,
+      type: ticket_type
     }
 
-    repo.insert(Payment.changeset(%Payment{}, payment_attrs))
+    repo.insert(Ticket.changeset(%Ticket{}, ticket_attrs))
   end
 end

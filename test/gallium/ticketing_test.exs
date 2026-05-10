@@ -98,7 +98,6 @@ defmodule Gallium.TicketingTest do
         status: :paid,
         amount: "120.5",
         order_id: "some order_id",
-        mbway_phone: "912345678",
         attendee_id: attendee.id
       }
 
@@ -106,7 +105,6 @@ defmodule Gallium.TicketingTest do
       assert payment.status == :paid
       assert payment.amount == Decimal.new("120.5")
       assert payment.order_id == "some order_id"
-      assert payment.mbway_phone == "912345678"
     end
 
     test "create_payment/1 with invalid data returns error changeset" do
@@ -119,15 +117,13 @@ defmodule Gallium.TicketingTest do
       update_attrs = %{
         status: :failed,
         amount: "456.7",
-        order_id: "some updated order_id",
-        mbway_phone: "999888777"
+        order_id: "some updated order_id"
       }
 
       assert {:ok, %Payment{} = payment} = Ticketing.update_payment(payment, update_attrs)
       assert payment.status == :failed
       assert payment.amount == Decimal.new("456.7")
       assert payment.order_id == "some updated order_id"
-      assert payment.mbway_phone == "999888777"
     end
 
     test "update_payment/2 with invalid data returns error changeset" do

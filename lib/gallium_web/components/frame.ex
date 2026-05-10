@@ -22,8 +22,7 @@ defmodule GalliumWeb.Components.Frame do
     <div class={@class} style={@flip_style}>
       <svg
         :if={@style == :style1}
-        width="430"
-        height="61"
+        width="100%"
         viewBox="0 0 430 61"
         xmlns="http://www.w3.org/2000/svg"
       >
@@ -35,8 +34,7 @@ defmodule GalliumWeb.Components.Frame do
 
       <svg
         :if={@style == :style2}
-        width="499"
-        height="61"
+        width="100%"
         viewBox="0 0 499 61"
         xmlns="http://www.w3.org/2000/svg"
       >
@@ -64,8 +62,8 @@ defmodule GalliumWeb.Components.Frame do
     """
   end
 
-  defp get_svg_color(:blue), do: "#467486"
-  defp get_svg_color(:bronze), do: "#A86824"
-  defp get_svg_color(:olive), do: "#7B8A42"
-  defp get_svg_color(:light_muted), do: "#EEEEE5"
+  defp get_svg_color(:blue), do: "#39448B"
+  defp get_svg_color(:bronze), do: "#7C0B2B"
+  defp get_svg_color(:olive), do: "#45503B"
+  defp get_svg_color(:light_muted), do: "#EFC7C2"
 end

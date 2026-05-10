@@ -12,10 +12,10 @@ defmodule GalliumWeb.Components.Card do
 
   def card(assigns) do
     ~H"""
-    <div class="rounded-lg flex flex-col p-8 items-center gap-6 w-full max-w-xs min-h-72 h-fit bg-beige">
+    <div class="rounded-lg flex flex-col p-8 items-center gap-6 w-full min-h-72 h-fit bg-beige">
       <div
         :if={@image_url || @icon}
-        class="flex w-16 h-16 items-center justify-center rounded-full bg-bronze-100"
+        class="flex w-16 h-16 items-center justify-center rounded-full bg-olive-100"
       >
         <img
           :if={@image_url}
@@ -23,12 +23,12 @@ defmodule GalliumWeb.Components.Card do
           alt={@title || "card image"}
           class="h-8 w-8 object-cover"
         />
-        <.icon :if={!@image_url && @icon} name={@icon} class="h-8 w-8 text-bronze-500" />
+        <.icon :if={!@image_url && @icon} name={@icon} class="h-8 w-8 text-olive" />
       </div>
       <div class="flex flex-col items-center gap-3 text-center">
         <h3
           :if={@title}
-          class="font-amarante text-bronze-500 text-xl tracking-[1px] leading-7 uppercase text-center px-4"
+          class="font-amarante text-olive text-xl tracking-[1px] leading-7 uppercase text-center px-4"
         >
           {@title}
         </h3>

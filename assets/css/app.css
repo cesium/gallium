@@ -105,71 +105,76 @@
 /* This file is for your main application CSS */
 
 @font-face {
-  font-family: 'Amarante';
-  src: url('/fonts/Amarante/Amarante-Regular.ttf') format('truetype');
+  font-family: 'Roby Soho';
+  src: url('/fonts/RobySoho-Regular.ttf') format('truetype');
   font-weight: 400;
+  font-style: normal;
   font-display: swap;
 }
 
 @font-face {
-  font-family: 'Cormorant Garamond';
-  src: url('/fonts/Cormorant/CormorantGaramond-VariableFont_wght.ttf') format('truetype');
+  font-family: 'Instrument Sans';
+  src: url('/fonts/InstrumentSans-Variable.ttf') format('truetype');
   font-weight: 100 900;
+  font-style: normal;
   font-display: swap;
 }
-
-@font-face {
-  font-family: "Glacial Indifference";
-  src: url("/fonts/Glacial/GlacialIndifference-Regular.otf")
-      format("truetype");
-  font-weight: 400;
-  font-display: swap;
-} 
 
 @theme {
-  --font-amarante: "Amarante", serif;
-  --font-cormorant: "Cormorant Garamond", serif;
-  --font-glacial: "Glacial Indifference", serif;
-  
-  --color-light-muted: #EEEEE5;
-  --color-beige: #F5F3E8;
+  --font-amarante: "Roby Soho", serif;
+  --font-cormorant: "Instrument Sans", sans-serif;
+  --font-glacial: "Instrument Sans", sans-serif;
 
-  --color-blue: #467486;
-  --color-blue-50: #eef4f6;
-  --color-blue-100: #dee9ed;
-  --color-blue-200: #bcd3dc;
-  --color-blue-300: #9bbdca;
-  --color-blue-400: #79a7b9;
-  --color-blue-500: #5891a7;
-  --color-blue-700: #355764;
-  --color-blue-800: #233a43;
-  --color-blue-900: #121d21;
-  --color-blue-950: #0c1417;
+  --color-light-muted: #EFC7C2;
+  --color-beige: #E7D8B5;
 
-  --color-bronze: #a86824;
-  --color-bronze-50: #fbf3ea;
-  --color-bronze-100: #f6e6d5;
-  --color-bronze-200: #edcdab;
-  --color-bronze-300: #e4b481;
-  --color-bronze-400: #db9b57;
-  --color-bronze-500: #d2822d;
-  --color-bronze-700: #7e4e1b;
-  --color-bronze-800: #543412;
-  --color-bronze-900: #2a1a09;
-  --color-bronze-950: #1d1206;
+  --color-blue: #39448B;
+  --color-blue-50: #F1F1F9;
+  --color-blue-100: #DBDCF0;
+  --color-blue-200: #B7BBE1;
+  --color-blue-300: #9397D2;
+  --color-blue-400: #6F74C3;
+  --color-blue-500: #5D67BC;
+  --color-blue-700: #2A3065;
+  --color-blue-800: #1E2348;
+  --color-blue-900: #111429;
+  --color-blue-950: #0A0B19;
 
-  --color-olive: #7b8a42;
-  --color-olive-50: #f5f7ee;
-  --color-olive-100: #ebeedd;
-  --color-olive-200: #d7deba;
-  --color-olive-300: #c3cd98;
-  --color-olive-400: #aebd75;
-  --color-olive-500: #9aac53;
-  --color-olive-700: #5d6732;
-  --color-olive-800: #3e4521;
-  --color-olive-900: #1f2211;
-  --color-olive-950: #16180c;
+  --color-bronze: #7C0B2B;
+  --color-bronze-50: #FDEDF1;
+  --color-bronze-100: #F5D1DA;
+  --color-bronze-200: #EBA3B5;
+  --color-bronze-300: #E07590;
+  --color-bronze-400: #D6476B;
+  --color-bronze-500: #D31249;
+  --color-bronze-700: #54071D;
+  --color-bronze-800: #3A0514;
+  --color-bronze-900: #20030B;
+  --color-bronze-950: #140207;
 
-  --color-golden: #cc8235;
-  --color-green: #a3af71;
+  --color-olive: #45503B;
+  --color-olive-50: #F5F6F3;
+  --color-olive-100: #E8EAE5;
+  --color-olive-200: #CDD3C8;
+  --color-olive-300: #B1BCAA;
+  --color-olive-400: #95A58B;
+  --color-olive-500: #7E936C;
+  --color-olive-700: #384130;
+  --color-olive-800: #262C21;
+  --color-olive-900: #141710;
+  --color-olive-950: #0B0E0A;
+
+  --color-golden: #B88B4A;
+}
+
+/* Roby Soho — títulos apenas, Regular, line-height 100% */
+.font-amarante {
+  line-height: 1;
+  font-weight: 400;
+}
+
+/* Instrument Sans — corpo/cabeçalhos, line-height ~137% */
+.font-cormorant,
+.font-glacial {
+  line-height: 1.37;
 }

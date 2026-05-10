@@ -1,44 +1,67 @@
 defmodule Gallium.Accounts.UserNotifier do
   @moduledoc """
-  Handles authentication, session management, and route protection for users.
+  Module responsible for sending account-related emails to users.
   """
   import Swoosh.Email
 
   alias Gallium.Accounts.User
   alias Gallium.Mailer
+  alias Gallium.Repo
 
-  # Delivers the email using the application mailer.
-  defp deliver(recipient, subject, body) do
-    email =
-      new()
-      |> to(recipient)
-      |> from({"Gallium", "contact@example.com"})
-      |> subject(subject)
-      |> text_body(body)
+  use Phoenix.Swoosh, view: GalliumWeb.EmailView
 
-    with {:ok, _metadata} <- Mailer.deliver(email) do
-      {:ok, email}
-    end
+  defp base_html_email(recipient, subject) do
+    sender = {Mailer.get_sender_name(), Mailer.get_sender_address()}
+
+    phx_host =
+      if System.get_env("PHX_HOST") != nil do
+        "https://" <> System.get_env("PHX_HOST")
+      else
+        ""
+      end
+
+    new()
+    |> to(recipient)
+    |> from(sender)
+    |> subject("[#{elem(sender, 0)}] #{subject}")
+    |> assign(:phx_host, phx_host)
   end
+
+  defp user_full_name(%User{} = user) do
+    user
+    |> Repo.preload(:attendee)
+    |> attendee_full_name()
+  end
+
+  defp attendee_full_name(%User{attendee: %{full_name: full_name}}) when is_binary(full_name) do
+    full_name
+  end
+
+  defp attendee_full_name(%User{email: email}), do: email
 
   @doc """
   Deliver instructions to update a user email.
   """
   def deliver_update_email_instructions(user, url) do
-    deliver(user.email, "Update email instructions", """
+    user_name = user_full_name(user)
 
-    ==============================
+    email =
+      base_html_email(user.email, "Update your email address")
+      |> assign(:user_name, user_name)
+      |> assign(:confirm_email_link, url)
+      |> render_body("confirm_email.html")
+      |> text_body("""
+      Olá #{user_name},
 
-    Hi #{user.email},
+      Confirma o teu email através do link abaixo:
 
-    You can change your email by visiting the URL below:
+      #{url}
+      """)
 
-    #{url}
-
-    If you didn't request this change, please ignore this.
-
-    ==============================
-    """)
+    case Mailer.deliver(email) do
+      {:ok, _metadata} -> {:ok, email}
+      {:error, reason} -> {:error, reason}
+    end
   end
 
   @doc """
@@ -52,36 +75,46 @@ defmodule Gallium.Accounts.UserNotifier do
   end
 
   defp deliver_magic_link_instructions(user, url) do
-    deliver(user.email, "Log in instructions", """
+    user_name = user_full_name(user)
 
-    ==============================
+    email =
+      base_html_email(user.email, "Log in to your account")
+      |> assign(:user_name, user_name)
+      |> assign(:magic_link, url)
+      |> render_body("magic_link.html")
+      |> text_body("""
+      Olá #{user_name},
 
-    Hi #{user.email},
+      Usa o link abaixo para entrares na tua conta:
 
-    You can log into your account by visiting the URL below:
+      #{url}
+      """)
 
-    #{url}
-
-    If you didn't request this email, please ignore this.
-
-    ==============================
-    """)
+    case Mailer.deliver(email) do
+      {:ok, _metadata} -> {:ok, email}
+      {:error, reason} -> {:error, reason}
+    end
   end
 
   defp deliver_confirmation_instructions(user, url) do
-    deliver(user.email, "Confirmation instructions", """
+    user_name = user_full_name(user)
 
-    ==============================
+    email =
+      base_html_email(user.email, "Confirm your email")
+      |> assign(:user_name, user_name)
+      |> assign(:confirm_email_link, url)
+      |> render_body("confirm_email.html")
+      |> text_body("""
+      Olá #{user_name},
 
-    Hi #{user.email},
+      Confirma o teu email através do link abaixo:
 
-    You can confirm your account by visiting the URL below:
+      #{url}
+      """)
 
-    #{url}
-
-    If you didn't create an account with us, please ignore this.
-
-    ==============================
-    """)
+    case Mailer.deliver(email) do
+      {:ok, _metadata} -> {:ok, email}
+      {:error, reason} -> {:error, reason}
+    end
   end
 end
