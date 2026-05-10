@@ -4,7 +4,7 @@ defmodule GalliumWeb.MidasController do
   alias Gallium.Ticketing
 
   def handle_webhook(conn, %{"api_key" => api_key, "order_id" => order_id}) do
-    if api_key == Application.fetch_env!(:gallium, :midas)[:midas_api_key] do
+    if api_key == Application.fetch_env!(:gallium, :midas)[:api_key] do
       process_payment_if_pending(conn, order_id)
     else
       send_resp(conn, 403, "invalid api key")
@@ -12,7 +12,7 @@ defmodule GalliumWeb.MidasController do
   end
 
   def payment_received(conn, %{"orderId" => order_id, "key" => api_key}) do
-    if api_key == Application.fetch_env!(:gallium, :midas)[:midas_api_key] do
+    if api_key == Application.fetch_env!(:gallium, :midas)[:api_key] do
       process_payment_if_pending(conn, order_id)
     else
       send_resp(conn, 403, "invalid api key")
