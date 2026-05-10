@@ -47,17 +47,21 @@
       </div>
 
       <div class="flex flex-row justify-between mt-4">
-        <div>
-          <.primary_button
-            type="button"
-            phx-click="previous_step"
-            text="Voltar"
-            color={:light_muted}
-            icon="hero-arrow-left"
-            iconpos={:left}
-            class="font-amarante"
-          />
-        </div>
+        <%= if !@resuming_purchase? do %>
+          <div>
+            <.primary_button
+              type="button"
+              phx-click="previous_step"
+              text="Voltar"
+              color={:light_muted}
+              icon="hero-arrow-left"
+              iconpos={:left}
+              class="font-amarante"
+            />
+          </div>
+        <% else %>
+          <div></div>
+        <% end %>
         <div>
           <.primary_button
             type="submit"

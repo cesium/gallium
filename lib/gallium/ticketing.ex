@@ -306,6 +306,17 @@ defmodule Gallium.Ticketing do
     Repo.get_by(Attendee, user_id: user_id)
   end
 
+  def get_purchase_by_user_id(user_id) do
+    attendee =
+      Attendee
+      |> Repo.get_by(user_id: user_id)
+      |> Repo.preload([:accompany, :payment])
+
+    ticket = Repo.get_by(Ticket, user_id: user_id)
+
+    %{attendee: attendee, ticket: ticket}
+  end
+
   def create_booking(form_data, has_accompany?, user_id) do
     data =
       form_data
