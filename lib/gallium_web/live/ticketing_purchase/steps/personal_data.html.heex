@@ -153,13 +153,17 @@
     <.input
       field={@form_data[:table_preference]}
       type="text"
-      label="Preferência de mesa (opcional)"
-      placeholder="ex: com o grupo X, junto à janela..."
+      label="Preferência de nome da mesa (opcional)"
+      placeholder="Nome da mesa"
     >
       <:icon>
         <.icon name="hero-table-cells" class="size-5" />
       </:icon>
     </.input>
+
+    <p class="font-cormorant text-sm text-gray-500 -mt-5">
+      Limite máximo de 10 pessoas por mesa.
+    </p>
 
     <.input
       field={@form_data[:allergies]}
