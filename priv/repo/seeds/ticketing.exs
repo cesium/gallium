@@ -35,6 +35,32 @@ defmodule Gallium.Repo.Seeds.Ticketing do
     10 => "a100010"
   }
 
+  @full_names %{
+    1  => "Ana Maria Silva",
+    2  => "Bruno Costa Pereira",
+    3  => "Catarina Dias Lobo",
+    4  => "Diogo Ferreira",
+    5  => "Eva Marques Sousa",
+    6  => "Filipe Almeida",
+    7  => "Gabriela Nunes",
+    8  => "Hugo Ramos Antunes",
+    9  => "Inês Carvalho",
+    10 => "João Lobo"
+  }
+
+  @table_preferences %{
+    1  => "Mesa 1",
+    2  => "Mesa 1",
+    3  => "Mesa 1",
+    4  => "Mesa 2",
+    5  => "Mesa 2",
+    6  => "Mesa 2",
+    7  => "Mesa 3",
+    8  => "Mesa 3",
+    9  => "Mesa 3",
+    10 => "Mesa 3"
+  }
+
   @accompany_data %{
     1 => %{full_name: "Acompanhante de Ana",      email: "acomp1@example.com", phone_number: "+351910000001"},
     2 => %{full_name: "Acompanhante de Bruno",    email: "acomp2@example.com", phone_number: "+351910000002"},
@@ -78,12 +104,13 @@ defmodule Gallium.Repo.Seeds.Ticketing do
     is_member = index <= 5
 
     attrs = %{
-      full_name:        "Attendee #{index}",
-      phone_number:     "+35191000000#{index}",
-      is_cesium_member: is_member,
-      user_id:          user_id,
-      student_number:   @student_numbers[index],
-      nif:              "20000000#{index}"
+      full_name:         @full_names[index] || "Attendee #{index}",
+      phone_number:      "+35191000000#{index}",
+      is_cesium_member:  is_member,
+      user_id:           user_id,
+      student_number:    @student_numbers[index],
+      nif:               "20000000#{index}",
+      table_preference:  @table_preferences[index]
     }
 
     case Ticketing.create_attendee(attrs) do
