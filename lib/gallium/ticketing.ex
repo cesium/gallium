@@ -360,7 +360,7 @@ defmodule Gallium.Ticketing do
                    method: "mbway",
                    phone_number: form_data.mbway_number
                  },
-                 message: "CeSIUM - Midas 2026 Tickets",
+                 message: "CeSIUM - Jantar de Gala 2026 Bilhete",
                  extra_fields: %{attendee_id: attendee.id}
                }
              }
