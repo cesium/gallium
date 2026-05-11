@@ -177,6 +177,39 @@
       </:icon>
     </.input>
 
+    <div class="flex flex-col gap-1 mt-2">
+      <label class="flex items-start gap-3 font-cormorant text-base text-gray-700 cursor-pointer">
+        <input type="hidden" name={@form_data[:terms_accepted].name} value="false" />
+        <input
+          type="checkbox"
+          id={@form_data[:terms_accepted].id}
+          name={@form_data[:terms_accepted].name}
+          value="true"
+          checked={@form_data[:terms_accepted].value == true}
+          class="checkbox checkbox-sm checkbox-primary mt-1 shrink-0"
+        />
+        <span>
+          Li e aceito os
+          <.link
+            navigate={~p"/terms"}
+            target="_blank"
+            class="text-blue-500 underline hover:text-blue-700"
+          >
+            Termos e Condições
+          </.link>
+          da compra do bilhete. *
+        </span>
+      </label>
+      <p
+        :for={{msg, _} <- @form_data[:terms_accepted].errors}
+        :if={@form_data.action == :validate}
+        class="mt-1.5 flex gap-2 items-center text-sm text-error font-cormorant"
+      >
+        <.icon name="hero-exclamation-circle-mini" class="size-4 shrink-0" />
+        {msg}
+      </p>
+    </div>
+
     <div class="flex flex-row justify-between mt-4">
       <div>
         <.primary_button
