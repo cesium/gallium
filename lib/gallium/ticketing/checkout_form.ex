@@ -12,7 +12,7 @@ defmodule Gallium.Ticketing.CheckoutForm do
     field :nif, :string
     field :mbway_number, :string
     field :is_cesium_member, :boolean
-    field :wants_transport, :boolean, default: false
+    field :wants_transport, :boolean, default: true
     field :table_preference, :string
     field :allergies, :string
     field :terms_accepted, :boolean, default: false, virtual: true

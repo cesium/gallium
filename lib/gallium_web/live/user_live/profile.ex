@@ -100,6 +100,12 @@ defmodule GalliumWeb.UserLive.Profile do
                       <p class="text-gray-800 text-xl">{@user_info.nif}</p>
                     </div>
                   <% end %>
+                  <%= if @user_info.table_preference do %>
+                    <div>
+                      <p class="text-gray-400 text-xs uppercase tracking-widest mb-1">Nome da Mesa</p>
+                      <p class="text-gray-800 text-xl">{@user_info.table_preference}</p>
+                    </div>
+                  <% end %>
                 </div>
 
                 <%= if @user_info.payment do %>

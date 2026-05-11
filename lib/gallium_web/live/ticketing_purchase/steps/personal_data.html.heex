@@ -134,7 +134,7 @@
             type="radio"
             name={@form_data[:wants_transport].name}
             value="true"
-            checked={@form_data[:wants_transport].value == true}
+            checked={@form_data[:wants_transport].value in [true, "true"]}
             class="radio radio-sm radio-primary"
           /> Sim
         </label>
@@ -143,7 +143,7 @@
             type="radio"
             name={@form_data[:wants_transport].name}
             value="false"
-            checked={@form_data[:wants_transport].value != true}
+            checked={@form_data[:wants_transport].value in [false, "false"]}
             class="radio radio-sm radio-primary"
           /> Não
         </label>
