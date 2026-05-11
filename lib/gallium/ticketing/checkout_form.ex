@@ -15,6 +15,7 @@ defmodule Gallium.Ticketing.CheckoutForm do
     field :wants_transport, :boolean, default: false
     field :table_preference, :string
     field :allergies, :string
+    field :terms_accepted, :boolean, default: false, virtual: true
 
     embeds_one :accompany, AccompanyForm, primary_key: false, on_replace: :delete do
       field :full_name, :string
@@ -33,11 +34,13 @@ defmodule Gallium.Ticketing.CheckoutForm do
       :is_cesium_member,
       :wants_transport,
       :table_preference,
-      :allergies
+      :allergies,
+      :terms_accepted
     ])
     |> validate_required([:full_name, :student_number, :phone_number, :is_cesium_member],
       message: "Este campo é obrigatório"
     )
+    |> validate_terms_accepted()
     |> validate_length(:full_name, min: 3, message: "O nome tem de ter pelo menos 3 letras")
     |> validate_format(:phone_number, ~r/^\+?\d{9,15}$/, message: "Número de telefone inválido")
     |> validate_format(:student_number, ~r/^(a\d{1,6}|pg\d{1,5}|e\d{1,6})$/i,
@@ -50,6 +53,18 @@ defmodule Gallium.Ticketing.CheckoutForm do
       message: "A preferência da mesa tem de ter no máximo 30 caracteres"
     )
     |> cast_embed(:accompany, with: &accompany_changeset/2)
+  end
+
+  defp validate_terms_accepted(changeset) do
+    if get_field(changeset, :terms_accepted) == true do
+      changeset
+    else
+      add_error(
+        changeset,
+        :terms_accepted,
+        "Tens de aceitar os Termos e Condições para continuar"
+      )
+    end
   end
 
   defp accompany_changeset(schema, attrs) do
