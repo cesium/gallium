@@ -60,9 +60,10 @@ defmodule GalliumWeb.Router do
         {GalliumWeb.UserAuth, :require_authenticated},
         {GalliumWeb.UserAuth, :require_admin}
       ] do
-      live "/", BackOffice.MembersLive.Index
+      live "/", BackOffice.AttendeesLive.Index
       live "/members", BackOffice.MembersLive.Index
       live "/attendees", BackOffice.AttendeesLive.Index
+      live "/tables", BackOffice.TablesLive.Index
     end
   end
 

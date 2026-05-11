@@ -21,6 +21,32 @@ defmodule Gallium.Ticketing do
   end
 
   @doc """
+  Groups attendees (and their accompanies) by `table_preference`.
+  """
+  def list_tables_with_attendees do
+    Attendee
+    |> where([a], not is_nil(a.table_preference) and a.table_preference != "")
+    |> order_by([a], asc: a.table_preference, asc: a.inserted_at)
+    |> Repo.all()
+    |> Repo.preload(:accompany)
+    |> Enum.group_by(& &1.table_preference)
+    |> Enum.map(fn {table, attendees} -> {table, table_people(attendees)} end)
+    |> Enum.sort_by(fn {table, _} -> table end)
+  end
+
+  defp table_people(attendees) do
+    Enum.flat_map(attendees, &attendee_and_accompany/1)
+  end
+
+  defp attendee_and_accompany(%Attendee{accompany: nil} = attendee) do
+    [%{full_name: attendee.full_name}]
+  end
+
+  defp attendee_and_accompany(%Attendee{accompany: accompany} = attendee) do
+    [%{full_name: attendee.full_name}, %{full_name: accompany.full_name}]
+  end
+
+  @doc """
   Returns the list of accompanies.
 
   ## Examples

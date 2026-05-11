@@ -1,0 +1,25 @@
+<.backoffice_layout sidebar_open={@sidebar_open} current_page={@current_page} flash={@flash}>
+  <div class="w-full">
+    <div class="flex flex-col gap-6">
+      <div class="mb-2">
+        <h1 class="text-4xl font-bold text-gray-content font-amarante">Mesas</h1>
+        <p class="text-gray mt-2 font-cormorant">
+          Distribuição de convidados por mesa.
+        </p>
+      </div>
+
+      <%= if @tables == [] do %>
+        <div class="flex flex-col items-center justify-center py-24 text-gray-300 font-cormorant bg-white rounded-xl border border-gray-200 shadow-sm">
+          <.icon name="hero-rectangle-group" class="size-14 mb-4" />
+          <p class="text-lg">Ainda não há mesas atribuídas.</p>
+        </div>
+      <% else %>
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-10">
+          <%= for table <- @tables do %>
+            <.table_card name={table.name} people={table.people} />
+          <% end %>
+        </div>
+      <% end %>
+    </div>
+  </div>
+</.backoffice_layout>
