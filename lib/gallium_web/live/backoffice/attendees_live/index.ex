@@ -26,17 +26,18 @@ defmodule GalliumWeb.BackOffice.AttendeesLive.Index do
 
   def handle_params(_params, _uri, socket) do
     attendees = Ticketing.list_attendees_with_details()
+    accompany_count = Enum.count(attendees, & &1.accompany)
 
     socket =
       socket
       |> assign(:attendees, attendees)
-      |> assign(:total_count, length(attendees))
+      |> assign(:total_count, length(attendees) + accompany_count)
       |> assign(:paid_count, Enum.count(attendees, &(&1.payment && &1.payment.status == :paid)))
       |> assign(
         :member_count,
         Enum.count(attendees, &(&1.user.ticket && &1.user.ticket.type == :member))
       )
-      |> assign(:accompany_count, Enum.count(attendees, & &1.accompany))
+      |> assign(:accompany_count, accompany_count)
 
     {:noreply, socket}
   end
