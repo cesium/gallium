@@ -21,7 +21,7 @@ defmodule GalliumWeb.UserLive.SettingsTest do
 
       assert {:redirect, %{to: path, flash: flash}} = redirect
       assert path == ~p"/users/log-in"
-      assert %{"error" => "Precisa de estar logado para acessar esta página."} = flash
+      assert %{"error" => "Precisa de ter sessão iniciada para aceder a esta página."} = flash
     end
   end
 
@@ -194,7 +194,7 @@ defmodule GalliumWeb.UserLive.SettingsTest do
       assert {:redirect, %{to: path, flash: flash}} = redirect
       assert path == ~p"/users/log-in"
       assert %{"error" => message} = flash
-      assert message == "Precisa de estar logado para acessar esta página."
+      assert message == "Precisa de ter sessão iniciada para aceder a esta página."
     end
   end
 end

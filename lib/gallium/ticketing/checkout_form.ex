@@ -45,6 +45,10 @@ defmodule Gallium.Ticketing.CheckoutForm do
     )
     |> validate_cesium_member(:student_number, :is_cesium_member)
     |> validate_format(:nif, ~r/^\d{9}$/, message: "O NIF tem de ter exatamente 9 números")
+    |> validate_length(:table_preference,
+      max: 30,
+      message: "A preferência da mesa tem de ter no máximo 30 caracteres"
+    )
     |> cast_embed(:accompany, with: &accompany_changeset/2)
   end
 

@@ -1,5 +1,5 @@
 <div class="grow flex flex-col">
-  <%= if !@user_info do %>
+  <%= if !@purchase_blocked? do %>
     <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 grow w-full py-8">
       <%= if @current_step < 4 do %>
         <.stepper
@@ -24,6 +24,7 @@
             has_accompany?={@has_accompany?}
             amount_to_pay={@amount_to_pay}
             price_per_ticket={@price_per_ticket}
+            resuming_purchase?={@resuming_purchase?}
           />
         <% 4 -> %>
           <.confirmation

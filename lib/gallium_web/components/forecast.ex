@@ -25,8 +25,8 @@ defmodule GalliumWeb.Components.Forecast do
         />
         <.card
           icon="hero-musical-note"
-          title="Karaoke & Animação"
-          description="Diverte-te com karaoke, cantores quebra-gelo e muitas outras surpresas ao longo da noite."
+          title="Animação"
+          description="Diverte-te com cartões quebra-gelo e muitas outras surpresas ao longo da noite."
         />
         <.card
           icon="hero-camera"

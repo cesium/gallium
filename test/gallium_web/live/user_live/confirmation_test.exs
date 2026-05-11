@@ -19,7 +19,7 @@ defmodule GalliumWeb.UserLive.ConfirmationTest do
 
       {:ok, _lv, html} = live(conn, ~p"/users/log-in/#{token}")
 
-      assert html =~ "Confirmar e ficar logado"
+      assert html =~ "Confirmar e manter sessão iniciada"
     end
 
     test "renders login page for confirmed user", %{conn: conn, confirmed_user: user} do
@@ -30,8 +30,8 @@ defmodule GalliumWeb.UserLive.ConfirmationTest do
 
       {:ok, _lv, html} = live(conn, ~p"/users/log-in/#{token}")
 
-      refute html =~ "Confirmar e ficar logado"
-      assert html =~ "Mantém-me logado neste dispositivo"
+      refute html =~ "Confirmar e manter sessão iniciada"
+      assert html =~ "Manter sessão iniciada neste dispositivo"
     end
 
     test "renders login page for already logged in user", %{conn: conn, confirmed_user: user} do

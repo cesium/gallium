@@ -48,7 +48,7 @@ defmodule GalliumWeb.UserLive.RegistrationTest do
         |> follow_redirect(conn, ~p"/users/log-in")
 
       assert html =~
-               ~r/Foi enviado um email para .*, acede a ele para confirmar a tua conta/
+               ~r/Foi enviado um email para .*, acede para confirmar a tua conta/
     end
 
     test "renders errors for duplicated email", %{conn: conn} do

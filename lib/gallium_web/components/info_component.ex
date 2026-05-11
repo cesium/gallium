@@ -24,15 +24,7 @@ defmodule GalliumWeb.Components.InfoSection do
             <p>Viagem de Ida</p>
           </div>
           <p class="text-xs font-glacial opacity-70 uppercase mt-1">Paragem da UM  • Quinta</p>
-          <p class="text-3xl md:text-4xl mt-2 font-amarante">18H30 • 19H</p>
-        </div>
-
-        <div class="text-center mb-8 flex flex-col items-center">
-          <div class="flex items-center space-x-2 font-glacial text-xs tracking-[0.3em] uppercase opacity-80">
-            <.icon name="hero-clock" class="h-5 w-5" />
-            <p>Sessão Fotográfica</p>
-          </div>
-          <p class="text-3xl md:text-4xl mt-2 font-amarante">19H30 • 20H</p>
+          <p class="text-3xl md:text-4xl mt-2 font-amarante">18H • 19:00H</p>
         </div>
 
         <div class="text-center flex flex-col items-center">
@@ -40,7 +32,7 @@ defmodule GalliumWeb.Components.InfoSection do
             <.icon name="hero-truck" class="h-5 w-5" />
             <p>Regresso</p>
           </div>
-          <p class="text-3xl md:text-4xl mt-2 font-amarante">3H</p>
+          <p class="text-3xl md:text-4xl mt-2 font-amarante">2H</p>
         </div>
       </div>
 

@@ -91,7 +91,7 @@ defmodule GalliumWeb.UserLive.Login do
             <.primary_button
               class="font-cormorant"
               color={:blue}
-              text="Mantém-me logado neste dispositivo"
+              text="Manter sessão iniciada neste dispositivo"
               name={@form[:remember_me].name}
               value="true"
               icon="hero-arrow-right"

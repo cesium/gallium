@@ -9,13 +9,13 @@ defmodule GalliumWeb.Components.ProgramSection do
   attr :schedule_items, :list,
     default: [
       %{
-        time: "18H30",
+        time: "18H",
         title: "PARTIDA DA UNIVERSIDADE",
         description: "Encontro na paragem da UM para embarque no autocarro"
       },
       %{
-        time: "19H30",
-        title: "CHEGADA À QUINTA DA ALDEIA",
+        time: "19H",
+        title: "CHEGADA À QUINTA VINHA DO CABO",
         description: "Recepção com entradas e bebidas de boas-vindas"
       },
       %{
@@ -26,15 +26,15 @@ defmodule GalliumWeb.Components.ProgramSection do
       %{
         time: "20H30",
         title: "JANTAR",
-        description: "Sopa, prato principal e sobremesa servidos à mesa"
+        description: "Sopa, prato principal e sobremesa"
       },
       %{
         time: "22H00",
-        title: "ANIMAÇÃO & KARAOKE",
-        description: "Música, karaoke, cartões quebra-gelo e muitas surpresas"
+        title: "ANIMAÇÃO",
+        description: "Música, cartões quebra-gelo e muitas surpresas"
       },
       %{
-        time: "3H",
+        time: "2H",
         title: "REGRESSO À UNIVERSIDADE",
         description: "Autocarro de volta ao ponto de partida"
       }
@@ -67,7 +67,7 @@ defmodule GalliumWeb.Components.ProgramSection do
         </div>
 
         <p class="mt-16 text-bronze text-sm text-center tracking-[2px] max-w-md">
-          Não percas atividades incríveis como karaoke, cartões quebra-gelo e muitas outras surpresas!
+          Não percas atividades incríveis como cartões quebra-gelo e muitas outras surpresas!
         </p>
       </div>
     </section>
