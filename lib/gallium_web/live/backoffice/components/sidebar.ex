@@ -35,7 +35,6 @@ defmodule GalliumWeb.BackOffice.Components.Sidebar do
       if(@sidebar_open, do: "translate-x-0", else: "-translate-x-full md:translate-x-0")
     ]}>
       <div class="md:hidden px-4 py-3 border-b border-gray-200 flex items-center justify-between">
-        <h2 class="font-bold font-amarante text-black"></h2>
         <button
           phx-click="toggle_sidebar"
           class="hover:bg-gray-300 px-2 py-1 rounded-md"
