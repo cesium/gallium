@@ -32,7 +32,7 @@ defmodule GalliumWeb.UserLive.Confirmation do
                 name={@form[:remember_me].name}
                 value="true"
                 phx-disable-with="A confirmar..."
-                text="Confirmar e ficar logado"
+                text="Confirmar e manter sessão iniciada neste dispositivo"
                 class="font-cormorant text-lg py-3"
                 color={:blue}
               />
@@ -68,7 +68,7 @@ defmodule GalliumWeb.UserLive.Confirmation do
                   name={@form[:remember_me].name}
                   value="true"
                   phx-disable-with="A entrar..."
-                  text="Mantém-me logado neste dispositivo"
+                  text="Manter sessão iniciada neste dispositivo"
                   class="font-cormorant text-lg py-3"
                   color={:blue}
                 />

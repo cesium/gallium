@@ -67,7 +67,7 @@ defmodule GalliumWeb.Components.ProgramSection do
         </div>
 
         <p class="mt-16 text-bronze text-sm text-center tracking-[2px] max-w-md">
-          Não percas atividades incríveis como karaoke, cartões quebra-gelo e muitas outras surpresas!
+          Não percas atividades incríveis como cartões quebra-gelo e muitas outras surpresas!
         </p>
       </div>
     </section>

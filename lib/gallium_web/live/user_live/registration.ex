@@ -74,7 +74,7 @@ defmodule GalliumWeb.UserLive.Registration do
          socket
          |> put_flash(
            :info,
-           "Foi enviado um email para #{user.email}, acede a ele para confirmar a tua conta."
+           "Foi enviado um email para #{user.email}, acede para confirmar a tua conta."
          )
          |> push_navigate(to: ~p"/users/log-in")}
 

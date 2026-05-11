@@ -35,7 +35,7 @@ defmodule GalliumWeb.Components.TicketSection do
               "Jantar completo",
               "Sessão fotográfica",
               "Transporte opcional",
-              "Animação e karaoke"
+              "Animação"
             ]}
           />
 
@@ -47,7 +47,7 @@ defmodule GalliumWeb.Components.TicketSection do
               "Jantar completo",
               "Sessão fotográfica",
               "Transporte opcional",
-              "Animação e karaoke"
+              "Animação"
             ]}
           />
         </div>
