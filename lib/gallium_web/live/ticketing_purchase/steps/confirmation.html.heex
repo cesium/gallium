@@ -1,31 +1,57 @@
 <div class="flex flex-col items-center max-w-lg mx-auto my-8 px-4">
   <div class={[
     "rounded-full p-5 mb-4 shadow-sm",
-    if(@payment_status == :paid,
-      do: "bg-olive text-olive-600",
-      else: "bg-amber-100 text-amber-600"
-    )
+    case @payment_status do
+      :paid -> "bg-olive text-olive-600"
+      :blocked -> "bg-red-100 text-red-600"
+      _ -> "bg-amber-100 text-amber-600"
+    end
   ]}>
     <.icon
-      name={if @payment_status == :paid, do: "hero-check-circle", else: "hero-clock"}
+      name={
+        case @payment_status do
+          :paid -> "hero-check-circle"
+          :blocked -> "hero-no-symbol"
+          _ -> "hero-clock"
+        end
+      }
       class={
-        if @payment_status == :paid, do: "size-10 text-white", else: "size-10 text-amber-600ç"
+        case @payment_status do
+          :paid -> "size-10 text-white"
+          :blocked -> "size-10 text-red-600"
+          _ -> "size-10 text-amber-600"
+        end
       }
     />
   </div>
 
   <h1 class={[
     "text-5xl font-amarante mb-4 text-center uppercase",
-    if(@payment_status == :paid, do: "text-olive", else: "text-amber-600")
+    case @payment_status do
+      :paid -> "text-olive"
+      :blocked -> "text-red-600"
+      _ -> "text-amber-600"
+    end
   ]}>
-    {if @payment_status == :paid, do: "Bilhete Confirmado!", else: "Pagamento Pendente"}
+    <%= case @payment_status do %>
+      <% :paid -> %>
+        Bilhete Confirmado!
+      <% :blocked -> %>
+        Pagamento Bloqueado
+      <% _ -> %>
+        Pagamento Pendente
+    <% end %>
   </h1>
 
   <p class="font-cormorant text-gray-600 text-center mb-8">
-    {if @payment_status == :paid,
-      do: "O teu pagamento foi recebido. Até já na Quinta Vinha do Cabo!",
-      else:
-        "A tua reserva foi registada. Efetua o pagamento via MBWay para confirmares o teu bilhete."}
+    <%= case @payment_status do %>
+      <% :paid -> %>
+        O teu pagamento foi recebido. Até já na Quinta Vinha do Cabo!
+      <% :blocked -> %>
+        O limite de 100 lugares pagos já foi atingido, incluindo acompanhantes. Contacta a organização para regularizar a situação.
+      <% _ -> %>
+        A tua reserva foi registada. Efetua o pagamento via MBWay para confirmares o teu bilhete.
+    <% end %>
   </p>
 
   <div class="w-full border-2 border-olive-200 p-8 bg-white rounded-box relative mb-8">

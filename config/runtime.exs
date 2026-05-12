@@ -22,7 +22,8 @@ end
 
 config :gallium,
   from_email_name: System.get_env("FROM_EMAIL_NAME") || "Jantar de Gala",
-  from_email_address: System.get_env("FROM_EMAIL_ADDRESS") || "no-reply@cesium.pt"
+  from_email_address: System.get_env("FROM_EMAIL_ADDRESS") || "no-reply@cesium.pt",
+  ticket_capacity: String.to_integer(System.get_env("TICKET_CAPACITY", "100"))
 
 config :gallium, GalliumWeb.Endpoint,
   http: [port: String.to_integer(System.get_env("PORT", "4000"))]

@@ -46,7 +46,12 @@
         </h2>
         <div class="w-12 h-0.5 bg-bronze mx-auto mb-6"></div>
         <p class="text-gray-500 text-xl font-cormorant leading-relaxed mb-10">
-          As vendas estão encerradas ou já possuis um bilhete associado à tua conta.
+          <%= case @purchase_blocked_reason do %>
+            <% :capacity -> %>
+              Os bilhetes encontram-se esgotados.
+            <% _ -> %>
+              As vendas estão encerradas ou já possuis um bilhete associado à tua conta.
+          <% end %>
         </p>
         <div class="flex flex-col sm:flex-row justify-center gap-4">
           <.primary_button

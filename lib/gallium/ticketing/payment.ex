@@ -8,7 +8,7 @@ defmodule Gallium.Ticketing.Payment do
   @foreign_key_type :binary_id
   schema "payments" do
     field :amount, :decimal
-    field :status, Ecto.Enum, values: [:pending, :paid, :failed], default: :pending
+    field :status, Ecto.Enum, values: [:pending, :paid, :failed, :blocked], default: :pending
     field :order_id, :string
     belongs_to :attendee, Gallium.Ticketing.Attendee, type: :binary_id
     timestamps(type: :utc_datetime)

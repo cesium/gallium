@@ -21,10 +21,18 @@ defmodule GalliumWeb.TicketingPurchaseLive.Index do
           assign_blocked_purchase(socket, attendee, is_cesium_member?)
 
         {:resume, attendee} ->
-          assign_resumable_purchase(socket, attendee)
+          if Ticketing.ticket_capacity_available?(ticket_quantity(attendee)) do
+            assign_resumable_purchase(socket, attendee)
+          else
+            assign_capacity_blocked_purchase(socket, is_cesium_member?)
+          end
 
         :new ->
-          assign_new_purchase(socket, is_cesium_member?)
+          if Ticketing.available_ticket_slots() > 0 do
+            assign_new_purchase(socket, is_cesium_member?)
+          else
+            assign_capacity_blocked_purchase(socket, is_cesium_member?)
+          end
       end
 
     {:ok, socket}
@@ -96,30 +104,35 @@ defmodule GalliumWeb.TicketingPurchaseLive.Index do
     price_per_ticket =
       if is_member, do: TicketType.price_for_member(), else: TicketType.price_for_non_member()
 
-    if changeset.valid? do
-      amount_to_pay =
-        if socket.assigns.has_accompany?,
-          do: price_per_ticket * 2,
-          else: price_per_ticket
+    cond do
+      not changeset.valid? ->
+        changeset_com_erros = Map.put(changeset, :action, :validate)
 
-      new_data = Ecto.Changeset.apply_changes(changeset)
-      new_changeset = CheckoutForm.changeset_personal_data(new_data, %{})
+        {:noreply,
+         socket
+         |> assign(:price_per_ticket, price_per_ticket)
+         |> assign(:companion_price, price_per_ticket)
+         |> assign(:form_data, to_form(changeset_com_erros))}
 
-      {:noreply,
-       socket
-       |> assign(:price_per_ticket, price_per_ticket)
-       |> assign(:companion_price, price_per_ticket)
-       |> assign(:form_data, to_form(new_changeset))
-       |> assign(:amount_to_pay, amount_to_pay)
-       |> update(:current_step, &(&1 + 1))}
-    else
-      changeset_com_erros = Map.put(changeset, :action, :validate)
+      not Ticketing.ticket_capacity_available?(ticket_quantity(socket.assigns.has_accompany?)) ->
+        {:noreply, handle_unavailable_ticket_capacity(socket, is_member)}
 
-      {:noreply,
-       socket
-       |> assign(:price_per_ticket, price_per_ticket)
-       |> assign(:companion_price, price_per_ticket)
-       |> assign(:form_data, to_form(changeset_com_erros))}
+      true ->
+        amount_to_pay =
+          if socket.assigns.has_accompany?,
+            do: price_per_ticket * 2,
+            else: price_per_ticket
+
+        new_data = Ecto.Changeset.apply_changes(changeset)
+        new_changeset = CheckoutForm.changeset_personal_data(new_data, %{})
+
+        {:noreply,
+         socket
+         |> assign(:price_per_ticket, price_per_ticket)
+         |> assign(:companion_price, price_per_ticket)
+         |> assign(:form_data, to_form(new_changeset))
+         |> assign(:amount_to_pay, amount_to_pay)
+         |> update(:current_step, &(&1 + 1))}
     end
   end
 
@@ -143,7 +156,8 @@ defmodule GalliumWeb.TicketingPurchaseLive.Index do
   defp process_step3(socket, final_data) do
     user = socket.assigns.current_scope.user
 
-    with {:ok, attendee} <-
+    with :ok <- validate_ticket_capacity(socket.assigns.has_accompany?),
+         {:ok, attendee} <-
            get_or_create_attendee(user.id, final_data, socket.assigns.has_accompany?),
          {:ok, payment} <-
            Ticketing.start_payment(
@@ -169,6 +183,9 @@ defmodule GalliumWeb.TicketingPurchaseLive.Index do
       {:error, :booking_failed} ->
         {:noreply,
          put_flash(socket, :error, "Ocorreu um erro ao guardar o bilhete. Tenta novamente.")}
+
+      {:error, :ticket_capacity_unavailable} ->
+        {:noreply, handle_unavailable_ticket_capacity(socket, final_data.is_cesium_member)}
 
       {:error, reason} ->
         {:noreply,
@@ -226,6 +243,7 @@ defmodule GalliumWeb.TicketingPurchaseLive.Index do
     |> assign(:companion_price, price_per_ticket)
     |> assign(:payment_status, :pending)
     |> assign(:purchase_blocked?, false)
+    |> assign(:purchase_blocked_reason, nil)
     |> assign(:resuming_purchase?, false)
     |> assign(:user_info, nil)
   end
@@ -250,6 +268,7 @@ defmodule GalliumWeb.TicketingPurchaseLive.Index do
     |> assign(:companion_price, price_per_ticket)
     |> assign(:payment_status, payment_status(attendee))
     |> assign(:purchase_blocked?, false)
+    |> assign(:purchase_blocked_reason, nil)
     |> assign(:resuming_purchase?, true)
     |> assign(:user_info, attendee)
   end
@@ -266,8 +285,26 @@ defmodule GalliumWeb.TicketingPurchaseLive.Index do
     |> assign(:companion_price, price_per_ticket)
     |> assign(:payment_status, :paid)
     |> assign(:purchase_blocked?, true)
+    |> assign(:purchase_blocked_reason, :existing_ticket)
     |> assign(:resuming_purchase?, false)
     |> assign(:user_info, attendee)
+  end
+
+  defp assign_capacity_blocked_purchase(socket, is_cesium_member?) do
+    price_per_ticket = price_per_ticket(is_cesium_member?)
+
+    socket
+    |> assign(:current_step, 1)
+    |> assign(:form_data, to_form(CheckoutForm.changeset_personal_data(%CheckoutForm{}, %{})))
+    |> assign(:has_accompany?, false)
+    |> assign(:amount_to_pay, nil)
+    |> assign(:price_per_ticket, price_per_ticket)
+    |> assign(:companion_price, price_per_ticket)
+    |> assign(:payment_status, :pending)
+    |> assign(:purchase_blocked?, true)
+    |> assign(:purchase_blocked_reason, :capacity)
+    |> assign(:resuming_purchase?, false)
+    |> assign(:user_info, nil)
   end
 
   defp checkout_form_from_attendee(attendee) do
@@ -304,6 +341,36 @@ defmodule GalliumWeb.TicketingPurchaseLive.Index do
 
   defp payment_status(%{payment: %{status: status}}), do: status
   defp payment_status(_attendee), do: :pending
+
+  defp validate_ticket_capacity(has_accompany?) do
+    if Ticketing.ticket_capacity_available?(ticket_quantity(has_accompany?)) do
+      :ok
+    else
+      {:error, :ticket_capacity_unavailable}
+    end
+  end
+
+  defp handle_unavailable_ticket_capacity(socket, is_cesium_member?) do
+    case Ticketing.available_ticket_slots() do
+      0 ->
+        assign_capacity_blocked_purchase(socket, is_cesium_member?)
+
+      remaining_slots ->
+        put_flash(
+          socket,
+          :error,
+          "Já só #{remaining_ticket_slots_text(remaining_slots)} disponível. Remove o acompanhante para continuar."
+        )
+    end
+  end
+
+  defp remaining_ticket_slots_text(1), do: "existe 1 lugar"
+  defp remaining_ticket_slots_text(count), do: "existem #{count} lugares"
+
+  defp ticket_quantity(%{accompany: nil}), do: 1
+  defp ticket_quantity(%{accompany: _accompany}), do: 2
+  defp ticket_quantity(true), do: 2
+  defp ticket_quantity(false), do: 1
 
   defp price_per_ticket(true), do: TicketType.price_for_member()
   defp price_per_ticket(false), do: TicketType.price_for_non_member()

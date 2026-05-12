@@ -144,6 +144,43 @@ defmodule Gallium.TicketingTest do
     end
   end
 
+  describe "ticket capacity" do
+    import Gallium.TicketingFixtures
+
+    test "paid_people_count/0 counts paid attendees and their accompanies" do
+      paid_attendee = attendee_fixture()
+      paid_attendee_with_accompany = attendee_fixture()
+      pending_attendee = attendee_fixture()
+
+      accompany_fixture(%{attendee_id: paid_attendee_with_accompany.id})
+      accompany_fixture(%{attendee_id: pending_attendee.id})
+
+      payment_fixture(%{attendee_id: paid_attendee.id, status: :paid})
+      payment_fixture(%{attendee_id: paid_attendee_with_accompany.id, status: :paid})
+      payment_fixture(%{attendee_id: pending_attendee.id, status: :pending})
+
+      assert Ticketing.paid_people_count() == 3
+      assert Ticketing.available_ticket_slots() == 97
+      assert Ticketing.ticket_capacity_available?(97)
+      refute Ticketing.ticket_capacity_available?(98)
+    end
+
+    test "mark_payment_paid/1 accepts a confirmed payment even when it exceeds capacity" do
+      for index <- 1..99 do
+        attendee = attendee_fixture()
+        payment_fixture(%{attendee_id: attendee.id, status: :paid, order_id: "paid-#{index}"})
+      end
+
+      attendee = attendee_fixture()
+      accompany_fixture(%{attendee_id: attendee.id})
+      payment_fixture(%{attendee_id: attendee.id, status: :pending, order_id: "pending-over-cap"})
+
+      assert {:ok, payment} = Ticketing.mark_payment_paid("pending-over-cap")
+      assert payment.status == :paid
+      assert Ticketing.paid_people_count() == 101
+    end
+  end
+
   describe "attendees" do
     alias Gallium.Ticketing.Attendee
     import Gallium.TicketingFixtures
