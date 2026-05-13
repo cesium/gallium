@@ -23,6 +23,10 @@ defmodule GalliumWeb.BackOffice.Components.PaymentBadge do
         <span class="inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-xs bg-red-50 text-red-600 font-semibold border border-red-200">
           <.icon name="hero-x-mark" class="size-3" /> Falhou
         </span>
+      <% %{status: :blocked} -> %>
+        <span class="inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-xs bg-red-50 text-red-600 font-semibold border border-red-200">
+          <.icon name="hero-no-symbol" class="size-3" /> Bloqueado
+        </span>
       <% _ -> %>
         <span class="inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-xs bg-gray-100 text-gray-400 font-semibold border border-gray-200">
           Desconhecido

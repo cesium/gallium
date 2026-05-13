@@ -9,7 +9,6 @@ defmodule Gallium.Ticketing do
   alias Gallium.Ticketing.{Accompany, Attendee, Payment, Ticket, TicketType}
 
   @pubsub Gallium.PubSub
-
   @doc """
   Returns all attendees with their payment and accompany preloaded.
   """
@@ -19,6 +18,30 @@ defmodule Gallium.Ticketing do
     |> Repo.all()
     |> Repo.preload([:payment, :accompany, user: :ticket])
   end
+
+  def ticket_capacity, do: Application.get_env(:gallium, :ticket_capacity, 100)
+
+  def paid_people_count do
+    query =
+      from(a in Attendee,
+        join: p in assoc(a, :payment),
+        left_join: c in assoc(a, :accompany),
+        where: p.status == :paid,
+        select: count(a.id) + count(c.id)
+      )
+
+    Repo.one(query) || 0
+  end
+
+  def available_ticket_slots do
+    max(ticket_capacity() - paid_people_count(), 0)
+  end
+
+  def ticket_capacity_available?(quantity) when is_integer(quantity) and quantity > 0 do
+    paid_people_count() + quantity <= ticket_capacity()
+  end
+
+  def ticket_capacity_available?(_quantity), do: false
 
   @doc """
   Groups attendees (and their accompanies) by `table_preference`.
@@ -429,6 +452,9 @@ defmodule Gallium.Ticketing do
     case get_payment_by_order_id(order_id) do
       nil ->
         {:error, :not_found}
+
+      %{status: :paid} = payment ->
+        {:ok, payment}
 
       payment ->
         payment
