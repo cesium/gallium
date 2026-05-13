@@ -30,11 +30,10 @@ defmodule GalliumWeb.Components.TicketSection do
           <.ticket
             title="SÓCIO CESIUM"
             subtitle="Preço exclusivo para sócios CeSIUM"
-            price="30"
+            price="52"
             advantages_list={[
               "Jantar completo",
               "Sessão fotográfica",
-              "Transporte opcional",
               "Animação"
             ]}
           />
@@ -42,11 +41,10 @@ defmodule GalliumWeb.Components.TicketSection do
           <.ticket
             title="NÃO SÓCIO"
             subtitle="Aberto a todos os estudantes"
-            price="33"
+            price="55"
             advantages_list={[
               "Jantar completo",
               "Sessão fotográfica",
-              "Transporte opcional",
               "Animação"
             ]}
           />

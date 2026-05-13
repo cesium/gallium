@@ -12,7 +12,7 @@ defmodule Gallium.Ticketing.CheckoutForm do
     field :nif, :string
     field :mbway_number, :string
     field :is_cesium_member, :boolean
-    field :wants_transport, :boolean, default: true
+    field :wants_transport, :boolean, default: false
     field :table_preference, :string
     field :allergies, :string
     field :terms_accepted, :boolean, default: false, virtual: true
@@ -37,6 +37,7 @@ defmodule Gallium.Ticketing.CheckoutForm do
       :allergies,
       :terms_accepted
     ])
+    |> put_change(:wants_transport, false)
     |> validate_required([:full_name, :student_number, :phone_number, :is_cesium_member],
       message: "Este campo é obrigatório"
     )

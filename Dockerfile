@@ -7,18 +7,20 @@
 # This file is based on these images:
 #
 #   - https://hub.docker.com/r/hexpm/elixir/tags - for the build image
-#   - https://hub.docker.com/_/debian/tags?name=trixie-20260421-slim - for the release image
+#   - https://hub.docker.com/_/ubuntu/tags?name=jammy-20260509-slim - for the release image
 #   - https://pkgs.org/ - resource for finding needed packages
-#   - Ex: docker.io/hexpm/elixir:1.15.7-erlang-26.2.1-debian-trixie-20260421-slim
+#   - Ex: docker.io/hexpm/elixir:1.15.7-erlang-26.2.1-ubuntu-jammy-20260509-slim
 #
 ARG ELIXIR_VERSION=1.15.7
 ARG OTP_VERSION=26.2.1
-ARG DEBIAN_VERSION=trixie-20260421-slim
+ARG DEBIAN_VERSION=jammy-20260509
 
-ARG BUILDER_IMAGE="docker.io/hexpm/elixir:${ELIXIR_VERSION}-erlang-${OTP_VERSION}-debian-${DEBIAN_VERSION}"
-ARG RUNNER_IMAGE="docker.io/debian:${DEBIAN_VERSION}"
+ARG BUILDER_IMAGE="docker.io/hexpm/elixir:${ELIXIR_VERSION}-erlang-${OTP_VERSION}-ubuntu-${DEBIAN_VERSION}"
+ARG RUNNER_IMAGE="docker.io/ubuntu:${DEBIAN_VERSION}"
 
 FROM ${BUILDER_IMAGE} AS builder
+
+ENV DEBIAN_FRONTEND=noninteractive
 
 # install build dependencies
 RUN apt-get update \
@@ -69,6 +71,8 @@ RUN mix release
 # start a new build stage so that the final image will only contain
 # the compiled release and other runtime necessities
 FROM ${RUNNER_IMAGE} AS final
+
+ENV DEBIAN_FRONTEND=noninteractive
 
 RUN apt-get update \
   && apt-get install -y --no-install-recommends libstdc++6 openssl libncurses6 locales ca-certificates curl \

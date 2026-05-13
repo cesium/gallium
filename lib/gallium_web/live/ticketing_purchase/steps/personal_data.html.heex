@@ -123,32 +123,7 @@
       </:icon>
     </.input>
 
-    <div class="flex flex-col gap-2">
-      <label class="font-cormorant text-base font-semibold text-gray-700">Transporte *</label>
-      <p class="font-cormorant text-sm text-gray-500 -mt-1">
-        O transporte é de ida e volta. Pretendes transporte?
-      </p>
-      <div class="flex gap-4 mt-1">
-        <label class="flex items-center gap-2 font-cormorant text-base cursor-pointer">
-          <input
-            type="radio"
-            name={@form_data[:wants_transport].name}
-            value="true"
-            checked={@form_data[:wants_transport].value in [true, "true"]}
-            class="radio radio-sm radio-primary"
-          /> Sim
-        </label>
-        <label class="flex items-center gap-2 font-cormorant text-base cursor-pointer">
-          <input
-            type="radio"
-            name={@form_data[:wants_transport].name}
-            value="false"
-            checked={@form_data[:wants_transport].value in [false, "false"]}
-            class="radio radio-sm radio-primary"
-          /> Não
-        </label>
-      </div>
-    </div>
+    <input type="hidden" name={@form_data[:wants_transport].name} value="false" />
 
     <.input
       field={@form_data[:table_preference]}

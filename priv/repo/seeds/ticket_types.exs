@@ -14,8 +14,8 @@ defmodule Gallium.Repo.Seeds.TicketTypes do
 
   defp seed_all do
     [
-      %{product_id: Ecto.UUID.generate(), price: Decimal.new(30), type: "member"},
-      %{product_id: Ecto.UUID.generate(), price: Decimal.new(33), type: "non_member"}
+      %{product_id: Ecto.UUID.generate(), price: Decimal.new(52), type: "member"},
+      %{product_id: Ecto.UUID.generate(), price: Decimal.new(55), type: "non_member"}
     ]
     |> Enum.each(fn attrs ->
       case Repo.insert(TicketType.changeset(%TicketType{}, attrs)) do

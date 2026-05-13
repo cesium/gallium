@@ -11,10 +11,10 @@ defmodule Gallium.Repo.Seeds.Ticketing do
     - Attendees 1-3  -> include an Accompany
 
   Pricing:
-    - Socio sem acompanhante  -> 25.00
-    - Socio com acompanhante  -> 50.00
-    - Normal sem acompanhante -> 30.00
-    - Normal com acompanhante -> 60.00
+    - Socio sem acompanhante  -> 52.00
+    - Socio com acompanhante  -> 104.00
+    - Normal sem acompanhante -> 55.00
+    - Normal com acompanhante -> 110.00
   """
 
   alias Gallium.Accounts
@@ -148,10 +148,10 @@ defmodule Gallium.Repo.Seeds.Ticketing do
 
     amount =
       cond do
-        is_member and has_accompany -> Decimal.new("50.00")
-        is_member                   -> Decimal.new("25.00")
-        has_accompany               -> Decimal.new("60.00")
-        true                        -> Decimal.new("30.00")
+        is_member and has_accompany -> Decimal.new("104.00")
+        is_member                   -> Decimal.new("52.00")
+        has_accompany               -> Decimal.new("110.00")
+        true                        -> Decimal.new("55.00")
       end
 
     attrs = %{

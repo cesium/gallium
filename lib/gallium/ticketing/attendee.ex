@@ -13,7 +13,7 @@ defmodule Gallium.Ticketing.Attendee do
     field :student_number, :string
     field :nif, :string
     field :is_cesium_member, :boolean, default: false
-    field :wants_transport, :boolean, default: true
+    field :wants_transport, :boolean, default: false
     field :table_preference, :string
     field :allergies, :string
     belongs_to :user, Gallium.Accounts.User, type: :binary_id
